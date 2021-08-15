@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 0xInfection&#39;s Blog</title>
+    
+    
+    
+    <link>https://0xinfection.github.io/posts/</link>
+    <description>Recent content in Posts on 0xInfection&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© 0xInfection</copyright>
+    <lastBuildDate>Mon, 31 May 2021 00:00:00 +0530</lastBuildDate>
+    
+	<atom:link href="https://0xinfection.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Pwning a Backend with a Backdoor</title>
+      <link>https://0xinfection.github.io/posts/pwning-backend-backdoor/</link>
+      <pubDate>Mon, 31 May 2021 00:00:00 +0530</pubDate>
+      
+      <guid>https://0xinfection.github.io/posts/pwning-backend-backdoor/</guid>
+      <description>
+        
+          
+          
+          &lt;img src=&#34;https://0xinfection.github.io/posts/pwning-backend-backdoor/cover.png&#34;/&gt;
+        
+        
+        
+          Development is a important task. But mindful secure development is much more important. In this quick blog post, I detail an unusual way in which I was able to escalate access to several production instances behind a properly secured network.
+How it started. It all started with me casually checking some traffic data for a tool I authored on GitHub. GitHub allows you to view a few stats for the past 14 days, viz.
+          
+        
+        </description>
+    </item>
+    
+    <item>
+      <title>Utilizing CI/CDs to the Fullest for Fun and Profit</title>
+      <link>https://0xinfection.github.io/posts/utilizing-ci-cds/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0530</pubDate>
+      
+      <guid>https://0xinfection.github.io/posts/utilizing-ci-cds/</guid>
+      <description>
+        
+          
+          
+          &lt;img src=&#34;https://0xinfection.github.io/posts/utilizing-ci-cds/cover.png&#34;/&gt;
+        
+        
+        
+          Hey folks,
+We all have heard of CI/CDs right? I was exploring GitHub Actions and what I found was the fact that it was an extremely underrated resource which is not quite widely used for general purposes by people. In this blog post, I aim to detail how people can really benefit from CI/CDs with GitHub Actions in focus, and how one can fully exploit the resource to get the most out of it.
+          
+        
+        </description>
+    </item>
+    
+    <item>
+      <title>Fingerprinting WAF Rules with Timing Based Side Channel Attacks</title>
+      <link>https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0530</pubDate>
+      
+      <guid>https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/</guid>
+      <description>
+        
+          
+          
+          &lt;img src=&#34;https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/cover.png&#34;/&gt;
+        
+        
+        
+          Hi folks,
+Today in this post I am going to be detailing about my recent experiments with web application firewalls (WAFs) focusing on a specific type of side channel attacks, namely, timing. In my opinion, this field hasn’t been studied actively and the results can be more lethal than you’re expecting. This post is already long, so lets get started rightaway. :)
+Side Channel Attacks? Wikipedia defines side-channel attacks as:
+          
+        
+        </description>
+    </item>
+    
+  </channel>
+</rss>
