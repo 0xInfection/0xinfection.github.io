@@ -287,12 +287,12 @@ Side Channel Attacks? Wikipedia defines side-channel attacks as:" />
 <p>Now a series of such requests are sent over to the the server hosting the WAF, and the response times are recorded. To further validate the claims of the experiment, both response status codes as well as the block-pages are recorded. A correctly identified malicious request would result in a 403 status along with the blockpage as response content.</p>
 <p>On the reverse-proxy setup, the results were pretty much as expected. There was a minimum time gap of 53.2 ms between a flagged and passed request. The results indicate that in 96.4% of cases, we are able to correctly distinguish between a blocked and a passed request. Thus, we can safely say that the accuracy and reliability of our method for this topology is high enough to assert that any attacker can reach perfect measurement conditions with only a few repetitions.</p>
 
-  <img src="attach-phase.png"  alt="Comparison"  class="center"  />
+  <img src="attack-phase.png"  alt="Attack Phase"  class="center"  />
 
 
 <p>In the case of the server resident setup (plugin based), I actually did not expect the results to have such distinctive result, however I was surprised to see that the method works quite well as it does in case of reverse-proxy topology. Something worthwhile I noticed in this setup is that the overall timing difference between a blocked and a passed request (58.8 ms) turned out to be greater than the previous topology (53.2 ms). The results obtained for this topology are visualized are as below:</p>
 
-  <img src="attach-phase-2.png"  alt="Comparison"  class="center"  />
+  <img src="attack-phase-2.png"  alt="Comparison"  class="center"  />
 
 
 <p>Thus we can safely say that our timing attack clearly distinguished blocked and passed requests in 95%+ of cases. A short summary of my experiment is as below:</p>
