@@ -10,7 +10,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 0xInfection</copyright>
-    <lastBuildDate>Mon, 23 Aug 2021 00:00:00 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 29 Aug 2021 00:00:00 +0530</lastBuildDate>
     
 	<atom:link href="https://0xinfection.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
@@ -18,7 +18,7 @@
     <item>
       <title>Offensive WMI - The Basics (Part 1)</title>
       <link>https://0xinfection.github.io/posts/wmi-basics-part-1/</link>
-      <pubDate>Mon, 23 Aug 2021 00:00:00 +0530</pubDate>
+      <pubDate>Sun, 29 Aug 2021 00:00:00 +0530</pubDate>
       
       <guid>https://0xinfection.github.io/posts/wmi-basics-part-1/</guid>
       <description>

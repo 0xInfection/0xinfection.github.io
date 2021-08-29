@@ -58,8 +58,8 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://0xinfection.github.io/posts/wmi-basics-part-1/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-08-23T00:00:00+05:30" />
-<meta property="article:modified_time" content="2021-08-23T00:00:00+05:30" /><meta property="og:site_name" content="0xInfection&#39;s Blog" />
+<meta property="article:published_time" content="2021-08-29T00:00:00+05:30" />
+<meta property="article:modified_time" content="2021-08-29T00:00:00+05:30" /><meta property="og:site_name" content="0xInfection&#39;s Blog" />
 
 
 
@@ -159,7 +159,7 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
     <div class="post-meta">
       
         <span class="post-date">
-          2021-08-23
+          2021-08-29
         </span>
 
         
@@ -261,10 +261,10 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 </ul>
 <blockquote>
 <p>Phew! That&rsquo;s a mouthful of words. Let&rsquo;s understand what the new terms here mean:</p>
-<p><strong>DCOM</strong>: An alias for Distributed Component Object Model, DCOM is a Microsoft protocol for communication between software components on networked computers. WMI uses Distributed COM (DCOM) to connect to a remote machine. However, DCOM isn&rsquo;t always firewall-friendly.</p>
+<p><strong>DCOM</strong>: An alias for Distributed Component Object Model, DCOM is a proprietary Microsoft protocol for communication between software components on networked computers. WMI uses Distributed COM (DCOM) to connect to a remote machine. However, DCOM isn&rsquo;t that firewall-friendly.</p>
 <p><strong>WS-MAN</strong>: WS-MAN or WS-Management is a DMTF standard that provides a common way for systems to access management information across the IT infrastructure. WS-MAN on the other hand uses HTTP, so is definitely firewall-friendly.</p>
 </blockquote>
-<p>We&rsquo;ll redo what we did above, but after changing the Powershell version back to default:</p>
+<p>We&rsquo;ll redo what we did above, but after changing the Powershell version back to default (in my case I&rsquo;ve Powershell v5):</p>
 
   <img src="cimcmds.png"  alt="CIM"  class="center"  />
 
