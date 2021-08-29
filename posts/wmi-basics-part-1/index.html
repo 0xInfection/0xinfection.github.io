@@ -3,7 +3,7 @@
   <head>
     
       <title>
-        Offensive WMI - The Basics (Part 0x1) ::
+        Offensive WMI - The Basics (Part 1) ::
         0xInfection&#39;s Blog — Random ramblings of an Infected Geek.
       </title>
     
@@ -12,7 +12,7 @@
 <meta
   name="description"
   content="Hi all,
-This blogpost is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will defenitely help the reader while going through the blog, however its not a requirement. Thats it, lets jump into the real stuff.
+This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&amp;rsquo;s it, let us jump into the real stuff.
 Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value."
 />
 <meta
@@ -48,16 +48,16 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Offensive WMI - The Basics (Part 0x1)"/>
+<meta name="twitter:title" content="Offensive WMI - The Basics (Part 1)"/>
 <meta name="twitter:description" content="Hi all,
-This blogpost is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will defenitely help the reader while going through the blog, however its not a requirement. Thats it, lets jump into the real stuff.
+This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
 Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value."/>
 
 
 
-<meta property="og:title" content="Offensive WMI - The Basics (Part 0x1)" />
+<meta property="og:title" content="Offensive WMI - The Basics (Part 1)" />
 <meta property="og:description" content="Hi all,
-This blogpost is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will defenitely help the reader while going through the blog, however its not a requirement. Thats it, lets jump into the real stuff.
+This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
 Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://0xinfection.github.io/posts/wmi-basics-part-1/" /><meta property="article:section" content="posts" />
@@ -158,7 +158,7 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
   
 
   <div class="post">
-    <h1 class="post-title">Offensive WMI - The Basics (Part 0x1)</h1>
+    <h1 class="post-title">Offensive WMI - The Basics (Part 1)</h1>
     <div class="post-meta">
       
         <span class="post-date">
@@ -183,41 +183,41 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
     <div class="post-content">
       
       <p>Hi all,</p>
-<p>This blogpost is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will defenitely help the reader while going through the blog, however its not a requirement. Thats it, lets jump into the real stuff.</p>
+<p>This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.</p>
 <h2 id="introduction">Introduction</h2>
 <h3 id="why-wmi">Why WMI?</h3>
 <p>Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value. To put it simply, WMI is a subsystem of Powershell that was designed for fast and efficient system administration. And as you might know, a rule of security says that anything useful for administration is also great at being abused by evil-doers. WMI can <em>really</em> do a lot of things &ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so you get a broader surface.</p>
 <h3 id="what-is-wmi">What is WMI?</h3>
-<p>Lets quickly go over a few important terms. WMI stands for <strong>Windows Management Instrumentation</strong>, which is Microsoft&rsquo;s implementation of the CIM (Common Information Model) &amp; WBEM (Web Based Enterprise Management) &ndash; both of which are <em>DMTF (Distributed Management Task Force) standards</em> in general. WMI gives us a neat and uniform interface for applications/scripts to manage a computer (maybe remote and local) &ndash; incl. processes, services, etc.</p>
+<p>Let&rsquo;s quickly go over a few important terms. WMI stands for <strong>Windows Management Instrumentation</strong>, which is Microsoft&rsquo;s implementation of the CIM (Common Information Model) &amp; WBEM (Web-Based Enterprise Management) &ndash; both of which are <em>DMTF (Distributed Management Task Force) standards</em> in general. WMI gives us a neat and uniform interface for applications/scripts to manage a computer (maybe remote and local) &ndash; incl. processes, services, etc.</p>
 <h3 id="the-wmi-architecture">The WMI Architecture</h3>
 <p>Understanding the architecture is very essential to understanding how the entire WMI ecosystem works. A broad overview of the architecture of WMI is depicted below (sourced from <a href="https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf">Graeber&rsquo;s talk from BHUSA 15</a>):</p>
 
   <img src="arch.png"  alt="Architecture"  class="center"  />
 
 
-<p>Lets break down the major components one by one:</p>
+<p>Let&rsquo;s break down the major components one by one:</p>
 <ul>
 <li>
 <p><strong>Clients/Consumers</strong>: These are essentially the end consumers which interact with WMI classes for querying data, running methods, etc. Few prominent clients include <code>wmic.exe</code>, <code>wbemtest.exe</code>, <code>winrm.exe</code>, VBScript/JScript and ofc Powershell cmdlets.</p>
 </li>
 <li>
-<p><strong>Query Languages</strong>: Just like SQL provides you a way to query a database, WMI too has WQL (WMI Query Language) / CQL for querying the WMI service. When it comes to managing remote boxes, the WBEM standard kicks in &ndash; which include DCOM and WS-Man. WQL is basically SQL syntax for WMI.</p>
-<p>A simple query may look like:</p>
+<p><strong>Query Languages</strong>: Just like SQL provides you with a way to query a database, WMI too has WQL (WMI Query Language) / CQL for querying the WMI service. When it comes to managing remote boxes, the WBEM standard kicks in &ndash; which include DCOM and WS-Man. WQL is basically SQL syntax for WMI.</p>
+<p>A simple query may look like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> win32_bios
 </code></pre></div><p>which gives us information about our BIOS.</p>
 </li>
 <li>
-<p><strong>Repositories</strong>: These are the databases that we talked about previously that stores all static data (definitions) of classes. The repositories are defined by MOF (managed object format) files which define the structure, classes, namespaces, etc. The database files can be found under <code>%WINDIR%\System32\Wbem\Repository</code> directory.</p>
+<p><strong>Repositories</strong>: These are the databases that we talked about previously that stores all static data (definitions) of classes. The repositories are defined by MOF (managed object format) files which define the structure, classes, namespaces, etc. The database files can be found under the <code>%WINDIR%\System32\Wbem\Repository</code> directory.</p>
 
   <img src="repo.png"  alt="repositories"  class="center"  />
 
 
 </li>
 <li>
-<p><strong>MOF Files</strong>: MOF files are basically used to define WMI namespaces, classes, providers, etc. You&rsquo;ll usually find them under the <code>%WINDIR%\System32\Wbem</code> directory with the extension <code>.mof</code>. In a later part of the series we&rsquo;ll take a look at how we can write our own MOF files to extend the feature-set of WMI.</p>
+<p><strong>MOF Files</strong>: MOF files are basically used to define WMI namespaces, classes, providers, etc. You&rsquo;ll usually find them under the <code>%WINDIR%\System32\Wbem</code> directory with the extension <code>.mof</code>. In a later part of the series, we&rsquo;ll take a look at how we can write our own MOF files to extend the feature-set of WMI.</p>
 </li>
 <li>
-<p><strong>Providers</strong>: Whatever is defined in the repositories can be accessed with the help of WMI providers. They are usually DLL files, and associated with a MOF file &ndash; <code>cimwin32.dll</code>, <code>stdprov.dll</code>, etc to name a few, however they can take form of other types as well (Class, Event, Event Consumer, Method, etc). The providers are essential to the ecosystem because they monitor events and data from specific defined objects. Think of providers like drivers which provide a bridge between managed objects and WMI.</p>
+<p><strong>Providers</strong>: Whatever is defined in the repositories can be accessed with the help of WMI providers. They are usually DLL files and associated with a MOF file &ndash; <code>cimwin32.dll</code>, <code>stdprov.dll</code>, etc to name a few, however, they can take the form of other types as well (Class, Event, Event Consumer, Method, etc). The providers are essential to the ecosystem because they monitor events and data from specific defined objects. Think of providers like drivers which provide a bridge between managed objects and WMI.</p>
 <p>In the screenshot below, the DLL files are the providers of the associated MOF files:</p>
 
   <img src="mof.png"  alt="MOF files"  class="center"  />
@@ -228,7 +228,7 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 <p><strong>Managed Objects</strong>: These are aliases of the resources in context, i.e. a managed object can be the service, process or OS being managed by WMI.</p>
 </li>
 <li>
-<p><strong>Namespaces</strong>: Put simply, namespaces are logical divisions of classes meant for easy discovery and usage. They are divided in 3 groups:</p>
+<p><strong>Namespaces</strong>: Put simply, namespaces are logical divisions of classes meant for easy discovery and usage. They are divided into 3 groups:</p>
 <ul>
 <li>system</li>
 <li>core</li>
@@ -243,32 +243,32 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 <p>Few prominent namespaces that come by default are: <code>root\cimv2</code>, <code>root\default</code>, <code>root\security</code>, <code>root\subscription</code>, etc.</p>
 </li>
 </ul>
-<p>Thats it with the architecture. Now lets learn a bit about using WMI with Powershell.</p>
+<p>That&rsquo;s it with the architecture. Now let&rsquo;s learn a bit about using WMI with Powershell.</p>
 <h2 id="using-wmi-with-powershell">Using WMI with Powershell</h2>
-<p>Now that we&rsquo;re done with the theory part, lets quickly spawn a PS terminal. It is important to remember that upto v2 of Powershell, there are only a few cmdlets to interact with WMI. We&rsquo;ll quickly check our Powershell version and change to version to 2:</p>
+<p>Now that we&rsquo;re done with the theory part, let&rsquo;s quickly spawn a PS terminal. It is important to remember that up to v2 of Powershell, there are only a few cmdlets to interact with WMI. We&rsquo;ll quickly check our Powershell version and change the version to 2:</p>
 
   <img src="version.png"  alt="version"  class="center"  />
 
 
-<p>Now lets run <code>Get-Command -CommandType Cmdlet *wmi*</code> in a powershell prompt. This leads us to:</p>
+<p>Now, lets run <code>Get-Command -CommandType Cmdlet *wmi*</code> in a Powershell prompt. This leads us to:</p>
 
   <img src="wmicmds.png"  alt="WMI"  class="center"  />
 
 
 <blockquote>
-<p><strong>TIP</strong>: The names of the commands are pretty self-explanatory (and we&rsquo;ll dig into more later as well). At any point of time, you can use Powershell&rsquo;s standard syntax: <code>help &lt;command&gt;</code> to get more info on what the specific command does. e.g. you might want to try <code>help Invoke-WmiMethod</code> to view what the command actually does &ndash; very similar to Linux manpages.</p>
+<p><strong>TIP</strong>: The names of the commands are pretty self-explanatory (and we&rsquo;ll dig into more later as well). At any point in time, you can use Powershell&rsquo;s standard syntax: <code>help &lt;command&gt;</code> to get more info on what the specific command does. e.g. you might want to try <code>help Invoke-WmiMethod</code> to view what the command does &ndash; very similar to Linux manpages.</p>
 </blockquote>
 <p>From Powershell v3 onwards, MS introduced CIM cmdlets which make use of WS-MAN and CIM standards to manage objects. Having access to CIM cmdlets has advantages in 2 contexts:</p>
 <ul>
 <li>In machines where WMI/DCOM itself is blocked from running (maybe due to a host-based firewall rule?) but WinRM/WS-MAN (Windows Remote Management) is enabled, we can still use CIM to do exactly what we can do with WMI.</li>
-<li>CIM itself is an industry standard and is implemented cross-platform, which means it can be used to work with non-Windows boxes as well.</li>
+<li>CIM itself is an industry-standard and is implemented cross-platform, which means it can be used to work with non-Windows boxes as well.</li>
 </ul>
 <blockquote>
-<p>Phew! That&rsquo;s a mouthful of words. Lets understand what the new terms here mean:</p>
-<p><strong>DCOM</strong>: An alias for Distributed Component Object Model, DCOM is a Microsoft protocol for communication between software components on networked computers. WMI uses Dstributed COM (DCOM) to connect to a remote machine. However, DCOM isn&rsquo;t always firewall friendly.</p>
-<p><strong>WS-MAN</strong>: WS-MAN or WS-Management is a DMTF standard which provides a common way for systems to access management information across the IT infrastructure. WS-MAN on the other hand uses HTTP, so is definitely firewall friendly.</p>
+<p>Phew! That&rsquo;s a mouthful of words. Let&rsquo;s understand what the new terms here mean:</p>
+<p><strong>DCOM</strong>: An alias for Distributed Component Object Model, DCOM is a Microsoft protocol for communication between software components on networked computers. WMI uses Distributed COM (DCOM) to connect to a remote machine. However, DCOM isn&rsquo;t always firewall-friendly.</p>
+<p><strong>WS-MAN</strong>: WS-MAN or WS-Management is a DMTF standard that provides a common way for systems to access management information across the IT infrastructure. WS-MAN on the other hand uses HTTP, so is definitely firewall-friendly.</p>
 </blockquote>
-<p>We&rsquo;ll redo what we did above, but after changing the powershell version back to default:</p>
+<p>We&rsquo;ll redo what we did above, but after changing the Powershell version back to default:</p>
 
   <img src="cimcmds.png"  alt="CIM"  class="center"  />
 
@@ -311,14 +311,14 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 </tbody>
 </table>
 <h3 id="running-wmi-queries-with-powershell">Running WMI queries with Powershell</h3>
-<p>Now that we know about the different cmdlets available for us to use, lets try running the sample WQL query above. We already know that <code>Get-WmiObject</code> can be used to get info about classes. So lets run the cmdlet with the <code>-Query</code> parameter:</p>
+<p>Now that we know about the different cmdlets available for us to use, we can try running the sample WQL query above. We already know that <code>Get-WmiObject</code> can be used to get info about classes. So let&rsquo;s run the cmdlet with the <code>-Query</code> parameter:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject -Query <span style="color:#e6db74">&#39;select * from win32_bios&#39;</span>
 </code></pre></div>
   <img src="wql.png"  alt="WQL"  class="center"  />
 
 
 <h2 id="conclusion">Conclusion</h2>
-<p>This blogpost was meant for giving a very high level overview with what we&rsquo;ll be dealing with in the next parts of the series. I hope you enjoyed reading through so far, and I&rsquo;m looking forward towards our journey together into exploring WMI.</p>
+<p>This blog post was meant for giving an overview of what we&rsquo;ll be dealing with in the next parts of the series. I hope you enjoyed reading through so far, and I&rsquo;m looking forward to our journey together into exploring WMI.</p>
 <p>Adios amigo!</p>
 
     </div>
