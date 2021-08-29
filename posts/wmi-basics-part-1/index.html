@@ -11,8 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta
   name="description"
-  content="Hi all,
-This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&amp;rsquo;s it, let us jump into the real stuff.
+  content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&amp;rsquo;s it, let us jump into the real stuff.
 Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value."
 />
 <meta
@@ -49,15 +48,13 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Offensive WMI - The Basics (Part 1)"/>
-<meta name="twitter:description" content="Hi all,
-This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
+<meta name="twitter:description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
 Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value."/>
 
 
 
 <meta property="og:title" content="Offensive WMI - The Basics (Part 1)" />
-<meta property="og:description" content="Hi all,
-This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
+<meta property="og:description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
 Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://0xinfection.github.io/posts/wmi-basics-part-1/" /><meta property="article:section" content="posts" />
@@ -86,7 +83,7 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 </svg>
 </span>
     <span class="logo__text"
-      >0xInfection&#39;s Ramblings</span
+      >0xinfection&#39;s security ramblings</span
     >
     <span class="logo__cursor"></span>
   
@@ -182,8 +179,7 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 
     <div class="post-content">
       
-      <p>Hi all,</p>
-<p>This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.</p>
+      <p>This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.</p>
 <h2 id="introduction">Introduction</h2>
 <h3 id="why-wmi">Why WMI?</h3>
 <p>Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value. To put it simply, WMI is a subsystem of Powershell that was designed for fast and efficient system administration. And as you might know, a rule of security says that anything useful for administration is also great at being abused by evil-doers. WMI can <em>really</em> do a lot of things &ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so you get a broader surface.</p>
@@ -312,7 +308,7 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 </table>
 <h3 id="running-wmi-queries-with-powershell">Running WMI queries with Powershell</h3>
 <p>Now that we know about the different cmdlets available for us to use, we can try running the sample WQL query above. We already know that <code>Get-WmiObject</code> can be used to get info about classes. So let&rsquo;s run the cmdlet with the <code>-Query</code> parameter:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject -Query <span style="color:#e6db74">&#39;select * from win32_bios&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Query <span style="color:#e6db74">&#39;select * from win32_bios&#39;</span>
 </code></pre></div>
   <img src="wql.png"  alt="WQL"  class="center"  />
 
