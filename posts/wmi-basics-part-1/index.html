@@ -206,7 +206,7 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 <p><strong>Clients/Consumers</strong>: These are essentially the end consumers which interact with WMI classes for querying data, running methods, etc. Few prominent clients include <code>wmic.exe</code>, <code>wbemtest.exe</code>, <code>winrm.exe</code>, VBScript/JScript and ofc Powershell cmdlets.</p>
 </li>
 <li>
-<p><strong>Query Languages</strong>: Just like SQL provides you with a way to query a database, WMI too has WQL (WMI Query Language) / CQL for querying the WMI service. When it comes to managing remote boxes, the WBEM standard kicks in &ndash; which include DCOM and WS-Man. WQL is basically SQL syntax for WMI.</p>
+<p><strong>Query Languages</strong>: Just like SQL provides you with a way to query a database, WMI too has WQL (WMI Query Language) / CQL for querying the WMI service. When it comes to managing remote boxes, the WBEM standard kicks in &ndash; which include DCOM and WS-Man (don&rsquo;t worry if you don&rsquo;t understand these terms, read on). WQL is basically SQL syntax for WMI.</p>
 <p>A simple query may look like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> win32_bios
 </code></pre></div><p>which gives us information about our BIOS.</p>
