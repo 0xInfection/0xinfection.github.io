@@ -23,8 +23,7 @@
       <guid>https://0xinfection.github.io/posts/wmi-basics-part-1/</guid>
       <description>
         
-          
-          
+          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-basics-part-1/cover.png&#34;/&gt;
           
         
         
@@ -44,9 +43,8 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
       <guid>https://0xinfection.github.io/posts/pwning-backend-backdoor/</guid>
       <description>
         
-          
-          
           &lt;img src=&#34;https://0xinfection.github.io/posts/pwning-backend-backdoor/cover.png&#34;/&gt;
+          
         
         
         
@@ -65,9 +63,8 @@ How it started. It all started with me casually checking some traffic data for a
       <guid>https://0xinfection.github.io/posts/utilizing-ci-cds/</guid>
       <description>
         
-          
-          
           &lt;img src=&#34;https://0xinfection.github.io/posts/utilizing-ci-cds/cover.png&#34;/&gt;
+          
         
         
         
@@ -86,9 +83,8 @@ We all have heard of CI/CDs right? I was exploring GitHub Actions and what I fou
       <guid>https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/</guid>
       <description>
         
-          
-          
           &lt;img src=&#34;https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/cover.png&#34;/&gt;
+          
         
         
         
