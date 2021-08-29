@@ -12,7 +12,7 @@
 <meta
   name="description"
   content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&amp;rsquo;s it, let us jump into the real stuff.
-Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value."
+Introduction Why WMI? WMI is a subsystem of Powershell that was designed by Microsoft for fast and efficient system administration. And as you might know, a rule of security says &amp;ldquo;that anything useful for administration is also great at being abused by evil-doers&amp;rdquo;."
 />
 <meta
   name="keywords"
@@ -49,13 +49,13 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Offensive WMI - The Basics (Part 1)"/>
 <meta name="twitter:description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
-Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value."/>
+Introduction Why WMI? WMI is a subsystem of Powershell that was designed by Microsoft for fast and efficient system administration. And as you might know, a rule of security says &ldquo;that anything useful for administration is also great at being abused by evil-doers&rdquo;."/>
 
 
 
 <meta property="og:title" content="Offensive WMI - The Basics (Part 1)" />
 <meta property="og:description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
-Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value." />
+Introduction Why WMI? WMI is a subsystem of Powershell that was designed by Microsoft for fast and efficient system administration. And as you might know, a rule of security says &ldquo;that anything useful for administration is also great at being abused by evil-doers&rdquo;." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://0xinfection.github.io/posts/wmi-basics-part-1/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-08-29T00:00:00+05:30" />
@@ -182,7 +182,7 @@ Introduction Why WMI? Just as useful as Powershell is when it comes to pwning a 
       <p>This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.</p>
 <h2 id="introduction">Introduction</h2>
 <h3 id="why-wmi">Why WMI?</h3>
-<p>Just as useful as Powershell is when it comes to pwning a Windows system, WMI too holds the same value. To put it simply, WMI is a subsystem of Powershell that was designed for fast and efficient system administration. And as you might know, a rule of security says that anything useful for administration is also great at being abused by evil-doers. WMI can <em>really</em> do a lot of things &ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so you get a broader surface.</p>
+<p>WMI is a subsystem of Powershell that was designed by Microsoft for fast and efficient system administration. And as you might know, a rule of security says &ldquo;that anything useful for administration is also great at being abused by evil-doers&rdquo;. WMI can <em>really</em> do a lot of things &ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.</p>
 <h3 id="what-is-wmi">What is WMI?</h3>
 <p>Let&rsquo;s quickly go over a few important terms. WMI stands for <strong>Windows Management Instrumentation</strong>, which is Microsoft&rsquo;s implementation of the CIM (Common Information Model) &amp; WBEM (Web-Based Enterprise Management) &ndash; both of which are <em>DMTF (Distributed Management Task Force) standards</em> in general. WMI gives us a neat and uniform interface for applications/scripts to manage a computer (maybe remote and local) &ndash; incl. processes, services, etc.</p>
 <h3 id="the-wmi-architecture">The WMI Architecture</h3>
