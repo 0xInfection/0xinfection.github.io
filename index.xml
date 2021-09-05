@@ -10,10 +10,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 0xInfection</copyright>
-    <lastBuildDate>Sun, 29 Aug 2021 00:00:00 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 05 Sep 2021 00:00:00 +0530</lastBuildDate>
     
 	<atom:link href="https://0xinfection.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Offensive WMI - Exploring Namespaces, Classes &amp; Methods (Part 2)</title>
+      <link>https://0xinfection.github.io/posts/wmi-classes-methods-part-2/</link>
+      <pubDate>Sun, 05 Sep 2021 00:00:00 +0530</pubDate>
+      
+      <guid>https://0xinfection.github.io/posts/wmi-classes-methods-part-2/</guid>
+      <description>
+        
+          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-classes-methods-part-2/cover.png&#34;/&gt;
+          
+        
+        
+        
+          This blog post is the second part of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the first is here), and this article will be focusing on the 3 major components in WMI that we&amp;rsquo;d be majorly dealing with. Throughout the article, we&amp;rsquo;ll be using both WMI and CIM cmdlets interchangeably so that we&amp;rsquo;re well-versed with both cmdlet types.
+Namespaces Let&amp;rsquo;s recall what namespaces are in simple terms:
+ A namespace organizes information similar to folders in a filesystem.
+          
+        
+        </description>
+    </item>
     
     <item>
       <title>Offensive WMI - The Basics (Part 1)</title>
