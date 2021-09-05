@@ -236,7 +236,7 @@ Namespaces Let&rsquo;s recall what namespaces are in simple terms:
 <blockquote>
 <p><strong>NOTE:</strong> The classes and namespaces may vary from machine to machine depending upon the hardware available, applications installed, and many other factors.</p>
 </blockquote>
-<h3 id="classes">Classes</h3>
+<h2 id="classes">Classes</h2>
 <p>Now that we have a list of namespaces available to make use of, let&rsquo;s take a look at classes. So what are classes?</p>
 <blockquote>
 <p>A <strong>WMI class</strong> represents a specific item in your system. It could be anything ranging from system processes to hardware (e.g. a network card), services, etc.</p>
@@ -313,7 +313,7 @@ Namespaces Let&rsquo;s recall what namespaces are in simple terms:
 <p>An idiomatic expression doing the same with WQL is as below:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Query <span style="color:#e6db74">&#39;select * from win32_process where name=&#34;lsass.exe&#34;&#39;</span>
 </code></pre></div><p>Okay, now we know about listing, fetching and filtering instances of classes in WMI. Let&rsquo;s look at how removing instances works in WMI.</p>
-<h3 id="removing-instances">Removing Instances</h3>
+<h3 id="removing-class-instances">Removing Class Instances</h3>
 <p>The <code>Remove-WmiObject</code> (for WMI cmdlets) and <code>Remove-CimInstance</code> (for CIM cmdlets) are two cmdlets that have the capabilities of removing instances. You can pipe the output of a relevant command to the cmdlets. For a quick demo, let&rsquo;s run our favourite calculator app and list the process.</p>
 
   <img src="calc.png"  alt="calc"  class="center"  />
@@ -367,7 +367,7 @@ Namespaces Let&rsquo;s recall what namespaces are in simple terms:
 
 
 <p>Well, now we know about spawning new processes!</p>
-<h3 id="setting-properties">Setting Properties</h3>
+<h2 id="setting-properties-of-objects">Setting Properties of Objects</h2>
 <p>Last but not the least, we should take a look at updating instances of a class. However, it is important to keep in mind that the instance should be writable. With a bit of scripting, we can cook up a recipe for getting all writable properties of an class. Here&rsquo;s the script (sourced from <a href="https://powershellmagazine.com/2012/09/06/pstip-get-all-writeable-properties-of-a-wmi-class/">PSMag</a>):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$class <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>wmiclass<span style="color:#f92672">]</span><span style="color:#e6db74">&#39;&lt;class_name&gt;&#39;</span>
 $class.Properties | ForEach-Object <span style="color:#f92672">{</span>
