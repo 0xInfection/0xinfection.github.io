@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta
   name="description"
-  content="This is the third instalment of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. An useful thing to know before we start, MITRE ATT&amp;amp;CK classifies querying of registry values under T1012 and its modification under T1112.
+  content="This is the third instalment of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;amp;CK classifies querying of registry values under T1012 and its modification under T1112.
 Let&amp;rsquo;s dive in.
 What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry."
 />
@@ -50,14 +50,14 @@ What is Windows Registry? In simple terms, the registry is a database that store
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://0xinfection.github.io/posts/wmi-registry-part-3/cover.png"/>
 <meta name="twitter:title" content="Offensive WMI - Interacting with Windows Registry (Part 3)"/>
-<meta name="twitter:description" content="This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. An useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under T1012 and its modification under T1112.
+<meta name="twitter:description" content="This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under T1012 and its modification under T1112.
 Let&rsquo;s dive in.
 What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry."/>
 
 
 
 <meta property="og:title" content="Offensive WMI - Interacting with Windows Registry (Part 3)" />
-<meta property="og:description" content="This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. An useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under T1012 and its modification under T1112.
+<meta property="og:description" content="This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under T1012 and its modification under T1112.
 Let&rsquo;s dive in.
 What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry." />
 <meta property="og:type" content="article" />
@@ -191,7 +191,7 @@ What is Windows Registry? In simple terms, the registry is a database that store
 
     <div class="post-content">
       
-      <p>This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is <a href="https://0xinfection.github.io/posts/wmi-classes-methods-part-2/">here</a>), and this blog will focus on interacting with the Windows Registry. An useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under <a href="https://attack.mitre.org/techniques/T1012/">T1012</a> and its modification under <a href="https://attack.mitre.org/techniques/T1112/">T1112</a>.</p>
+      <p>This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is <a href="https://0xinfection.github.io/posts/wmi-classes-methods-part-2/">here</a>), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under <a href="https://attack.mitre.org/techniques/T1012/">T1012</a> and its modification under <a href="https://attack.mitre.org/techniques/T1112/">T1112</a>.</p>
 <p>Let&rsquo;s dive in.</p>
 <h2 id="what-is-windows-registry">What is Windows Registry?</h2>
 <p>In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry. This makes the registry a very attractive resource for attackers.</p>
