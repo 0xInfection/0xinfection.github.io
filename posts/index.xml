@@ -10,10 +10,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 0xInfection</copyright>
-    <lastBuildDate>Sun, 05 Sep 2021 00:00:00 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0530</lastBuildDate>
     
 	<atom:link href="https://0xinfection.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Offensive WMI - Interacting with Windows Registry (Part 3)</title>
+      <link>https://0xinfection.github.io/posts/wmi-registry-part-3/</link>
+      <pubDate>Fri, 10 Sep 2021 00:00:00 +0530</pubDate>
+      
+      <guid>https://0xinfection.github.io/posts/wmi-registry-part-3/</guid>
+      <description>
+        
+          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-registry-part-3/cover.png&#34;/&gt;
+          
+        
+        
+        
+          This is the third instalment of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. An useful thing to know before we start, MITRE ATT&amp;amp;CK classifies registry querying under T1012 and registry modification under T1112.
+Let&amp;rsquo;s dive in.
+What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry.
+          
+        
+        </description>
+    </item>
     
     <item>
       <title>Offensive WMI - Exploring Namespaces, Classes &amp; Methods (Part 2)</title>
