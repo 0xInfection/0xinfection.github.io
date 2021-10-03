@@ -199,6 +199,12 @@ Gathering basic information In our previous blogs, we have already seen a lot of
 
 
 <p>So most of the information that we have now helps us in one major thing &ndash; figuring out whether we are in an emulated environment. The bootup state for our current run indicates that the system wasn&rsquo;t booted in fail-safe mode. We can also see that our current user is <code>pew</code> and the box is not a part of any AD domain. We also get the processor architecture and the RAM available for us to use. This is useful for VM detection, for example &ndash; if the number of logical processors is less than 4 and the RAM available is below 2 Gigs, then the probability of the box being a VM is high. Of course, the same data is given away by the <code>SystemFamily</code> and the <code>OEMStringArray</code> properties, but in controlled environments, there might be other indicators as well.</p>
+<p>The other class <code>Win32_OperatingSystem</code> too provides us with a lot of useful info:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_operatingsystem <span style="color:#f92672">|</span> fl <span style="color:#f92672">*</span>
+</code></pre></div>
+  <img src="os.png"  alt="sysinfo"  class="center"  />
+
+
 <h3 id="directory-listing">Directory listing</h3>
 <p>Listing files on a system is a very fundamental operation. WMI has a class called <code>Win32_Directory</code> that helps in listing the files. Alternatively, there is another class named <code>CIM_DataFile</code> that can also be utilized to achieve the same.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_directory
