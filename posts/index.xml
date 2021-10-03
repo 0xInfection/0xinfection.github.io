@@ -10,10 +10,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 0xInfection</copyright>
-    <lastBuildDate>Sun, 12 Sep 2021 00:00:00 +0530</lastBuildDate>
+    <lastBuildDate>Sat, 02 Oct 2021 00:00:00 +0530</lastBuildDate>
     
 	<atom:link href="https://0xinfection.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Offensive WMI - Reconnaissance &amp; Enumeration (Part 4)</title>
+      <link>https://0xinfection.github.io/posts/wmi-recon-enum/</link>
+      <pubDate>Sat, 02 Oct 2021 00:00:00 +0530</pubDate>
+      
+      <guid>https://0xinfection.github.io/posts/wmi-recon-enum/</guid>
+      <description>
+        
+          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-recon-enum/cover.png&#34;/&gt;
+          
+        
+        
+        
+          This is the fourth part of the &amp;ldquo;Offensive WMI&amp;rdquo; series which will focus a bit more on information gathering and enumeration. WMI provides a plethora of classes from which we can enumerate a lot of stuff. So let&amp;rsquo;s dive in without wasting any more time.
+Gathering basic information In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.g. StdRegProv for the registry, Win32_Process for processes running on the system, Win32_Bios for BIOS information etc.
+          
+        
+        </description>
+    </item>
     
     <item>
       <title>Offensive WMI - Interacting with Windows Registry (Part 3)</title>

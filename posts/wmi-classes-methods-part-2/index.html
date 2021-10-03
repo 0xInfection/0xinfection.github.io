@@ -220,15 +220,15 @@ Namespaces Let&rsquo;s recall what namespaces are in simple terms:
 
 
 <p>Okay, now that&rsquo;s sorted, what about nested namespaces? We already saw that there are several namespaces under the <code>root</code> namespace. We can simply write up a script that recursively gets us the namespaces (from <a href="https://powershellmagazine.com/2013/10/18/pstip-list-all-wmi-namespaces-on-a-system/">PSMag</a>):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">Function</span> Get-WmiNamespace {
-    <span style="color:#66d9ef">Param</span> (
-        $Namespace=<span style="color:#e6db74">&#39;root&#39;</span>
-    )
-    Get-WmiObject -Namespace $Namespace -Class __NAMESPACE | ForEach-Object {
-            ($ns = <span style="color:#e6db74">&#39;{0}\{1}&#39;</span> <span style="color:#f92672">-f</span> $_.__NAMESPACE,$_.Name)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Function Get-WmiNamespace <span style="color:#f92672">{</span>
+    Param <span style="color:#f92672">(</span>
+        $Namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;root&#39;</span>
+    <span style="color:#f92672">)</span>
+    Get-WmiObject -Namespace $Namespace -Class __NAMESPACE | ForEach-Object <span style="color:#f92672">{</span>
+            <span style="color:#f92672">(</span>$ns <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{0}\{1}&#39;</span> -f $_.__NAMESPACE,$_.Name<span style="color:#f92672">)</span>
             Get-WmiNamespace $ns
-    }
-}
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div>
   <img src="nestedname.png"  alt="namespace"  class="center"  />
 

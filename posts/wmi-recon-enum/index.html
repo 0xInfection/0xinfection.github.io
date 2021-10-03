@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+      <title>
+        Offensive WMI - Reconnaissance &amp; Enumeration (Part 4) ::
+        0xInfection&#39;s Blog — Random ramblings of an Infected Geek.
+      </title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="description"
+  content="This is the fourth part of the &amp;ldquo;Offensive WMI&amp;rdquo; series which will focus a bit more on information gathering and enumeration. WMI provides a plethora of classes from which we can enumerate a lot of stuff. So let&amp;rsquo;s dive in without wasting any more time.
+Gathering basic information In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.g. StdRegProv for the registry, Win32_Process for processes running on the system, Win32_Bios for BIOS information etc."
+/>
+<meta
+  name="keywords"
+  content="security"
+/>
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://0xinfection.github.io/posts/wmi-recon-enum/" />
+
+
+
+
+
+<link rel="stylesheet" href="https://0xinfection.github.io/assets/style.css" />
+
+<link rel="stylesheet" href="https://0xinfection.github.io/style.css" />
+
+
+<link
+  rel="apple-touch-icon-precomposed"
+  sizes="144x144"
+  href="https://0xinfection.github.io/img/apple-touch-icon-144-precomposed.png"
+/>
+<link rel="shortcut icon" href="https://0xinfection.github.io/img/favicon.png" />
+
+
+<link href="https://0xinfection.github.io/assets/fonts/Inter-Italic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="https://0xinfection.github.io/assets/fonts/Inter-Regular.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="https://0xinfection.github.io/assets/fonts/Inter-Medium.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="https://0xinfection.github.io/assets/fonts/Inter-MediumItalic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="https://0xinfection.github.io/assets/fonts/Inter-Bold.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="https://0xinfection.github.io/assets/fonts/Inter-BoldItalic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://0xinfection.github.io/posts/wmi-recon-enum/cover.png"/>
+<meta name="twitter:title" content="Offensive WMI - Reconnaissance &amp; Enumeration (Part 4)"/>
+<meta name="twitter:description" content="This is the fourth part of the &ldquo;Offensive WMI&rdquo; series which will focus a bit more on information gathering and enumeration. WMI provides a plethora of classes from which we can enumerate a lot of stuff. So let&rsquo;s dive in without wasting any more time.
+Gathering basic information In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.g. StdRegProv for the registry, Win32_Process for processes running on the system, Win32_Bios for BIOS information etc."/>
+
+
+
+<meta property="og:title" content="Offensive WMI - Reconnaissance &amp; Enumeration (Part 4)" />
+<meta property="og:description" content="This is the fourth part of the &ldquo;Offensive WMI&rdquo; series which will focus a bit more on information gathering and enumeration. WMI provides a plethora of classes from which we can enumerate a lot of stuff. So let&rsquo;s dive in without wasting any more time.
+Gathering basic information In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.g. StdRegProv for the registry, Win32_Process for processes running on the system, Win32_Bios for BIOS information etc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://0xinfection.github.io/posts/wmi-recon-enum/" /><meta property="og:image" content="https://0xinfection.github.io/posts/wmi-recon-enum/cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-02T00:00:00+05:30" />
+<meta property="article:modified_time" content="2021-10-02T00:00:00+05:30" /><meta property="og:site_name" content="0xInfection&#39;s Blog" />
+
+
+
+
+
+
+
+  </head>
+  <body class="dark-theme">
+    <div class="container">
+      <header class="header">
+  <span class="header__inner">
+    <a
+  href="/"
+  class="logo"
+  style="text-decoration: none;"
+>
+  
+    <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
+  <path fill="none" d="M15 8l14.729 14.382L15 35.367" />
+</svg>
+</span>
+    <span class="logo__text"
+      >0xinfection&#39;s security stuff</span
+    >
+    <span class="logo__cursor"></span>
+  
+</a>
+
+    <span class="header__right">
+      
+        <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/posts">Blog</a></li>
+        
+      
+      
+      
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/posts">Blog</a></li>
+      
+    
+  </ul>
+</nav>
+
+        <span class="menu-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+          </svg>
+        </span>
+      
+      <span class="theme-toggle">
+        <svg
+  class="theme-toggler"
+  width="24"
+  height="24"
+  viewBox="0 0 48 48"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"
+  />
+</svg>
+
+      </span>
+    </span>
+  </span>
+</header>
+
+
+      <div class="content">
+        
+  
+  
+
+  <div class="post">
+    <h1 class="post-title">Offensive WMI - Reconnaissance &amp; Enumeration (Part 4)</h1>
+    <div class="post-meta">
+      
+        <span class="post-date">
+          2021-10-02
+        </span>
+
+        
+          
+        
+      
+
+      
+
+
+      
+    </div>
+
+    
+
+    
+      <figure class="post-cover">
+        
+          <img src="https://0xinfection.github.io/posts/wmi-recon-enum/cover.png" alt="Offensive WMI - Reconnaissance &amp; Enumeration (Part 4)" />
+        
+
+        
+      </figure>
+    
+
+    <div class="post-content">
+      
+      <p>This is the fourth part of the &ldquo;Offensive WMI&rdquo; series which will focus a bit more on information gathering and enumeration. WMI provides a plethora of classes from which we can enumerate a lot of stuff. So let&rsquo;s dive in without wasting any more time.</p>
+<h2 id="gathering-basic-information">Gathering basic information</h2>
+<p>In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.g. <code>StdRegProv</code> for the registry, <code>Win32_Process</code> for processes running on the system, <code>Win32_Bios</code> for BIOS information etc. Let us try exploring a bit more.</p>
+<h3 id="hostos-info">Host/OS info</h3>
+<p>Getting to know the host/OS is a very basic step when it comes to reconnaissance. WMI has two classes, namely <code>Win32_OperatingSystem</code> and <code>Win32_ComputerSystem</code> that provides us with the relevant information. For our example, we&rsquo;ll be filtering out junk to print only the necessary information needed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_computersystem <span style="color:#f92672">-</span>Property bootupstate,username,totalphysicalmemory,systemtype,systemfamily,<span style="color:#66d9ef">domain</span>,dnshostname,oemstringarray
+</code></pre></div>
+  <img src="systeminfo.png"  alt="sysinfo"  class="center"  />
+
+
+<p>So most of the information that we have now helps us in one major thing &ndash; figuring out whether we are in an emulated environment. The bootup state for our current run indicates that the system wasn&rsquo;t booted in fail-safe mode. We can also see that our current user is <code>pew</code> and the box is not a part of any AD domain. We also get the processor architecture and the RAM available for us to use. This is useful for VM detection, for example &ndash; if the number of logical processors is less than 4 and the RAM available is below 2 Gigs, then the probability of the box being a VM is high. Of course, the same data is given away by the <code>SystemFamily</code> and the <code>OEMStringArray</code> properties, but in controlled environments, there might be other indicators as well.</p>
+<h3 id="directory-listing">Directory listing</h3>
+<p>Listing files on a system is a very fundamental operation. WMI has a class called <code>Win32_Directory</code> that helps in listing the files. Alternatively, there is another class named <code>CIM_DataFile</code> that can also be utilized to achieve the same.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_directory
+</code></pre></div>
+  <img src="directory.png"  alt="dir"  class="center"  />
+
+
+<p>Often searching for file patterns using wildcards is helpful. We can make use of the <code>-Filter</code> argument of the cmdlet to achieve something similar. Let&rsquo;s say we&rsquo;re interested in directory paths that have a folder called <code>snapshots</code>. Querying it with WMI would look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_directory <span style="color:#f92672">-</span>Filter <span style="color:#e6db74">&#39;name LIKE &#34;%snapshots%&#34;&#39;</span>
+</code></pre></div>
+  <img src="wildcard.png"  alt="wc"  class="center"  />
+
+
+<h3 id="av-product">AV product</h3>
+<p>One of the first steps when it comes to recon is to enumerate what kind of product is providing security to a system. WMI provides a class called <code>AntiVirusProduct</code> under the <code>root\SecurityCenter2</code> namespace that contains information about the AV installed on the system. In my case, it&rsquo;s the default Windows Defender.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span>securitycenter2 <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> antivirusproduct
+</code></pre></div>
+  <img src="av.png"  alt="av"  class="center"  />
+
+
+<h3 id="services">Services</h3>
+<p>Services on a Windows system are similar to Unix daemons, or simply non-UI processes running in the background. This is useful information when it comes to privilege escalation, especially, in cases where there is a service created by <code>SYSTEM</code> with weak file permissions.</p>
+<p>To list the services, we need to make use of the <code>Win32_Service</code> class. For our example, we&rsquo;ll only print those services which are initiated by the <code>LocalSystem</code> (or the <code>NT Authority\System</code>). Note the usage of the <code>select</code> Powershell utility that expands the output significantly as compared to without it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_service <span style="color:#f92672">-</span>Filter <span style="color:#e6db74">&#39;startname=&#34;localsystem&#34;&#39;</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span>
+</code></pre></div>
+  <img src="services.png"  alt="services"  class="center"  />
+
+
+<p>WMI also provides several methods when it comes to interacting with services. They allow creation, deletion, starting, stopping, resuming, updating and a lot of other capabilities to manipulate the services. To list the methods available under the <code>Win32_Service</code> class, we can use the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_service <span style="color:#f92672">-</span>List <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">-</span>ExpandProperty methods
+</code></pre></div>
+  <img src="servicemethods.png"  alt="services"  class="center"  />
+
+
+<h3 id="logged-on-users">Logged-on Users</h3>
+<p>Getting the logged-on users on a system is pretty trivial. There are two classes &ndash; <code>Win32_LoggedOnUser</code> and <code>Win32_LogOnSession</code> that holds the particulars about the session and users logged onto the system. Querying the class from a privileged user gives us much more information about the logged in users:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_loggedonuser
+</code></pre></div>
+  <img src="logged.png"  alt="log"  class="center"  />
+
+
+<p>From the above, we can see that each logged-in user has an LUID (locally-unique identifier). Some LUIDs are predefined. For example, the LUID for the System account’s logon session is always 0x3e7 (999 decimal), the LUID for Network Service’s session is 0x3e4 (996), and Local Service’s is 0x3e5 (997). Most other LUIDs are randomly generated.</p>
+<p>Each logged-on user defines its dependents via the <code>Dependent</code> property. We can get a list of logon IDs, the authentication type, start time and scope of every session using the <code>Win32_LogOnSession</code> class:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_logonsession <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> authenticationpackage,logonid,starttime,<span style="color:#66d9ef">scope</span>
+</code></pre></div>
+  <img src="session.png"  alt="session"  class="center"  />
+
+
+<h3 id="installed-patches">Installed patches</h3>
+<p>It&rsquo;s often useful to enumerate the updates/patches installed on a machine. If the system is missing important patches, that might open up an easy possibility to compromise the system in one quick shot. WMI has a class known as <code>Win32_QuickFixEngineering</code> which contains info about the installed updates and security patches. Querying the class is a piece of cake:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_quickfixengineering
+</code></pre></div>
+  <img src="patch.png"  alt="patches"  class="center"  />
+
+
+<h3 id="event-logs">Event logs</h3>
+<p>The class <code>Win32_NtLogEvent</code> gives us useful data about the events logs captured by the system. We can query it like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_ntlogevent
+</code></pre></div>
+  <img src="event.png"  alt="patches"  class="center"  />
+
+
+<p>Each log entry carries details like time, the source generating the event, severity and a message. The severity is indicated by the <code>Type</code> property in the output. Talking about event types, there are five different levels which are depicted in the table below:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Error</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Warning</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Information</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Security Audit Success</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Security Audit Failure</td>
+</tr>
+</tbody>
+</table>
+<p>We can, of course, make use of the <code>-Filter</code> switch to search for specific event types.</p>
+<h3 id="shares">Shares</h3>
+<p>The <code>Win32_Share</code> class represents a shared resource on a system. This may be a disk drive, printer, interprocess communication, or other sharable devices. In enterprise networks, there are usually a lot of shares that might come in handy during a penetration test. Let us see how we can enumerate the available shares:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_share <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#66d9ef">type</span>,name,allowmaximum,description,<span style="color:#66d9ef">scope</span>
+</code></pre></div>
+  <img src="shares.png"  alt="shares"  class="center"  />
+
+
+<p>In the above example, we filtered only the required useful information using <code>select</code>. We have the share type, name, concurrent access permission, description and scope of every available share from the output of the command. Once again, types are constants that define the type of resources being shared:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Disk Drive</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Print Queue</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Device</td>
+</tr>
+<tr>
+<td>3</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>2147483648</td>
+<td>Disk Drive Admin</td>
+</tr>
+<tr>
+<td>2147483649</td>
+<td>Print Queue Admin</td>
+</tr>
+<tr>
+<td>2147483650</td>
+<td>Device Admin</td>
+</tr>
+<tr>
+<td>2147483651</td>
+<td>IPC Admin</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>AllowMaximum</code> is a boolean property indicating whether concurrent access to the resource has been restricted or not. If the value is set to <code>True</code>, then there is no restriction on the shared access, which otherwise might indicate that there is something sensitive in the resource, or better might have monitoring for clients accessing the share.</p>
+<p>WMI also provides methods like <code>Create</code>, <code>SetShareInfo</code> and <code>Delete</code> for creating, updating and deleting shares.</p>
+
+  <img src="sharemethods.png"  alt="shares"  class="center"  />
+
+
+<h3 id="network-info">Network info</h3>
+<p>Network information is provided by the <code>Win32_IP4RouteTable</code> class. This gives us details similar to the <code>ipconfig</code> command but in a much more detailed fashion.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_ip4routetable
+</code></pre></div>
+  <img src="network.png"  alt="shares"  class="center"  />
+
+
+<p>I would like to mention another useful class called <code>Win32_NetworkAdapter</code> while talking about network stuff. Querying it can give us a useful indication about the network hardware that the system has. This in-turn is useful for VM detection, for example, we can run the following queries to identify whether the system is virtualized by VMWare:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_NetworkAdapter <span style="color:#f92672">-</span>Filter <span style="color:#e6db74">&#39;name like &#34;%vmware%&#34;&#39;</span>
+<span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_NetworkAdapter <span style="color:#f92672">-</span>Filter <span style="color:#e6db74">&#39;manufacturer like &#34;%vmware%&#34;&#39;</span>
+</code></pre></div><h3 id="user-accounts">User accounts</h3>
+<p>User account information is provided by the <code>Win32_UserAccount</code> class. For a default local system, there are only a few accounts, the most common ones being the administrator, guest, local users and the windows defender (<code>WDAGUtilityAccount</code>). We can get a list of users quickly via:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_useraccount
+</code></pre></div>
+  <img src="accounts.png"  alt="shares"  class="center"  />
+
+
+<p>However, for a domain-joined box or domain controller, there will be several others including <code>krbtgt</code>, <code>sqladmin</code>, <code>webadmin</code>, etc. For a default Windows Server 2012 setup, there are just 3 accounts as displayed below.</p>
+
+  <img src="account1.png"  alt="shares"  class="center"  />
+
+
+<h3 id="user-groups">User groups</h3>
+<p>Similar to user accounts, user groups information is provided by the <code>Win32_Group</code> class. Querying the class on a local box is easy:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_group
+</code></pre></div>
+  <img src="group.png"  alt="shares"  class="center"  />
+
+
+<p>If the same command is run in an enterprise environment, e.g. a domain-joined network, the number of groups would increase giving us a wider view of the user groups present on a network. This will include the local ones, the current domain, the trusted domain and the trusted forest as well:</p>
+
+  <img src="group1.png"  alt="shares"  class="center"  />
+
+
+<h3 id="system-secrets">System secrets</h3>
+<p>System secrets are once again useful info to enumerate when it comes to recon. If we have enough privileges on the system, we can create <strong>shadow copies</strong> of the disk and try to extract secrets from there. But before that for those of you not familiar with shadow copies:</p>
+<blockquote>
+<p><strong>Shadow Copy</strong> is a technology included in Microsoft Windows that can create backup copies or snapshots of computer files or volumes, even when they are in use.</p>
+</blockquote>
+<p>To interact with the shadow copies, we have 2 available methods as seen in the picture below:</p>
+
+  <img src="shadowmethods.png"  alt="shadowmethods"  class="center"  />
+
+
+<p>Creating a quick shadow copy is easy, we just need to specify the volume and the context of the copy creation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">(<span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_shadowcopy <span style="color:#f92672">-</span>List).<span style="color:#66d9ef">create</span>(<span style="color:#e6db74">&#34;C:\&#34;</span>, <span style="color:#e6db74">&#34;ClientAccessible&#34;</span>)
+</code></pre></div>
+  <img src="shadowcreate.png"  alt="shadowcreate"  class="center"  />
+
+
+<p>To add to this, we can create a symlink to easily access the shadow copy from our local explorer:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#960050;background-color:#1e0010">$</span>link <span style="color:#f92672">=</span> (<span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_shadowcopy).deviceobject <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/&#34;</span>
+cmd <span style="color:#f92672">/</span><span style="color:#66d9ef">c</span> mklink <span style="color:#f92672">/</span>d <span style="color:#66d9ef">C</span>:<span style="color:#960050;background-color:#1e0010">\</span>shadowcopy <span style="color:#e6db74">&#34;$link&#34;</span>
+</code></pre></div>
+  <img src="shadowlink.png"  alt="shadowlink"  class="center"  />
+
+
+<p>Once we have the shadow copy ready to use, we can simply run tools like <a href="https://github.com/Arvanaghi/SessionGopher/blob/master/SessionGopher.ps1"><code>Invoke-SessionGopher.ps1</code></a> with the <code>-Thorough</code> switch to search for secrets on the filesystem. This would yield saved session information for PuTTY, WinSCP, FileZilla, SuperPuTTY, RDP, etc. In my case, I found a few saved RDP sessions and PuTTY sessions using the script.</p>
+
+  <img src="sessiongop.png"  alt="gopher"  class="center"  />
+
+
+<h2 id="conclusion">Conclusion</h2>
+<p>So this was all about information gathering over WMI for a single blog post. We saw how we can gather so much useful data in just a few key taps so conveniently. Of course, the information presented above is not exhaustive and there are endless possibilities to consider when it comes to reconnaissance.</p>
+<p>That&rsquo;s it for now folks and I&rsquo;ll meet you in our next blog that will focus on Active Directory enumeration via WMI. Sláinte! 🥂</p>
+
+    </div>
+    
+      
+        <div class="pagination">
+          <div class="pagination__title">
+            <span class="pagination__title-h"
+              >Read other posts</span
+            >
+            <hr />
+          </div>
+          <div class="pagination__buttons">
+            
+            
+              <span class="button next">
+                <a href="https://0xinfection.github.io/posts/wmi-registry-part-3/">
+                  <span class="button__text">Offensive WMI - Interacting with Windows Registry (Part 3)</span>
+                  <span class="button__icon">→</span>
+                </a>
+              </span>
+            
+          </div>
+        </div>
+      
+    
+
+    
+      
+        
+
+      
+    
+  </div>
+
+      </div>
+
+      
+        <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user">© 0xInfection</div>
+      
+  </div>
+</footer>
+
+<script src="https://0xinfection.github.io/assets/main.js"></script>
+<script src="https://0xinfection.github.io/assets/prism.js"></script>
+
+
+      
+    </div>
+
+    
+  </body>
+</html>
