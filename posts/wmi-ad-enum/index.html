@@ -355,7 +355,7 @@ Active Directory (AD) is Microsoft&rsquo;s implementation of a directory and IAM
 
 
 <h3 id="enumerating-administrator-privileges-across-machines">Enumerating administrator privileges across machines</h3>
-<p>An important thing to remember is, by default WMI provides remote access only to local administrators. Already noticed the catch there? If we can run WMI commands against a remote computer, it means <em>we have local administrator access</em> on that computer. We can use this information to write a very simple script that can enumerate local administrator privileges on remote computers.</p>
+<p>An important thing to remember is, by default WMI provides remote access only to local administrators. Already noticed the catch there? If we can run WMI commands against a remote computer, it means we have <em>local administrator</em> access on that computer. We can use this information to write a very simple script that can enumerate local administrator privileges on remote computers.</p>
 <p>We can chain the output of the last command with a bit of Powershell to achieve the above:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$pcs <span style="color:#f92672">=</span> Get-WmiObject -Namespace root<span style="color:#ae81ff">\d</span>irectory<span style="color:#ae81ff">\l</span>dap -Class ds_computer | <span style="color:#66d9ef">select</span> -ExpandProperty ds_cn
 foreach <span style="color:#f92672">(</span>$pc in $pcs<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
