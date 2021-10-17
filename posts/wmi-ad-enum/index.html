@@ -311,7 +311,7 @@ Active Directory (AD) is Microsoft&rsquo;s implementation of a directory and IAM
 
 
 <h3 id="enumerating-currently-logged-on-users">Enumerating currently logged-on users</h3>
-<p>The <code>Win32_LoggedOnUser</code> classes provide information about the logged-on users in a system as well as the domain. To filter out users for just the domain, we can use the following command:</p>
+<p>The <code>Win32_LoggedOnUser</code> classes provide information about the logged-on users in that system as well as the domain. To filter out users for just the domain, we can use the following command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_loggedonuser <span style="color:#f92672">|</span> <span style="color:#66d9ef">where</span> <span style="color:#960050;background-color:#1e0010">{</span>
     <span style="color:#960050;background-color:#1e0010">$</span>_ <span style="color:#f92672">-</span><span style="color:#66d9ef">match</span> <span style="color:#e6db74">&#39;infected&#39;</span>
 <span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#f92672">|</span> foreach <span style="color:#960050;background-color:#1e0010">{</span>[wmi]<span style="color:#960050;background-color:#1e0010">$</span>_.antecedent<span style="color:#960050;background-color:#1e0010">}</span>
@@ -356,7 +356,7 @@ Active Directory (AD) is Microsoft&rsquo;s implementation of a directory and IAM
 
 <h3 id="enumerating-administrator-privileges-across-machines">Enumerating administrator privileges across machines</h3>
 <p>An important thing to remember is, by default WMI provides remote access only to local administrators. Already noticed the catch there? If we can run WMI commands against a remote computer, it means <em>we have local administrator access</em> on that computer. We can use this information to write a very simple script that can enumerate local administrator privileges on remote computers.</p>
-<p>We can chain the output of the last command with a bit of Powershell, to achieve the above:</p>
+<p>We can chain the output of the last command with a bit of Powershell to achieve the above:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$pcs <span style="color:#f92672">=</span> Get-WmiObject -Namespace root<span style="color:#ae81ff">\d</span>irectory<span style="color:#ae81ff">\l</span>dap -Class ds_computer | <span style="color:#66d9ef">select</span> -ExpandProperty ds_cn
 foreach <span style="color:#f92672">(</span>$pc in $pcs<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
     <span style="color:#f92672">(</span>Get-WmiObject -Class win32_computersystem -ComputerName $pc -ErrorAction silentlycontinue<span style="color:#f92672">)</span>.name
@@ -367,7 +367,7 @@ foreach <span style="color:#f92672">(</span>$pc in $pcs<span style="color:#f9267
 
 <p>Now we have all the boxes on which our user has admin privileges. With this information, things now become super easy for us in lateral movement.</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>We saw how easily we could enumerate a lot of stuff from an Active Directory environment using a few WMI classes and some Powershell magic. Once again, this blog is <em>not comprehensive</em> and there are a lot of possibilities when it comes to reconnaissance. In our next blog, we&rsquo;ll focus on lateral movement via WMI.</p>
+<p>We saw how easily we could enumerate a lot of stuff from an Active Directory environment using a few WMI classes and some Powershell magic. Once again, this blog is not comprehensive and there are a lot of possibilities when it comes to reconnaissance. In our next blog, we&rsquo;ll focus on lateral movement via WMI.</p>
 <p>That&rsquo;s it for now folks. I hope you enjoyed reading the blog. Cheers! 🥂</p>
 
     </div>
