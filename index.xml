@@ -10,10 +10,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 0xInfection</copyright>
-    <lastBuildDate>Sun, 17 Oct 2021 00:00:00 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 31 Oct 2021 00:00:00 +0530</lastBuildDate>
     
 	<atom:link href="https://0xinfection.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Analyzing two FreeSWITCH vulnerabilities -- CVE-2021-41157 &amp; CVE-2021-37624</title>
+      <link>https://0xinfection.github.io/posts/analyzing-freeswitch-vulns/</link>
+      <pubDate>Sun, 31 Oct 2021 00:00:00 +0530</pubDate>
+      
+      <guid>https://0xinfection.github.io/posts/analyzing-freeswitch-vulns/</guid>
+      <description>
+        
+          &lt;img src=&#34;https://0xinfection.github.io/posts/analyzing-freeswitch-vulns/cover.gif&#34;/&gt;
+          
+        
+        
+        
+          This post is about two vulnerabilities that I researched on a year back in the FreeSWITCH VoIP server that were fixed and disclosed publicly a few weeks ago. Both of the vulnerabilities were issues that affected the SIP functionality in all versions below v1.10.7 and were categorized under CWE-287.
+Background The story dates to a year ago, back when I was still learning about RTC (real-time communications) security and working under Sandro &amp;ndash; where we used to do a lot of research on real-time communication infra.
+          
+        
+        </description>
+    </item>
     
     <item>
       <title>Offensive WMI - Active Directory Enumeration (Part 5)</title>
