@@ -4,7 +4,7 @@
     
       <title>
         Offensive WMI - The Basics (Part 1) ::
-        0xInfection&#39;s Blog — Random ramblings of an Infected Geek.
+        0xInfection&#39;s Blog — Ramblings of an Infected Geek.
       </title>
     
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -12,7 +12,7 @@
 <meta
   name="description"
   content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&amp;rsquo;s it, let us jump into the real stuff.
-Introduction Why WMI? WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems."
+Introduction # Why WMI? # WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems."
 />
 <meta
   name="keywords"
@@ -25,43 +25,40 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 
 
 
-<link rel="stylesheet" href="https://0xinfection.github.io/assets/style.css" />
+
+
+<link rel="stylesheet" href="/css/style.css" />
 
 <link rel="stylesheet" href="https://0xinfection.github.io/style.css" />
 
 
-<link
-  rel="apple-touch-icon-precomposed"
-  sizes="144x144"
-  href="https://0xinfection.github.io/img/apple-touch-icon-144-precomposed.png"
-/>
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://0xinfection.github.io/img/apple-touch-icon-144-precomposed.png" />
 <link rel="shortcut icon" href="https://0xinfection.github.io/img/favicon.png" />
 
 
-<link href="https://0xinfection.github.io/assets/fonts/Inter-Italic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
-<link href="https://0xinfection.github.io/assets/fonts/Inter-Regular.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
-<link href="https://0xinfection.github.io/assets/fonts/Inter-Medium.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
-<link href="https://0xinfection.github.io/assets/fonts/Inter-MediumItalic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
-<link href="https://0xinfection.github.io/assets/fonts/Inter-Bold.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
-<link href="https://0xinfection.github.io/assets/fonts/Inter-BoldItalic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-Italic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-Regular.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-Medium.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-MediumItalic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-Bold.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-BoldItalic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
 
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://0xinfection.github.io/posts/wmi-basics-part-1/cover.png"/>
 <meta name="twitter:title" content="Offensive WMI - The Basics (Part 1)"/>
 <meta name="twitter:description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
-Introduction Why WMI? WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems."/>
+Introduction # Why WMI? # WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems."/>
 
 
 
 <meta property="og:title" content="Offensive WMI - The Basics (Part 1)" />
 <meta property="og:description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
-Introduction Why WMI? WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems." />
+Introduction # Why WMI? # WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://0xinfection.github.io/posts/wmi-basics-part-1/" /><meta property="og:image" content="https://0xinfection.github.io/posts/wmi-basics-part-1/cover.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-08-29T00:00:00+05:30" />
 <meta property="article:modified_time" content="2021-08-29T00:00:00+05:30" /><meta property="og:site_name" content="0xInfection&#39;s Blog" />
-
 
 
 
@@ -155,13 +152,13 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
   
   
 
-  <div class="post">
+  <article class="post">
     <h1 class="post-title">Offensive WMI - The Basics (Part 1)</h1>
     <div class="post-meta">
       
-        <span class="post-date">
+        <time class="post-date">
           2021-08-29
-        </span>
+        </time>
 
         
           
@@ -178,23 +175,36 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 
     
       <figure class="post-cover">
-        
-          <img src="https://0xinfection.github.io/posts/wmi-basics-part-1/cover.png" alt="Offensive WMI - The Basics (Part 1)" />
-        
+  
+    <img src="https://0xinfection.github.io/posts/wmi-basics-part-1/cover.png" alt="Offensive WMI - The Basics (Part 1)"/>
+  
 
-        
-      </figure>
+  
+</figure>
+
     
 
     <div class="post-content">
       
       <p>This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.</p>
-<h2 id="introduction">Introduction</h2>
-<h3 id="why-wmi">Why WMI?</h3>
+<h2 id="introduction">
+  Introduction
+  <a href="#introduction" class="h-anchor" aria-hidden="true">#</a>
+</h2>
+<h3 id="why-wmi">
+  Why WMI?
+  <a href="#why-wmi" class="h-anchor" aria-hidden="true">#</a>
+</h3>
 <p>WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems. And as you might know, a rule of security says &ldquo;that anything useful for administration is also great at being abused by evil-doers&rdquo;. WMI can <em>really</em> do a lot of things &ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.</p>
-<h3 id="what-is-wmi">What is WMI?</h3>
+<h3 id="what-is-wmi">
+  What is WMI?
+  <a href="#what-is-wmi" class="h-anchor" aria-hidden="true">#</a>
+</h3>
 <p>Let&rsquo;s quickly go over a few important terms. WMI stands for <strong>Windows Management Instrumentation</strong>, which is Microsoft&rsquo;s implementation of the CIM (Common Information Model) &amp; WBEM (Web-Based Enterprise Management) &ndash; both of which are <em>DMTF (Distributed Management Task Force) standards</em> in general. WMI gives us a neat and uniform interface for applications/scripts to manage a computer (maybe remote and local) &ndash; incl. processes, services, etc.</p>
-<h3 id="the-wmi-architecture">The WMI Architecture</h3>
+<h3 id="the-wmi-architecture">
+  The WMI Architecture
+  <a href="#the-wmi-architecture" class="h-anchor" aria-hidden="true">#</a>
+</h3>
 <p>Understanding the architecture is very essential to understanding how the entire WMI ecosystem works. A broad overview of the architecture of WMI is depicted below (sourced from <a href="https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf">Graeber&rsquo;s talk from BHUSA 15</a>):</p>
 
   <img src="arch.png"  alt="Architecture"  class="center"  />
@@ -208,14 +218,14 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 <li>
 <p><strong>Query Languages</strong>: Just like SQL provides you with a way to query a database, WMI too has WQL (WMI Query Language) / CQL for querying the WMI service. When it comes to managing remote boxes, the WBEM standard kicks in &ndash; which include DCOM and WS-Man (don&rsquo;t worry if you don&rsquo;t understand these terms, read on). WQL is basically SQL syntax for WMI, so is not case-sensitive.</p>
 <p>A simple query may look like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> win32_bios
-</code></pre></div><p>which gives us information about our BIOS.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> win32_bios
+</span></span></code></pre></div><p>which gives us information about our BIOS.</p>
 </li>
 <li>
 <p><strong>Repositories</strong>: These are the databases that we talked about previously that stores all static data (definitions) of classes. The repositories are defined by MOF (managed object format) files which define the structure, classes, namespaces, etc. The database files can be found under the <code>%WINDIR%\System32\Wbem\Repository</code> directory.</p>
 
-  <img src="repo.png"  alt="repositories"  class="center"  />
-
+      <img src="repo.png"  alt="repositories"  class="center"  />
+    
 
 </li>
 <li>
@@ -225,8 +235,8 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 <p><strong>Providers</strong>: Whatever is defined in the repositories can be accessed with the help of WMI providers. They are usually DLL files and associated with a MOF file &ndash; <code>cimwin32.dll</code>, <code>stdprov.dll</code>, etc to name a few, however, they can take the form of other types as well (Class, Event, Event Consumer, Method, etc). The providers are essential to the ecosystem because they monitor events and data from specific defined objects. Think of providers like drivers which provide a bridge between managed objects and WMI.</p>
 <p>In the screenshot below, the DLL files are the providers of the associated MOF files:</p>
 
-  <img src="mof.png"  alt="MOF files"  class="center"  />
-
+      <img src="mof.png"  alt="MOF files"  class="center"  />
+    
 
 </li>
 <li>
@@ -249,7 +259,10 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 </li>
 </ul>
 <p>That&rsquo;s it with the architecture. Now let&rsquo;s learn a bit about using WMI with Powershell.</p>
-<h2 id="using-wmi-with-powershell">Using WMI with Powershell</h2>
+<h2 id="using-wmi-with-powershell">
+  Using WMI with Powershell
+  <a href="#using-wmi-with-powershell" class="h-anchor" aria-hidden="true">#</a>
+</h2>
 <p>Now that we&rsquo;re done with the theory part, let&rsquo;s quickly spawn a PS terminal. It is important to remember that up to v2 of Powershell, there are only a few cmdlets to interact with WMI. We&rsquo;ll quickly check our Powershell version and change the version to 2:</p>
 
   <img src="version.png"  alt="version"  class="center"  />
@@ -315,14 +328,20 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 </tr>
 </tbody>
 </table>
-<h3 id="running-wmi-queries-with-powershell">Running WMI queries with Powershell</h3>
+<h3 id="running-wmi-queries-with-powershell">
+  Running WMI queries with Powershell
+  <a href="#running-wmi-queries-with-powershell" class="h-anchor" aria-hidden="true">#</a>
+</h3>
 <p>Now that we know about the different cmdlets available for us to use, we can try running the sample WQL query above. We already know that <code>Get-WmiObject</code> can be used to get info about classes. So let&rsquo;s run the cmdlet with the <code>-Query</code> parameter:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Query <span style="color:#e6db74">&#39;select * from win32_bios&#39;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Query <span style="color:#e6db74">&#39;select * from win32_bios&#39;</span>
+</span></span></code></pre></div>
   <img src="wql.png"  alt="WQL"  class="center"  />
 
 
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">
+  Conclusion
+  <a href="#conclusion" class="h-anchor" aria-hidden="true">#</a>
+</h2>
 <p>This blog post was meant for giving an overview of what we&rsquo;ll be dealing with in the next parts of the series. There are a lot of technical buzzwords here but understanding them is necessary. I hope you enjoyed reading through so far, and I&rsquo;m looking forward to our journey together into exploring WMI.</p>
 <p>Adios amigo!</p>
 
@@ -364,7 +383,7 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 
       
     
-  </div>
+  </article>
 
       </div>
 
@@ -377,8 +396,11 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
   </div>
 </footer>
 
-<script src="https://0xinfection.github.io/assets/main.js"></script>
-<script src="https://0xinfection.github.io/assets/prism.js"></script>
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
 
 
       

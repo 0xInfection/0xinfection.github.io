@@ -29,7 +29,7 @@
         
         
           This post is about two vulnerabilities that I researched on a year back in the FreeSWITCH VoIP server that were fixed and disclosed publicly a few weeks ago. Both of the vulnerabilities were issues that affected the SIP functionality in all versions below v1.10.7 and were categorized under CWE-287.
-Background The story dates to a year ago, back when I was still learning about RTC (real-time communications) security and working under Sandro &amp;ndash; where we used to do a lot of research on real-time communication infra.
+Background # The story dates to a year ago, back when I was still learning about RTC (real-time communications) security and working under Sandro &amp;ndash; where we used to do a lot of research on real-time communication infra.
           
         
         </description>
@@ -69,7 +69,7 @@ Active Directory (AD) is Microsoft&amp;rsquo;s implementation of a directory and
         
         
           This is the fourth part of the &amp;ldquo;Offensive WMI&amp;rdquo; series which will focus a bit more on information gathering and enumeration. WMI provides a plethora of classes from which we can enumerate a lot of stuff. So let&amp;rsquo;s dive in without wasting any more time.
-Gathering basic information In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.g. StdRegProv for the registry, Win32_Process for processes running on the system, Win32_Bios for BIOS information etc.
+Gathering basic information # In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.
           
         
         </description>
@@ -90,7 +90,7 @@ Gathering basic information In our previous blogs, we have already seen a lot of
         
           This is the third instalment of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;amp;CK classifies querying of registry values under T1012 and its modification under T1112.
 Let&amp;rsquo;s dive in.
-What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry.
+What is Windows Registry? # In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry.
           
         
         </description>
@@ -110,8 +110,8 @@ What is Windows Registry? In simple terms, the registry is a database that store
         
         
           This blog post is the second part of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the first is here), and this article will be focusing on the 3 major components in WMI that we&amp;rsquo;d be majorly dealing with. Throughout the article, we&amp;rsquo;ll be using both WMI and CIM cmdlets interchangeably so that we&amp;rsquo;re well-versed with both cmdlet types.
-Namespaces Let&amp;rsquo;s recall what namespaces are in simple terms:
- A namespace organizes information similar to folders in a filesystem.
+Namespaces # Let&amp;rsquo;s recall what namespaces are in simple terms:
+A namespace organizes information similar to folders in a filesystem.
           
         
         </description>
@@ -131,7 +131,7 @@ Namespaces Let&amp;rsquo;s recall what namespaces are in simple terms:
         
         
           This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&amp;rsquo;s it, let us jump into the real stuff.
-Introduction Why WMI? WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems.
+Introduction # Why WMI? # WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems.
           
         
         </description>
@@ -151,7 +151,7 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
         
         
           Development is a important task. But mindful secure development is much more important. In this quick blog post, I detail an unusual way in which I was able to escalate access to several production instances behind a properly secured network.
-How it started. It all started with me casually checking some traffic data for a tool I authored on GitHub. GitHub allows you to view a few stats for the past 14 days, viz.
+How it started. # It all started with me casually checking some traffic data for a tool I authored on GitHub. GitHub allows you to view a few stats for the past 14 days, viz.
           
         
         </description>
@@ -192,7 +192,7 @@ We all have heard of CI/CDs right? I was exploring GitHub Actions and what I fou
         
           Hi folks,
 Today in this post I am going to be detailing about my recent experiments with web application firewalls (WAFs) focusing on a specific type of side channel attacks, namely, timing. In my opinion, this field hasn’t been studied actively and the results can be more lethal than you’re expecting. This post is already long, so lets get started rightaway. :)
-Side Channel Attacks? Wikipedia defines side-channel attacks as:
+Side Channel Attacks? # Wikipedia defines side-channel attacks as:
           
         
         </description>
