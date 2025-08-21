@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="This blog post is the second part of the &ldquo;Offensive WMI&rdquo; series (the first is here), and this article will be focusing on the 3 major components in WMI that we&rsquo;d be majorly dealing with. Throughout the article, we&rsquo;ll be using both WMI and CIM cmdlets interchangeably so that we&rsquo;re well-versed with both cmdlet types.
+Namespaces Let&rsquo;s recall what namespaces are in simple terms:
+A namespace organizes information similar to folders in a filesystem. However, instead of physical locations (like on a disk), they are more logical in nature.
+" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://0xinfection.xyz/posts/offensive-wmi-exploring-namespaces-classes-methods-part-2/" />
+
+
+    <title>
+        
+            Offensive WMI - Exploring Namespaces, Classes &amp; Methods (Part 2) :: 0xInfection&#39;s Blog — Ramblings of an Infected Geek 
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://0xinfection.xyz/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://0xinfection.xyz/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://0xinfection.xyz/favicon-16x16.png">
+    <link rel="manifest" href="https://0xinfection.xyz/site.webmanifest">
+    <link rel="mask-icon" href="https://0xinfection.xyz/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://0xinfection.xyz/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="Offensive WMI - Exploring Namespaces, Classes & Methods (Part 2)">
+  <meta itemprop="description" content="This blog post is the second part of the “Offensive WMI” series (the first is here), and this article will be focusing on the 3 major components in WMI that we’d be majorly dealing with. Throughout the article, we’ll be using both WMI and CIM cmdlets interchangeably so that we’re well-versed with both cmdlet types.
+Namespaces Let’s recall what namespaces are in simple terms:
+A namespace organizes information similar to folders in a filesystem. However, instead of physical locations (like on a disk), they are more logical in nature.">
+  <meta itemprop="datePublished" content="2021-09-05T00:00:00+05:30">
+  <meta itemprop="dateModified" content="2021-09-05T00:00:00+05:30">
+  <meta itemprop="wordCount" content="1498">
+  <meta itemprop="image" content="https://0xinfection.xyz/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://0xinfection.xyz/">
+  <meta name="twitter:title" content="Offensive WMI - Exploring Namespaces, Classes & Methods (Part 2)">
+  <meta name="twitter:description" content="This blog post is the second part of the “Offensive WMI” series (the first is here), and this article will be focusing on the 3 major components in WMI that we’d be majorly dealing with. Throughout the article, we’ll be using both WMI and CIM cmdlets interchangeably so that we’re well-versed with both cmdlet types.
+Namespaces Let’s recall what namespaces are in simple terms:
+A namespace organizes information similar to folders in a filesystem. However, instead of physical locations (like on a disk), they are more logical in nature.">
+
+
+
+    <meta property="og:url" content="https://0xinfection.xyz/posts/offensive-wmi-exploring-namespaces-classes-methods-part-2/">
+  <meta property="og:site_name" content="0xInfection&#39;s Blog — Ramblings of an Infected Geek">
+  <meta property="og:title" content="Offensive WMI - Exploring Namespaces, Classes & Methods (Part 2)">
+  <meta property="og:description" content="This blog post is the second part of the “Offensive WMI” series (the first is here), and this article will be focusing on the 3 major components in WMI that we’d be majorly dealing with. Throughout the article, we’ll be using both WMI and CIM cmdlets interchangeably so that we’re well-versed with both cmdlet types.
+Namespaces Let’s recall what namespaces are in simple terms:
+A namespace organizes information similar to folders in a filesystem. However, instead of physical locations (like on a disk), they are more logical in nature.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-09-05T00:00:00+05:30">
+    <meta property="article:modified_time" content="2021-09-05T00:00:00+05:30">
+    <meta property="og:image" content="https://0xinfection.xyz/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-09-05 00:00:00 &#43;0530 IST" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://0xinfection.xyz/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text logo__pathname">
+                $ ls /home/0xinfection/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#02d6f2;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://0xinfection.xyz/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        8 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://0xinfection.xyz/posts/offensive-wmi-exploring-namespaces-classes-methods-part-2/">Offensive WMI - Exploring Namespaces, Classes &amp; Methods (Part 2)</a>
+      </h1>
+
+      
+
+      
+        <figure class="post-cover">
+          <img src="https://0xinfection.xyz/images/covers/wmi-2-cover.png" alt="Offensive WMI - Exploring Namespaces, Classes &amp; Methods (Part 2)" />
+          
+          
+        </figure>
+      
+
+      
+
+      <div class="post-content">
+        <p>This blog post is the second part of the &ldquo;Offensive WMI&rdquo; series (the first is <a href="https://0xinfection.github.io/posts/wmi-basics-part-1/">here</a>), and this article will be focusing on the 3 major components in WMI that we&rsquo;d be majorly dealing with. Throughout the article, we&rsquo;ll be using both WMI and CIM cmdlets interchangeably so that we&rsquo;re well-versed with both cmdlet types.</p>
+<h2 id="namespaces">Namespaces</h2>
+<p>Let&rsquo;s recall what namespaces are in simple terms:</p>
+<blockquote>
+<p>A <strong>namespace</strong> organizes information similar to folders in a filesystem. However, instead of physical locations (like on a disk), they are more logical in nature.</p></blockquote>
+<p>All namespaces in WMI are instances of the <code>__Namespace</code> system class. To get a list of all namespaces under the <code>root</code> namespace, we can query the same class using:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> __Namespace
+</span></span></code></pre></div>
+    <img src="namespace_long.png"  alt="namespace"  class="center"  />
+
+
+<p>The output contains a lot of info, so to filter out the noise, we can use Powershell&rsquo;s <code>select</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> __Namespace <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> name
+</span></span></code></pre></div>
+    <img src="namespace_short.png"  alt="namespace"  class="center"  />
+
+
+<p>Now we have a list of namespaces on our system. All these namespaces will be referred to as <code>root\&lt;namespace&gt;</code>, e.g. <code>root\DEFAULT</code>, <code>root\CIMV2</code>, etc, since they are namespaces under the root namespace.</p>
+<blockquote>
+<p><strong>NOTE:</strong> One weirdly intriguing fact is that the default namespace in WMI is not <code>root\DEFAULT</code> but rather <code>root\CIMV2</code> (it has been like this since Windows 2000).</p></blockquote>
+<p>The same can be achieved using the CIM cmdlet <code>Get-CimInstance</code>, where there is no need of :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimInstance <span style="color:#f92672">-</span>Namespace root <span style="color:#f92672">-</span>ClassName __Namespace
+</span></span></code></pre></div>
+    <img src="namecim.png"  alt="namespace"  class="center"  />
+
+
+<p>Okay, now that&rsquo;s sorted, what about nested namespaces? We already saw that there are several namespaces under the <code>root</code> namespace. We can simply write up a script that recursively gets us the namespaces (from <a href="https://powershellmagazine.com/2013/10/18/pstip-list-all-wmi-namespaces-on-a-system/">PSMag</a>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Function Get-WmiNamespace <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    Param <span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>        $Namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;root&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Get-WmiObject -Namespace $Namespace -Class __NAMESPACE | ForEach-Object <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">(</span>$ns <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{0}\{1}&#39;</span> -f $_.__NAMESPACE,$_.Name<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            Get-WmiNamespace $ns
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div>
+    <img src="nestedname.png"  alt="namespace"  class="center"  />
+
+
+<blockquote>
+<p><strong>NOTE:</strong> The classes and namespaces may vary from machine to machine depending upon the hardware available, applications installed, and many other factors.</p></blockquote>
+<h2 id="classes">Classes</h2>
+<p>Now that we have a list of namespaces available to make use of, let&rsquo;s take a look at classes. So what are classes?</p>
+<blockquote>
+<p>A <strong>WMI class</strong> represents a specific item in your system. It could be anything ranging from system processes to hardware (e.g. a network card), services, etc.</p></blockquote>
+<p>Now, classes are divided into 3 major categories (this is a requirement of the CIM standard):</p>
+<ul>
+<li><strong>Core classes</strong>: They apply to all areas of management and provide few basic functionalities. You&rsquo;ll usually see them starting with double underscores (e.g. <code>__SystemSecurity</code>).</li>
+<li><strong>Common classes</strong>: These are extensions of core classes, and apply to specific management areas. You&rsquo;ll identify one when you see a class prefixed with <code>CIM_</code> (e.g. <code>CIM_TemperatureSensor</code>).</li>
+<li><strong>Extended classes</strong>: These are extra additions to common classes based on tech stacks. (e.g. <code>Win32_Process</code>).</li>
+</ul>
+<p>Classes are further divided into these types:</p>
+<ul>
+<li><strong>Abstract classes</strong>: These are templates to define new classes.</li>
+<li><strong>Static classes</strong>: Mostly used to store data.</li>
+<li><strong>Dynamic classes</strong>: These are retrieved from a provider and represents a WMI managed resource. We&rsquo;re mostly interested in classes of this type.</li>
+<li><strong>Association classes</strong>: Describes relationships between classes and managed resources.</li>
+</ul>
+<h3 id="listing-classes">Listing Classes</h3>
+<p>Enough theory. Let&rsquo;s try to find some classes. Once again, we can use the <code>Get-WmiObject</code> cmdlet to list the available classes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> <span style="color:#f92672">*</span> <span style="color:#f92672">-</span>List
+</span></span></code></pre></div><p>This will list all the classes above, but for the sake of an example, let&rsquo;s say we are interested in the users on the system. We can narrow down to our specific use case using the following command, which lists all available classes for fetching/manipulating user information:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">user</span><span style="color:#f92672">*</span> <span style="color:#f92672">-</span>List
+</span></span></code></pre></div>
+    <img src="userclasseswmi.png"  alt="wmiclasses"  class="center"  />
+
+
+<p>The same can be achieved with the <code>Get-CimClass</code> cmdlet also:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimClass <span style="color:#f92672">-</span>ClassName <span style="color:#f92672">*</span><span style="color:#66d9ef">user</span><span style="color:#f92672">*</span>
+</span></span></code></pre></div>
+    <img src="userclassescim.png"  alt="cimclasses"  class="center"  />
+
+
+<blockquote>
+<p><strong>NOTE:</strong> For a list of all Win32 classes, you can refer to <a href="https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-provider">Microsoft&rsquo;s documentation on classes</a>. The Win32 provider provides classes for 4 different categories: Computer System Hardware Classes, Operating System Classes, Performance Counter Classes and WMI Service Management Classes.</p></blockquote>
+<p>Remember that we talked about <em>dynamic</em> classes being the ones that provide us instances? To get only the dynamic classes, we can make use of the <code>-QualifierName</code> switch of <code>Get-CimClass</code> cmdlet:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimClass <span style="color:#f92672">-</span>ClassName <span style="color:#f92672">*</span><span style="color:#66d9ef">user</span><span style="color:#f92672">*</span> <span style="color:#f92672">-</span>QualifierName <span style="color:#66d9ef">dynamic</span>
+</span></span></code></pre></div>
+    <img src="dynamicclass.png"  alt="dynamicclasses"  class="center"  />
+
+
+<p>So far so good. What&rsquo;s next? Querying the classes to get the juicy stuff out of them.</p>
+<h3 id="fetching-classes">Fetching Classes</h3>
+<p>We&rsquo;re interested in the <code>Win32_UserAccount</code> class this time. Fetching data is simple, we can simply:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_UserAccount
+</span></span></code></pre></div>
+    <img src="users.png"  alt="users"  class="center"  />
+
+
+<blockquote>
+<p><strong>TIP</strong>: To get a more verbose output, you can pipe the above command into Powershell&rsquo;s <code>Format-List</code> or <code>fl</code>, something like: <code>Get-WmiObject -Class Win32_UserAccount | fl *</code> which will get you everything the class has to offer.</p></blockquote>
+<p>The CIM cmdlet <code>Get-CimInstance</code> can also be used to fetch the same info:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimInstance <span style="color:#f92672">-</span>ClassName Win32_UserAccount
+</span></span></code></pre></div>
+    <img src="users2.png"  alt="users"  class="center"  />
+
+
+<p>Now we have a list of all user accounts on the system!</p>
+<p>Let&rsquo;s turn our attention to the processes running on the system. The class <code>Win32_Process</code> gives us a list of processes running on the system:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_Process
+</span></span></code></pre></div><p>It is not uncommon for a lot of processes to be running on a system that might make your terminal keep scrolling endlessly! To avoid that we can use the <code>-Filter</code> switch to get a specific process we are looking for (here we&rsquo;ve picked <code>lsass.exe</code>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_Process <span style="color:#f92672">-</span>Filter <span style="color:#e6db74">&#39;name=&#34;lsass.exe&#34;&#39;</span>
+</span></span></code></pre></div>
+    <img src="lsass.png"  alt="processes"  class="center"  />
+
+
+<p>The CIM cmdlet alternative <code>Get-CimInstance</code> gives a shorter, more comprehensive output in this case (and it also supports the <code>-Filter</code> switch):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimInstance <span style="color:#f92672">-</span>ClassName Win32_Process
+</span></span></code></pre></div>
+    <img src="processes.png"  alt="processes"  class="center"  />
+
+
+<p>An idiomatic expression doing the same with WQL is as below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Query <span style="color:#e6db74">&#39;select * from win32_process where name=&#34;lsass.exe&#34;&#39;</span>
+</span></span></code></pre></div><p>Okay, now we know about listing, fetching and filtering instances of classes in WMI. Let&rsquo;s look at how removing instances works in WMI.</p>
+<h3 id="removing-class-instances">Removing Class Instances</h3>
+<p>The <code>Remove-WmiObject</code> (for WMI cmdlets) and <code>Remove-CimInstance</code> (for CIM cmdlets) are two cmdlets that have the capabilities of removing instances. You can pipe the output of a relevant command to the cmdlets. For a quick demo, let&rsquo;s run our favourite calculator app and list the process.</p>
+
+    <img src="calc.png"  alt="calc"  class="center"  />
+
+
+<p>What happens if we pipe the command to <code>Remove-CimInstance</code>? The process gets killed!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimInstance <span style="color:#f92672">-</span>ClassName Win32_Process <span style="color:#f92672">-</span>Filter <span style="color:#e6db74">&#39;name=&#34;calculator.exe&#34;&#39;</span> <span style="color:#f92672">|</span> Remove<span style="color:#f92672">-</span>CimInstance
+</span></span></code></pre></div>
+    <img src="killed.png"  alt="calc"  class="center"  />
+
+
+<p>This is extremely useful when messing around with Registry, or better, in a situation where we&rsquo;ve created our own classes for storing our payloads and stuff &ndash; we can simply use the cmdlet to list all items under the class and thereby cleaning them up all in one go.</p>
+<h2 id="methods">Methods</h2>
+<p>Methods are ways provided to manipulate WMI objects. If you scroll up to the place where we listed all the classes available, you&rsquo;ll notice a column called <code>Methods</code> which lists available methods.</p>
+<h3 id="listing-methods">Listing Methods</h3>
+<p>To repeat our chore and list all available methods, we can do something like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimClass <span style="color:#f92672">-</span>MethodName <span style="color:#f92672">*</span>
+</span></span></code></pre></div><p>To filter out instances that allow us to perform a specific method, we can pass a method name, for example, <code>Create</code> (which is always interesting because it might allow us to create something):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimClass <span style="color:#f92672">-</span>MethodName <span style="color:#66d9ef">Create</span>
+</span></span></code></pre></div>
+    <img src="create.png"  alt="create"  class="center"  />
+
+
+<p>Further narrowing things down, to list available methods for a specific class, we need to use Powershell&rsquo;s <code>select</code> with the <code>-ExpandProperty</code> switch:</p>
+<p>With <code>Get-WmiObject</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_Process <span style="color:#f92672">-</span>List <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">-</span>ExpandProperty Methods
+</span></span></code></pre></div><p>With <code>Get-CimClass</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimClass <span style="color:#f92672">-</span>ClassName Win32_Process <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">-</span>ExpandProperty CimClassMethods
+</span></span></code></pre></div>
+    <img src="classmethods.png"  alt="classmethods"  class="center"  />
+
+
+<blockquote>
+<p><strong>NOTE</strong>: Please note that the value passed to <code>select</code> statement is the name of the column which we got when listing the classes. If you&rsquo;re confused, scroll up to the paragraph where we listed a class and observe the output difference between WMI and CIM cmdlet output.</p></blockquote>
+<p>So, we have methods like <code>Create</code>, <code>Terminate</code>, <code>GetOwner</code>, <code>GetOwnerSid</code>, etc for the Win32_Process class. Great. Now let us see how we can use methods.</p>
+<blockquote>
+<p><strong>TIP</strong>: To use a method, we need to know what parameters do we need to supply when calling the method. To list all available parameters, we can use a combination of Powershell or better just read the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/invoke-wmimethod?view=powershell-5.1#parameters">documentation</a>.</p></blockquote>
+<h3 id="using-methods">Using Methods</h3>
+<p>The <code>Invoke-WmiMethod</code> (for WMI) and <code>Invoke-CimMethod</code> (for CIM cmdlets) allows us to use the methods for a specific class. Let&rsquo;s try to spawn a calculator:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_Process <span style="color:#f92672">-</span>Name <span style="color:#66d9ef">Create</span> <span style="color:#f92672">-</span>ArgumentList calc.exe
+</span></span></code></pre></div>
+    <img src="createcalc.png"  alt="calcspawn"  class="center"  />
+
+
+<p>To use the CIM cmdlet, the syntax varies slightly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>CimMethod <span style="color:#f92672">-</span>ClassName Win32_Process <span style="color:#f92672">-</span>MethodName <span style="color:#66d9ef">create</span> <span style="color:#f92672">-</span>Arguments <span style="color:#f92672">@</span><span style="color:#960050;background-color:#1e0010">{</span>commandline<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;calc.exe&#34;</span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span></code></pre></div>
+    <img src="calccim.png"  alt="calcspwn"  class="center"  />
+
+
+<p>Well, now we know about spawning new processes!</p>
+<h2 id="setting-properties-of-objects">Setting Properties of Objects</h2>
+<p>Last but not the least, we should take a look at updating instances of a class. However, it is important to keep in mind that the instance should be writable. With a bit of scripting, we can cook up a recipe for getting all writable properties of an class. Here&rsquo;s the script (sourced from <a href="https://powershellmagazine.com/2012/09/06/pstip-get-all-writeable-properties-of-a-wmi-class/">PSMag</a>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$class <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>wmiclass<span style="color:#f92672">]</span><span style="color:#e6db74">&#39;&lt;class_name&gt;&#39;</span>
+</span></span><span style="display:flex;"><span>$class.Properties | ForEach-Object <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      foreach <span style="color:#f92672">(</span>$qualifier in $_.Qualifiers<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>$qualifier.Name -eq <span style="color:#e6db74">&#34;Write&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                $_.Name
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>For our example, we&rsquo;ll use the class <code>Win32_OperatingSystem</code>, which has a writable property called <code>Description</code> (essentially the description of the OS).</p>
+
+    <img src="osdesc.png"  alt="osdesc"  class="center"  />
+
+
+<p>Let us update the property name to <code>PewOS</code> using `Set-WmiInstance:</p>
+
+    <img src="updatedname.png"  alt="osdesc"  class="center"  />
+
+
+<p>The same could be achieved with <code>Set-CimInstance</code>, but that is left up to the reader to explore. :)</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Whew, that was a long read! By now, we have a solid foundation of both the WMI and CIM cmdlets and how they can be used to achieve significant control over a system. So far thanks for being here, and I&rsquo;ll see you in the blog. Cheers! 🥂</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1498 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2021-09-05 00:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="https://0xinfection.xyz/posts/offensive-wmi-interacting-with-windows-registry-part-3/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">Offensive WMI - Interacting with Windows Registry (Part 3)</span>
+                </a>
+            </span>
+            
+
+            
+            <span class="button next">
+                <a href="https://0xinfection.xyz/posts/offensive-wmi-the-basics-part-1/">
+                    <span class="button__text">Offensive WMI - The Basics (Part 1)</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2025</span>
+            
+            <span>0xInfection</span>
+            
+            
+        </div>
+    </div>
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://0xinfection.xyz/bundle.min.ad54ad97364f77ede35def9096b162bb1f0b3973aa50b080f5e82fa147f6882e2a7200d7535adbf9b51bebf939f1c1ca9bbe6be87530092aca720eac4a226fda.js" integrity="sha512-rVStlzZPd&#43;3jXe&#43;QlrFiux8LOXOqULCA9egvoUf2iC4qcgDXU1rb&#43;bUb6/k58cHKm75r6HUwCSrKcg6sSiJv2g=="></script>
+
+
+
+
+    </body>
+</html>

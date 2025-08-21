@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under T1012 and its modification under T1112.
+Let&rsquo;s dive in.
+What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry. This makes the registry a very attractive resource for attackers.
+" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://0xinfection.xyz/posts/offensive-wmi-interacting-with-windows-registry-part-3/" />
+
+
+    <title>
+        
+            Offensive WMI - Interacting with Windows Registry (Part 3) :: 0xInfection&#39;s Blog — Ramblings of an Infected Geek 
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://0xinfection.xyz/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://0xinfection.xyz/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://0xinfection.xyz/favicon-16x16.png">
+    <link rel="manifest" href="https://0xinfection.xyz/site.webmanifest">
+    <link rel="mask-icon" href="https://0xinfection.xyz/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://0xinfection.xyz/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="Offensive WMI - Interacting with Windows Registry (Part 3)">
+  <meta itemprop="description" content="This is the third instalment of the “Offensive WMI” series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under T1012 and its modification under T1112.
+Let’s dive in.
+What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry. This makes the registry a very attractive resource for attackers.">
+  <meta itemprop="datePublished" content="2021-09-12T00:00:00+05:30">
+  <meta itemprop="dateModified" content="2021-09-12T00:00:00+05:30">
+  <meta itemprop="wordCount" content="1358">
+  <meta itemprop="image" content="https://0xinfection.xyz/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://0xinfection.xyz/">
+  <meta name="twitter:title" content="Offensive WMI - Interacting with Windows Registry (Part 3)">
+  <meta name="twitter:description" content="This is the third instalment of the “Offensive WMI” series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under T1012 and its modification under T1112.
+Let’s dive in.
+What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry. This makes the registry a very attractive resource for attackers.">
+
+
+
+    <meta property="og:url" content="https://0xinfection.xyz/posts/offensive-wmi-interacting-with-windows-registry-part-3/">
+  <meta property="og:site_name" content="0xInfection&#39;s Blog — Ramblings of an Infected Geek">
+  <meta property="og:title" content="Offensive WMI - Interacting with Windows Registry (Part 3)">
+  <meta property="og:description" content="This is the third instalment of the “Offensive WMI” series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under T1012 and its modification under T1112.
+Let’s dive in.
+What is Windows Registry? In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry. This makes the registry a very attractive resource for attackers.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-09-12T00:00:00+05:30">
+    <meta property="article:modified_time" content="2021-09-12T00:00:00+05:30">
+    <meta property="og:image" content="https://0xinfection.xyz/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-09-12 00:00:00 &#43;0530 IST" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://0xinfection.xyz/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text logo__pathname">
+                $ ls /home/0xinfection/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#02d6f2;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://0xinfection.xyz/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        7 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://0xinfection.xyz/posts/offensive-wmi-interacting-with-windows-registry-part-3/">Offensive WMI - Interacting with Windows Registry (Part 3)</a>
+      </h1>
+
+      
+
+      
+        <figure class="post-cover">
+          <img src="https://0xinfection.xyz/images/covers/wmi-3-cover.png" alt="Offensive WMI - Interacting with Windows Registry (Part 3)" />
+          
+          
+        </figure>
+      
+
+      
+
+      <div class="post-content">
+        <p>This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is <a href="https://0xinfection.github.io/posts/wmi-classes-methods-part-2/">here</a>), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under <a href="https://attack.mitre.org/techniques/T1012/">T1012</a> and its modification under <a href="https://attack.mitre.org/techniques/T1112/">T1112</a>.</p>
+<p>Let&rsquo;s dive in.</p>
+<h2 id="what-is-windows-registry">What is Windows Registry?</h2>
+<p>In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry. This makes the registry a very attractive resource for attackers.</p>
+<p>The registry consists of sections known as <em>hives</em>, e.g. <code>HKEY_LOCAL_MACHINE</code>, <code>HKEY_CURRENT_USER</code>, etc. Upon inspection of the registry in <code>regedit.exe</code>, they appear to be arranged in a similar fashion to a filesystem. Each hive has a number of keys. The keys can have multiple subkeys. A key or subkey acts as a store for values. A registry item consists of a name and value pair.</p>
+<h2 id="registry--wmi">Registry &amp; WMI</h2>
+<p>WMI provides a class called <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/regprov/stdregprov"><code>StdRegProv</code></a> for interacting with the Windows Registry. With this in hand, we can do a variety of things &ndash; including retrieval, creation, deletion and modification of keys and values. An important point to note here is that we need to use the <code>root\DEFAULT</code> namespace for working with the registry.</p>
+<p>Let&rsquo;s start by exploring what methods are available to us:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> StdRegProv <span style="color:#f92672">-</span>List <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">-</span>ExpandProperty methods
+</span></span></code></pre></div>
+    <img src="methods.png"  alt="namespace"  class="center"  />
+
+
+<p>From the output above, we can see methods like <code>CreateKey</code>, <code>DeleteKey</code>, <code>EnumKey</code>, <code>EnumValues</code>, <code>DeleteValues</code>, etc, for interacting with the Registry. Interesting.</p>
+<p>Two important things to know before jumping in:</p>
+<ol>
+<li>
+<p>First, WMI uses constant numeric values to identify different hives in the registry. The table below lists the constants for accessing registry hives:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Variable</th>
+          <th>Value</th>
+          <th>Hive</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>$HKCR</td>
+          <td>2147483648</td>
+          <td>HKEY_CLASSES_ROOT</td>
+      </tr>
+      <tr>
+          <td>$HKCU</td>
+          <td>2147483649</td>
+          <td>HKEY_CURRENT_USER</td>
+      </tr>
+      <tr>
+          <td>$HKLM</td>
+          <td>2147483650</td>
+          <td>HKEY_LOCAL_MACHINE</td>
+      </tr>
+      <tr>
+          <td>$HKUS</td>
+          <td>2147483651</td>
+          <td>HKEY_USERS</td>
+      </tr>
+      <tr>
+          <td>$HKCC</td>
+          <td>2147483653</td>
+          <td>HKEY_CURRENT_CONFIG</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>And secondly, the registry has different data types, and each data type can be accessed using a particular method in WMI. The table below maps common data types to their methods:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Method</th>
+          <th>Data Type</th>
+          <th>Type Value</th>
+          <th>Function</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>GetStringValue</code></td>
+          <td>REG_SZ</td>
+          <td>1</td>
+          <td>Returns a string.</td>
+      </tr>
+      <tr>
+          <td><code>GetExpandedStringValue</code></td>
+          <td>REG_EXPAND_SZ</td>
+          <td>2</td>
+          <td>Returns expanded references to env variables.</td>
+      </tr>
+      <tr>
+          <td><code>GetBinaryValue</code></td>
+          <td>REG_BINARY</td>
+          <td>3</td>
+          <td>Returns array of bytes.</td>
+      </tr>
+      <tr>
+          <td><code>GetDWORDValue</code></td>
+          <td>REG_DWORD</td>
+          <td>4</td>
+          <td>Returns a 32-bit number.</td>
+      </tr>
+      <tr>
+          <td><code>GetMultiStringValue</code></td>
+          <td>REG_MULTI_SZ</td>
+          <td>7</td>
+          <td>Returns multiple string values.</td>
+      </tr>
+      <tr>
+          <td><code>GetQWORDValue</code></td>
+          <td>REG_QWORD</td>
+          <td>11</td>
+          <td>Returns a 64-bit number.</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ol>
+<h3 id="querying-the-registry">Querying the registry</h3>
+<h4 id="enumerating-keys">Enumerating keys</h4>
+<p>Now that we know the constants, let&rsquo;s try to enumerate the available subkeys under a well-known registry path <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion</code>. Putting together what we know so far, we can use this command to get all keys under the registry item:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name EnumKey <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows nt\currentversion&#34;</span>) <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">-</span>ExpandProperty snames
+</span></span></code></pre></div>
+    <img src="scheduled.png"  alt="schedule"  class="center"  />
+
+
+<blockquote>
+<p><strong>NOTE</strong>: The same can be done with upper hierarchical registry paths as well. If you don&rsquo;t know the absolute path, you can explore the registry by simply replacing the path in the command above.</p>
+<p>e.g. &ndash; If you replace the path <code>software\microsoft\windows nt\currentversion\schedule</code> in the above command with just <code>software</code>, then the output will list all subkeys under the <code>HKEY_LOCAL_MACHINE\Software</code>. This is helpful when exploring unknown nested items in a registry.</p></blockquote>
+<h4 id="enumerating-values">Enumerating values</h4>
+<p>Now that we know how to list the keys available under the registry item, lets enumerate the values under the <code>Drivers32</code> key:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name enumvalues <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows nt\currentversion\drivers32&#34;</span>)
+</span></span></code></pre></div>
+    <img src="values.png"  alt="schedule"  class="center"  />
+
+
+<p>As we can see, the output contains the subkey names under <code>sNames</code> and the associated data type under <code>Types</code> property. Of course, we can use Powershell&rsquo;s <code>select -ExpandProperty</code> switch to have an extended view of the values of the properties returned in the output.</p>
+<h4 id="reading-values">Reading values</h4>
+<p>Now let us try to read the values of the subkeys. For our example, we&rsquo;ll be reading the values of the <code>Drivers32</code> subkey (which defines the Windows NT DLLs for applications). Several malware variants have been observed making use of this key (see <a href="https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/troj_riern.sma">Riern Trojan Family</a>) in the past.</p>
+<p>The following command reads the value of the subkeys <code>aux</code> and <code>midi</code> under the <code>Drivers32</code> key. Please note that the method name passed to the cmdlet (via the <code>-Name</code> switch) will vary depending upon the registry data type (see the datatype table above).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name GetStringValue <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows nt\currentversion\drivers32&#34;</span>, <span style="color:#e6db74">&#34;aux&#34;</span>)
+</span></span><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name GetStringValue <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows nt\currentversion\drivers32&#34;</span>, <span style="color:#e6db74">&#34;midi&#34;</span>) <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> svalue
+</span></span></code></pre></div>
+    <img src="readstring.png"  alt="schedule"  class="center"  />
+
+
+<blockquote>
+<p><strong>TIP</strong>: <a href="https://www.dfir.training/ultimate-registry-forensics-cheat-sheet">Here is a good cheatsheet</a> of juicy locations in registry that can be useful for an attacker. You might want to try exploring them. :)</p></blockquote>
+<h3 id="modifying-the-registry">Modifying the registry</h3>
+<p>We now know about reading key and value pairs from the registry using WMI. These didn&rsquo;t require administrative privileges so far, however &ndash; creation, deletion and updating the keys and values <em>may</em> require elevated privileges.</p>
+<p>Let&rsquo;s try to create new keys and subkeys. But before that, we need to check whether we have access to a specific registry item. Once again there are constants defining the access levels to the keys. The following table summarizes the permissions with associated constants:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Method</th>
+          <th>Value</th>
+          <th>Function</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>KEY_QUERY_VALUE</code></td>
+          <td>1</td>
+          <td>Query the values of a registry key</td>
+      </tr>
+      <tr>
+          <td><code>KEY_SET_VALUE</code></td>
+          <td>2</td>
+          <td>Create, delete, or set a registry value</td>
+      </tr>
+      <tr>
+          <td><code>KEY_CREATE_SUB_KEY</code></td>
+          <td>4</td>
+          <td>Create a subkey of a registry key</td>
+      </tr>
+      <tr>
+          <td><code>KEY_ENUMERATE_SUB_KEYS</code></td>
+          <td>8</td>
+          <td>Enumerate the subkeys of a registry key</td>
+      </tr>
+      <tr>
+          <td><code>KEY_NOTIFY</code></td>
+          <td>16</td>
+          <td>Change notifications for a registry key or for subkeys of a registry key</td>
+      </tr>
+      <tr>
+          <td><code>KEY_CREATE</code></td>
+          <td>32</td>
+          <td>Create a registry key</td>
+      </tr>
+      <tr>
+          <td><code>DELETE</code></td>
+          <td>65536</td>
+          <td>Delete a registry key</td>
+      </tr>
+      <tr>
+          <td><code>READ_CONTROL</code></td>
+          <td>131072</td>
+          <td>Combines the STANDARD_RIGHTS_READ, KEY_QUERY_VALUE, KEY_ENUMERATE_SUB_KEYS and KEY_NOTIFY values</td>
+      </tr>
+      <tr>
+          <td><code>WRITE_DAC</code></td>
+          <td>262144</td>
+          <td>Modify the DACL in the object&rsquo;s security descriptor</td>
+      </tr>
+      <tr>
+          <td><code>WRITE_OWNER</code></td>
+          <td>524288</td>
+          <td>Change the owner in the object&rsquo;s security descriptor</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="checking-permissions-of-a-key">Checking permissions of a key</h4>
+<p>For our example, we&rsquo;ll pick the <code>Run</code> key under the hive <code>HKEY_CURRENT_USER</code> first, then the <code>HKEY_LOCAL_MACHINE</code>. Here&rsquo;s  how to do it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name CheckAccess <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483649</span>, <span style="color:#e6db74">&#34;software\microsoft\windows\currentversion\run&#34;</span>, <span style="color:#ae81ff">32</span>)
+</span></span><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name CheckAccess <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows\currentversion\run&#34;</span>, <span style="color:#ae81ff">32</span>)
+</span></span></code></pre></div>
+    <img src="permissions.png"  alt="permissions"  class="center"  />
+
+
+<p>The <code>bGranted</code> property in the output tells us whether we have access to the specific item in the registry. From the above example, we can clearly see that our user currently has access to the <code>Run</code> key under <code>HKEY_CURRENT_USER</code> but not <code>HKEY_LOCAL_MACHINE</code>.</p>
+<h4 id="creating-registry-entries">Creating registry entries</h4>
+<p>Now that we know that we have write access to the registry key <code>Run</code> under <code>HKEY_CURRENT_USER</code>, we&rsquo;ll add our favourite calculator app to the registry item. This will cause a calculator to pop up every time the system boots up, a very common technique seen in malwares to gain persistence.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name SetStringValue <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483649</span>, <span style="color:#e6db74">&#34;software\microsoft\windows\currentversion\run&#34;</span>, <span style="color:#e6db74">&#34;C:\Windows\System32\calc.exe&#34;</span>, <span style="color:#e6db74">&#34;Calculator&#34;</span>)
+</span></span></code></pre></div>
+    <img src="newsubkey.png"  alt="subkey"  class="center"  />
+
+
+<p>Boom, our calculator app has achieved persistence. :D</p>
+<blockquote>
+<p><strong>NOTE</strong>: An existing subkey under a registry key can also be updated using the same above.</p></blockquote>
+<h4 id="deleting-registry-entries">Deleting registry entries</h4>
+<p>To delete a registry subkey we don&rsquo;t need the value:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name DeleteValue <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483649</span>, <span style="color:#e6db74">&#34;software\microsoft\windows\currentversion\run&#34;</span>, <span style="color:#e6db74">&#34;Calculator&#34;</span>)
+</span></span></code></pre></div>
+    <img src="deletesubkey.png"  alt="subkey"  class="center"  />
+
+
+<h4 id="creating-new-keys">Creating new keys</h4>
+<p>In few cases, we <em>might</em> need to create keys under the main tree hierarchy. Let&rsquo;s say we want to create a new key called <code>CustomAgent</code> under the <code>HKEY_LOCAL_MACHINE\Software\OpenSSH</code> registry item. The process looks extremely simple:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name CreateKey <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\openssh\CustomAgent&#34;</span>)
+</span></span></code></pre></div>
+    <img src="newkey.png"  alt="newkey"  class="center"  />
+
+
+<h4 id="deleting-keys">Deleting keys</h4>
+<p>Deleting the key is equally simple:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name DeleteKey <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\openssh\CustomAgent&#34;</span>)
+</span></span></code></pre></div>
+    <img src="deletekey.png"  alt="newkey"  class="center"  />
+
+
+<h3 id="tools-of-the-trade">Tools of the Trade</h3>
+<ul>
+<li><a href="https://github.com/darkoperator/Posh-SecMod/blob/master/Registry/Registry.ps1"><code>Registry.ps1</code></a> &ndash; has easy to use Powershell functions for enumerating, creating, deleting, updating keys, etc. Super useful when dealing with things manually.</li>
+<li><a href="https://github.com/samratashok/nishang/blob/master/Gather/Get-Information.ps1"><code>Get-Information.ps1</code></a> &ndash; from Nishang gathers interesting information of a system via the registry.</li>
+<li><a href="https://github.com/PowerShellMafia/PowerSploit/blob/master/CodeExecution/Invoke-WmiCommand.ps1"><code>Invoke-WmiCommand.ps1</code></a> &ndash; from Powersploit is a very useful script that helps in code execution via storing payloads in the registry using WMI as a pure C2 channel.</li>
+<li><a href="https://github.com/EmpireProject/Empire/blob/master/data/module_source/credentials/Invoke-SessionGopher.ps1"><code>Invoke-SessionGopher.ps1</code></a> &ndash; from Powershell Empire hunts and decrypts RDP, WinSCP, FileZilla, PuTTY, etc, session informations from a system.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>The registry is a treasure trove for attackers when it comes to gathering useful data. In addition, the registry can also be used to store payloads, serving as an ideal fileless attack vector and persistence mechanism. In a later part of the series, we&rsquo;ll take a look at how to create our entire C2 infra using just WMI and the registry. Now that we are done with the basics, in our next blog we&rsquo;ll start with basic reconnaissance with WMI.</p>
+<p>That&rsquo;s it for now friend. Cheerio! \o/</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1358 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2021-09-12 00:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="https://0xinfection.xyz/posts/offensive-wmi-reconnaissance-enumeration-part-4/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">Offensive WMI - Reconnaissance &amp; Enumeration (Part 4)</span>
+                </a>
+            </span>
+            
+
+            
+            <span class="button next">
+                <a href="https://0xinfection.xyz/posts/offensive-wmi-exploring-namespaces-classes-methods-part-2/">
+                    <span class="button__text">Offensive WMI - Exploring Namespaces, Classes &amp; Methods (Part 2)</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2025</span>
+            
+            <span>0xInfection</span>
+            
+            
+        </div>
+    </div>
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://0xinfection.xyz/bundle.min.ad54ad97364f77ede35def9096b162bb1f0b3973aa50b080f5e82fa147f6882e2a7200d7535adbf9b51bebf939f1c1ca9bbe6be87530092aca720eac4a226fda.js" integrity="sha512-rVStlzZPd&#43;3jXe&#43;QlrFiux8LOXOqULCA9egvoUf2iC4qcgDXU1rb&#43;bUb6/k58cHKm75r6HUwCSrKcg6sSiJv2g=="></script>
+
+
+
+
+    </body>
+</html>

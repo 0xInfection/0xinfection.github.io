@@ -2,43 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://0xinfection.github.io/</loc>
+    <loc>https://0xinfection.xyz/</loc>
+    <lastmod>2025-08-21T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://0xinfection.xyz/posts/bypassing-modsecurity-crs-for-rces/</loc>
+    <lastmod>2025-08-21T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://0xinfection.xyz/posts/</loc>
+    <lastmod>2025-08-21T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://0xinfection.xyz/posts/analyzing-two-freeswitch-vulnerabilities--cve-2021-41157-cve-2021-37624/</loc>
     <lastmod>2021-10-31T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/posts/analyzing-freeswitch-vulns/</loc>
-    <lastmod>2021-10-31T00:00:00+05:30</lastmod>
-  </url><url>
-    <loc>https://0xinfection.github.io/posts/</loc>
-    <lastmod>2021-10-31T00:00:00+05:30</lastmod>
-  </url><url>
-    <loc>https://0xinfection.github.io/posts/wmi-ad-enum/</loc>
+    <loc>https://0xinfection.xyz/posts/offensive-wmi-active-directory-enumeration-part-5/</loc>
     <lastmod>2021-10-17T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/posts/wmi-recon-enum/</loc>
+    <loc>https://0xinfection.xyz/posts/offensive-wmi-reconnaissance-enumeration-part-4/</loc>
     <lastmod>2021-10-02T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/posts/wmi-registry-part-3/</loc>
+    <loc>https://0xinfection.xyz/posts/offensive-wmi-interacting-with-windows-registry-part-3/</loc>
     <lastmod>2021-09-12T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/posts/wmi-classes-methods-part-2/</loc>
+    <loc>https://0xinfection.xyz/posts/offensive-wmi-exploring-namespaces-classes-methods-part-2/</loc>
     <lastmod>2021-09-05T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/posts/wmi-basics-part-1/</loc>
+    <loc>https://0xinfection.xyz/posts/offensive-wmi-the-basics-part-1/</loc>
     <lastmod>2021-08-29T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/posts/pwning-backend-backdoor/</loc>
+    <loc>https://0xinfection.xyz/posts/pwning-a-backend-with-a-backdoor/</loc>
     <lastmod>2021-05-31T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/posts/utilizing-ci-cds/</loc>
+    <loc>https://0xinfection.xyz/posts/utilizing-ci/cds-to-the-fullest-for-fun-and-profit/</loc>
     <lastmod>2021-01-24T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/</loc>
+    <loc>https://0xinfection.xyz/posts/fingerprinting-waf-rules-with-timing-based-side-channel-attacks/</loc>
     <lastmod>2019-08-18T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://0xinfection.github.io/about/</loc>
+    <loc>https://0xinfection.xyz/about/</loc>
   </url><url>
-    <loc>https://0xinfection.github.io/categories/</loc>
+    <loc>https://0xinfection.xyz/categories/</loc>
   </url><url>
-    <loc>https://0xinfection.github.io/tags/</loc>
+    <loc>https://0xinfection.xyz/series/</loc>
+  </url><url>
+    <loc>https://0xinfection.xyz/tags/</loc>
   </url>
 </urlset>

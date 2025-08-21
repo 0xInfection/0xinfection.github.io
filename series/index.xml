@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Series on 0xInfection&#39;s Blog — Ramblings of an Infected Geek</title>
+    <link>https://0xinfection.xyz/series/</link>
+    <description>Recent content in Series on 0xInfection&#39;s Blog — Ramblings of an Infected Geek</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>0xInfection</copyright>
+    <atom:link href="https://0xinfection.xyz/series/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

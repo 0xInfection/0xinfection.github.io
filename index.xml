@@ -1,223 +1,90 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>0xInfection&#39;s Blog</title>
-    
-    
-    
-    <link>https://0xinfection.github.io/</link>
-    <description>Recent content on 0xInfection&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>0xInfection&#39;s Blog — Ramblings of an Infected Geek</title>
+    <link>https://0xinfection.xyz/</link>
+    <description>Recent content on 0xInfection&#39;s Blog — Ramblings of an Infected Geek</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <copyright>© 0xInfection</copyright>
-    <lastBuildDate>Sun, 31 Oct 2021 00:00:00 +0530</lastBuildDate>
-    
-	<atom:link href="https://0xinfection.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <copyright>0xInfection</copyright>
+    <lastBuildDate>Thu, 21 Aug 2025 00:00:00 +0530</lastBuildDate>
+    <atom:link href="https://0xinfection.xyz/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bypassing ModSecurity CRS for RCE(s)</title>
+      <link>https://0xinfection.xyz/posts/bypassing-modsecurity-crs-for-rces/</link>
+      <pubDate>Thu, 21 Aug 2025 00:00:00 +0530</pubDate>
+      <guid>https://0xinfection.xyz/posts/bypassing-modsecurity-crs-for-rces/</guid>
+      <description>&lt;p&gt;Hola amigos! I&amp;rsquo;m excited to finally share this blog post that I started back in 2022. After some time away, I&amp;rsquo;ve finally gathered the energy to complete and publish this blog.&lt;/p&gt;&#xA;&lt;p&gt;Today&amp;rsquo;s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Analyzing two FreeSWITCH vulnerabilities -- CVE-2021-41157 &amp; CVE-2021-37624</title>
-      <link>https://0xinfection.github.io/posts/analyzing-freeswitch-vulns/</link>
+      <link>https://0xinfection.xyz/posts/analyzing-two-freeswitch-vulnerabilities--cve-2021-41157-cve-2021-37624/</link>
       <pubDate>Sun, 31 Oct 2021 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/analyzing-freeswitch-vulns/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/analyzing-freeswitch-vulns/cover.gif&#34;/&gt;
-          
-        
-        
-        
-          This post is about two vulnerabilities that I researched on a year back in the FreeSWITCH VoIP server that were fixed and disclosed publicly a few weeks ago. Both of the vulnerabilities were issues that affected the SIP functionality in all versions below v1.10.7 and were categorized under CWE-287.
-Background # The story dates to a year ago, back when I was still learning about RTC (real-time communications) security and working under Sandro &amp;ndash; where we used to do a lot of research on real-time communication infra.
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/analyzing-two-freeswitch-vulnerabilities--cve-2021-41157-cve-2021-37624/</guid>
+      <description>&lt;p&gt;This post is about two vulnerabilities that I researched on a year back in the FreeSWITCH VoIP server that were fixed and disclosed publicly a few weeks ago. Both of the vulnerabilities were issues that affected the SIP functionality in all versions below v1.10.7 and were categorized under &lt;a href=&#34;https://cwe.mitre.org/data/definitions/287.html&#34;&gt;CWE-287&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;&#xA;&lt;p&gt;The story dates to a year ago, back when I was still learning about RTC (real-time communications) security and working under &lt;a href=&#34;https://twitter.com/sandrogauci&#34;&gt;Sandro&lt;/a&gt; &amp;ndash; where we used to do a lot of research on real-time communication infra. One fine day, he asked me to get familiar with FreeSWITCH, since it was a good alternative to Asterisk. A few days into fiddling around, I figured out that there isn&amp;rsquo;t much security enabled for a some SIP components in a default installation.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Offensive WMI - Active Directory Enumeration (Part 5)</title>
-      <link>https://0xinfection.github.io/posts/wmi-ad-enum/</link>
+      <link>https://0xinfection.xyz/posts/offensive-wmi-active-directory-enumeration-part-5/</link>
       <pubDate>Sun, 17 Oct 2021 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/wmi-ad-enum/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-ad-enum/cover.png&#34;/&gt;
-          
-        
-        
-        
-          This blog is the fifth installation of the &amp;ldquo;Offensive WMI&amp;rdquo; series that I&amp;rsquo;ve been writing on, and this post will cover Active Directory enumeration.
-Active Directory (AD) is Microsoft&amp;rsquo;s implementation of a directory and IAM service for Windows domain networks &amp;ndash; which enables admins to manage permissions and access to resources. Anything used for managing multiple resources is handy for administrators, however, the same is also useful for evil-doers in gathering information and lateral movement.
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/offensive-wmi-active-directory-enumeration-part-5/</guid>
+      <description>&lt;p&gt;This blog is the fifth installation of the &amp;ldquo;Offensive WMI&amp;rdquo; series that I&amp;rsquo;ve been writing on, and this post will cover Active Directory enumeration.&lt;/p&gt;&#xA;&lt;p&gt;Active Directory (AD) is Microsoft&amp;rsquo;s implementation of a directory and IAM service for Windows domain networks &amp;ndash; which enables admins to manage permissions and access to resources. Anything used for managing multiple resources is handy for administrators, however, the same is also useful for evil-doers in gathering information and lateral movement.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Offensive WMI - Reconnaissance &amp; Enumeration (Part 4)</title>
-      <link>https://0xinfection.github.io/posts/wmi-recon-enum/</link>
+      <link>https://0xinfection.xyz/posts/offensive-wmi-reconnaissance-enumeration-part-4/</link>
       <pubDate>Sat, 02 Oct 2021 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/wmi-recon-enum/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-recon-enum/cover.png&#34;/&gt;
-          
-        
-        
-        
-          This is the fourth part of the &amp;ldquo;Offensive WMI&amp;rdquo; series which will focus a bit more on information gathering and enumeration. WMI provides a plethora of classes from which we can enumerate a lot of stuff. So let&amp;rsquo;s dive in without wasting any more time.
-Gathering basic information # In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/offensive-wmi-reconnaissance-enumeration-part-4/</guid>
+      <description>&lt;p&gt;This is the fourth part of the &amp;ldquo;Offensive WMI&amp;rdquo; series which will focus a bit more on information gathering and enumeration. WMI provides a plethora of classes from which we can enumerate a lot of stuff. So let&amp;rsquo;s dive in without wasting any more time.&lt;/p&gt;&#xA;&lt;h2 id=&#34;gathering-basic-information&#34;&gt;Gathering basic information&lt;/h2&gt;&#xA;&lt;p&gt;In our previous blogs, we have already seen a lot of classes that provide us with valuable information about a system, e.g. &lt;code&gt;StdRegProv&lt;/code&gt; for the registry, &lt;code&gt;Win32_Process&lt;/code&gt; for processes running on the system, &lt;code&gt;Win32_Bios&lt;/code&gt; for BIOS information etc. Let us try exploring a bit more.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Offensive WMI - Interacting with Windows Registry (Part 3)</title>
-      <link>https://0xinfection.github.io/posts/wmi-registry-part-3/</link>
+      <link>https://0xinfection.xyz/posts/offensive-wmi-interacting-with-windows-registry-part-3/</link>
       <pubDate>Sun, 12 Sep 2021 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/wmi-registry-part-3/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-registry-part-3/cover.png&#34;/&gt;
-          
-        
-        
-        
-          This is the third instalment of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the 2nd is here), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;amp;CK classifies querying of registry values under T1012 and its modification under T1112.
-Let&amp;rsquo;s dive in.
-What is Windows Registry? # In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry.
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/offensive-wmi-interacting-with-windows-registry-part-3/</guid>
+      <description>&lt;p&gt;This is the third instalment of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the 2nd is &lt;a href=&#34;https://0xinfection.github.io/posts/wmi-classes-methods-part-2/&#34;&gt;here&lt;/a&gt;), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;amp;CK classifies querying of registry values under &lt;a href=&#34;https://attack.mitre.org/techniques/T1012/&#34;&gt;T1012&lt;/a&gt; and its modification under &lt;a href=&#34;https://attack.mitre.org/techniques/T1112/&#34;&gt;T1112&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s dive in.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-is-windows-registry&#34;&gt;What is Windows Registry?&lt;/h2&gt;&#xA;&lt;p&gt;In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry. This makes the registry a very attractive resource for attackers.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Offensive WMI - Exploring Namespaces, Classes &amp; Methods (Part 2)</title>
-      <link>https://0xinfection.github.io/posts/wmi-classes-methods-part-2/</link>
+      <link>https://0xinfection.xyz/posts/offensive-wmi-exploring-namespaces-classes-methods-part-2/</link>
       <pubDate>Sun, 05 Sep 2021 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/wmi-classes-methods-part-2/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-classes-methods-part-2/cover.png&#34;/&gt;
-          
-        
-        
-        
-          This blog post is the second part of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the first is here), and this article will be focusing on the 3 major components in WMI that we&amp;rsquo;d be majorly dealing with. Throughout the article, we&amp;rsquo;ll be using both WMI and CIM cmdlets interchangeably so that we&amp;rsquo;re well-versed with both cmdlet types.
-Namespaces # Let&amp;rsquo;s recall what namespaces are in simple terms:
-A namespace organizes information similar to folders in a filesystem.
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/offensive-wmi-exploring-namespaces-classes-methods-part-2/</guid>
+      <description>&lt;p&gt;This blog post is the second part of the &amp;ldquo;Offensive WMI&amp;rdquo; series (the first is &lt;a href=&#34;https://0xinfection.github.io/posts/wmi-basics-part-1/&#34;&gt;here&lt;/a&gt;), and this article will be focusing on the 3 major components in WMI that we&amp;rsquo;d be majorly dealing with. Throughout the article, we&amp;rsquo;ll be using both WMI and CIM cmdlets interchangeably so that we&amp;rsquo;re well-versed with both cmdlet types.&lt;/p&gt;&#xA;&lt;h2 id=&#34;namespaces&#34;&gt;Namespaces&lt;/h2&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s recall what namespaces are in simple terms:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;A &lt;strong&gt;namespace&lt;/strong&gt; organizes information similar to folders in a filesystem. However, instead of physical locations (like on a disk), they are more logical in nature.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Offensive WMI - The Basics (Part 1)</title>
-      <link>https://0xinfection.github.io/posts/wmi-basics-part-1/</link>
+      <link>https://0xinfection.xyz/posts/offensive-wmi-the-basics-part-1/</link>
       <pubDate>Sun, 29 Aug 2021 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/wmi-basics-part-1/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/wmi-basics-part-1/cover.png&#34;/&gt;
-          
-        
-        
-        
-          This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&amp;rsquo;s it, let us jump into the real stuff.
-Introduction # Why WMI? # WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems.
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/offensive-wmi-the-basics-part-1/</guid>
+      <description>&lt;p&gt;This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&amp;rsquo;s it, let us jump into the real stuff.&lt;/p&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;h3 id=&#34;why-wmi&#34;&gt;Why WMI?&lt;/h3&gt;&#xA;&lt;p&gt;WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems. And as you might know, a rule of security says &amp;ldquo;that anything useful for administration is also great at being abused by evil-doers&amp;rdquo;. WMI can &lt;em&gt;really&lt;/em&gt; do a lot of things &amp;ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Pwning a Backend with a Backdoor</title>
-      <link>https://0xinfection.github.io/posts/pwning-backend-backdoor/</link>
+      <link>https://0xinfection.xyz/posts/pwning-a-backend-with-a-backdoor/</link>
       <pubDate>Mon, 31 May 2021 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/pwning-backend-backdoor/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/pwning-backend-backdoor/cover.png&#34;/&gt;
-          
-        
-        
-        
-          Development is a important task. But mindful secure development is much more important. In this quick blog post, I detail an unusual way in which I was able to escalate access to several production instances behind a properly secured network.
-How it started. # It all started with me casually checking some traffic data for a tool I authored on GitHub. GitHub allows you to view a few stats for the past 14 days, viz.
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/pwning-a-backend-with-a-backdoor/</guid>
+      <description>&lt;p&gt;Development is a important task. But mindful secure development is much more important. In this quick blog post, I detail an unusual way in which I was able to escalate access to several production instances behind a properly secured network.&lt;/p&gt;&#xA;&lt;h2 id=&#34;how-it-started&#34;&gt;How it started.&lt;/h2&gt;&#xA;&lt;p&gt;It all started with me casually checking some traffic data for a tool I authored on GitHub. GitHub allows you to view a few stats for the past 14 days, viz. visitors, clones, etc on a repository.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Utilizing CI/CDs to the Fullest for Fun and Profit</title>
-      <link>https://0xinfection.github.io/posts/utilizing-ci-cds/</link>
+      <link>https://0xinfection.xyz/posts/utilizing-ci/cds-to-the-fullest-for-fun-and-profit/</link>
       <pubDate>Sun, 24 Jan 2021 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/utilizing-ci-cds/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/utilizing-ci-cds/cover.png&#34;/&gt;
-          
-        
-        
-        
-          Hey folks,
-We all have heard of CI/CDs right? I was exploring GitHub Actions and what I found was the fact that it was an extremely underrated resource which is not quite widely used for general purposes by people. In this blog post, I aim to detail how people can really benefit from CI/CDs with GitHub Actions in focus, and how one can fully exploit the resource to get the most out of it.
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/utilizing-ci/cds-to-the-fullest-for-fun-and-profit/</guid>
+      <description>&lt;p&gt;Hey folks,&lt;/p&gt;&#xA;&lt;p&gt;We all have heard of CI/CDs right? I was exploring GitHub Actions and what I found was the fact that it was an extremely underrated resource which is not quite widely used for general purposes by people. In this blog post, I aim to detail how people can really benefit from CI/CDs with GitHub Actions in focus, and how one can fully exploit the resource to get the most out of it. This post is more inclined at security people, but literally anyone could use this guide to escalate up their productivity, plus a bonus at the end. 😉&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Fingerprinting WAF Rules with Timing Based Side Channel Attacks</title>
-      <link>https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/</link>
+      <link>https://0xinfection.xyz/posts/fingerprinting-waf-rules-with-timing-based-side-channel-attacks/</link>
       <pubDate>Sun, 18 Aug 2019 00:00:00 +0530</pubDate>
-      
-      <guid>https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/</guid>
-      <description>
-        
-          &lt;img src=&#34;https://0xinfection.github.io/posts/fingerprinting-wafs-side-channel/cover.png&#34;/&gt;
-          
-        
-        
-        
-          Hi folks,
-Today in this post I am going to be detailing about my recent experiments with web application firewalls (WAFs) focusing on a specific type of side channel attacks, namely, timing. In my opinion, this field hasn’t been studied actively and the results can be more lethal than you’re expecting. This post is already long, so lets get started rightaway. :)
-Side Channel Attacks? # Wikipedia defines side-channel attacks as:
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/posts/fingerprinting-waf-rules-with-timing-based-side-channel-attacks/</guid>
+      <description>&lt;p&gt;Hi folks,&lt;/p&gt;&#xA;&lt;p&gt;Today in this post I am going to be detailing about my recent experiments with web application firewalls (WAFs) focusing on a specific type of side channel attacks, namely, timing. In my opinion, this field hasn’t been studied actively and the results can be more lethal than you’re expecting. This post is already long, so lets get started rightaway. :)&lt;/p&gt;&#xA;&lt;h2 id=&#34;side-channel-attacks&#34;&gt;Side Channel Attacks?&lt;/h2&gt;&#xA;&lt;p&gt;Wikipedia defines side-channel attacks as:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>About Me</title>
-      <link>https://0xinfection.github.io/about/</link>
+      <link>https://0xinfection.xyz/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://0xinfection.github.io/about/</guid>
-      <description>
-        
-          
-          
-          
-        
-        
-        
-          Hi, I&amp;rsquo;m Pinaki a.k.a. 0xInfection! :)
-Twitter: twitter.com/0xinfection GitHub: github.com/0xinfection Keybase: keybase.io/0xinfection LinkedIn: linkedin.com/in/0xinfection/ Contact Email: 0xinfection [at] gmail.com PGP Key: Here 
-          
-        
-        </description>
+      <guid>https://0xinfection.xyz/about/</guid>
+      <description>&lt;p&gt;Hi, I&amp;rsquo;m Pinaki a.k.a. 0xInfection! :)&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Twitter&lt;/strong&gt;: &lt;a href=&#34;https://twitter.com/0xinfection&#34;&gt;twitter.com/0xinfection&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;GitHub&lt;/strong&gt;: &lt;a href=&#34;https://github.com/0xInfection&#34;&gt;github.com/0xinfection&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Keybase&lt;/strong&gt;: &lt;a href=&#34;https://keybase.io/0xinfection&#34;&gt;keybase.io/0xinfection&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;LinkedIn&lt;/strong&gt;: &lt;a href=&#34;https://www.linkedin.com/in/0xinfection&#34;&gt;linkedin.com/in/0xinfection/&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Contact Email&lt;/strong&gt;: 0xinfection [at] gmail.com&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;PGP Key&lt;/strong&gt;: &lt;a href=&#34;https://gist.githubusercontent.com/0xInfection/24c4ff1184cf653fa55c2c2eeb166c2d/raw/e684cb4158637943d8c99ec7760c4b7925c42f59/0xinfection-public-pgp-key.asc&#34;&gt;Here&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
-    
   </channel>
 </rss>

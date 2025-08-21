@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.
+Introduction Why WMI? WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems. And as you might know, a rule of security says &ldquo;that anything useful for administration is also great at being abused by evil-doers&rdquo;. WMI can really do a lot of things &ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.
+" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://0xinfection.xyz/posts/offensive-wmi-the-basics-part-1/" />
+
+
+    <title>
+        
+            Offensive WMI - The Basics (Part 1) :: 0xInfection&#39;s Blog — Ramblings of an Infected Geek 
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://0xinfection.xyz/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://0xinfection.xyz/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://0xinfection.xyz/favicon-16x16.png">
+    <link rel="manifest" href="https://0xinfection.xyz/site.webmanifest">
+    <link rel="mask-icon" href="https://0xinfection.xyz/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://0xinfection.xyz/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="Offensive WMI - The Basics (Part 1)">
+  <meta itemprop="description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That’s it, let us jump into the real stuff.
+Introduction Why WMI? WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems. And as you might know, a rule of security says “that anything useful for administration is also great at being abused by evil-doers”. WMI can really do a lot of things – from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.">
+  <meta itemprop="datePublished" content="2021-08-29T00:00:00+05:30">
+  <meta itemprop="dateModified" content="2021-08-29T00:00:00+05:30">
+  <meta itemprop="wordCount" content="1153">
+  <meta itemprop="image" content="https://0xinfection.xyz/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://0xinfection.xyz/">
+  <meta name="twitter:title" content="Offensive WMI - The Basics (Part 1)">
+  <meta name="twitter:description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That’s it, let us jump into the real stuff.
+Introduction Why WMI? WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems. And as you might know, a rule of security says “that anything useful for administration is also great at being abused by evil-doers”. WMI can really do a lot of things – from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.">
+
+
+
+    <meta property="og:url" content="https://0xinfection.xyz/posts/offensive-wmi-the-basics-part-1/">
+  <meta property="og:site_name" content="0xInfection&#39;s Blog — Ramblings of an Infected Geek">
+  <meta property="og:title" content="Offensive WMI - The Basics (Part 1)">
+  <meta property="og:description" content="This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That’s it, let us jump into the real stuff.
+Introduction Why WMI? WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems. And as you might know, a rule of security says “that anything useful for administration is also great at being abused by evil-doers”. WMI can really do a lot of things – from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-08-29T00:00:00+05:30">
+    <meta property="article:modified_time" content="2021-08-29T00:00:00+05:30">
+    <meta property="og:image" content="https://0xinfection.xyz/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-08-29 00:00:00 &#43;0530 IST" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://0xinfection.xyz/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text logo__pathname">
+                $ ls /home/0xinfection/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#02d6f2;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://0xinfection.xyz/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        6 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://0xinfection.xyz/posts/offensive-wmi-the-basics-part-1/">Offensive WMI - The Basics (Part 1)</a>
+      </h1>
+
+      
+
+      
+        <figure class="post-cover">
+          <img src="https://0xinfection.xyz/images/covers/wmi-1-cover.png" alt="Offensive WMI - The Basics (Part 1)" />
+          
+          
+        </figure>
+      
+
+      
+
+      <div class="post-content">
+        <p>This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.</p>
+<h2 id="introduction">Introduction</h2>
+<h3 id="why-wmi">Why WMI?</h3>
+<p>WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems. And as you might know, a rule of security says &ldquo;that anything useful for administration is also great at being abused by evil-doers&rdquo;. WMI can <em>really</em> do a lot of things &ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.</p>
+<h3 id="what-is-wmi">What is WMI?</h3>
+<p>Let&rsquo;s quickly go over a few important terms. WMI stands for <strong>Windows Management Instrumentation</strong>, which is Microsoft&rsquo;s implementation of the CIM (Common Information Model) &amp; WBEM (Web-Based Enterprise Management) &ndash; both of which are <em>DMTF (Distributed Management Task Force) standards</em> in general. WMI gives us a neat and uniform interface for applications/scripts to manage a computer (maybe remote and local) &ndash; incl. processes, services, etc.</p>
+<h3 id="the-wmi-architecture">The WMI Architecture</h3>
+<p>Understanding the architecture is very essential to understanding how the entire WMI ecosystem works. A broad overview of the architecture of WMI is depicted below (sourced from <a href="https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf">Graeber&rsquo;s talk from BHUSA 15</a>):</p>
+
+    <img src="arch.png"  alt="Architecture"  class="center"  />
+
+
+<p>Let&rsquo;s break down the major components one by one:</p>
+<ul>
+<li>
+<p><strong>Clients/Consumers</strong>: These are essentially the end consumers which interact with WMI classes for querying data, running methods, etc. Few prominent clients include <code>wmic.exe</code>, <code>wbemtest.exe</code>, <code>winrm.exe</code>, VBScript/JScript and ofc Powershell cmdlets.</p>
+</li>
+<li>
+<p><strong>Query Languages</strong>: Just like SQL provides you with a way to query a database, WMI too has WQL (WMI Query Language) / CQL for querying the WMI service. When it comes to managing remote boxes, the WBEM standard kicks in &ndash; which include DCOM and WS-Man (don&rsquo;t worry if you don&rsquo;t understand these terms, read on). WQL is basically SQL syntax for WMI, so is not case-sensitive.</p>
+<p>A simple query may look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> win32_bios
+</span></span></code></pre></div><p>which gives us information about our BIOS.</p>
+</li>
+<li>
+<p><strong>Repositories</strong>: These are the databases that we talked about previously that stores all static data (definitions) of classes. The repositories are defined by MOF (managed object format) files which define the structure, classes, namespaces, etc. The database files can be found under the <code>%WINDIR%\System32\Wbem\Repository</code> directory.</p>
+
+        <img src="repo.png"  alt="repositories"  class="center"  />
+    
+
+</li>
+<li>
+<p><strong>MOF Files</strong>: MOF files are basically used to define WMI namespaces, classes, providers, etc. You&rsquo;ll usually find them under the <code>%WINDIR%\System32\Wbem</code> directory with the extension <code>.mof</code>. In a later part of the series, we&rsquo;ll take a look at how we can write our own MOF files to extend the feature-set of WMI.</p>
+</li>
+<li>
+<p><strong>Providers</strong>: Whatever is defined in the repositories can be accessed with the help of WMI providers. They are usually DLL files and associated with a MOF file &ndash; <code>cimwin32.dll</code>, <code>stdprov.dll</code>, etc to name a few, however, they can take the form of other types as well (Class, Event, Event Consumer, Method, etc). The providers are essential to the ecosystem because they monitor events and data from specific defined objects. Think of providers like drivers which provide a bridge between managed objects and WMI.</p>
+<p>In the screenshot below, the DLL files are the providers of the associated MOF files:</p>
+
+        <img src="mof.png"  alt="MOF files"  class="center"  />
+    
+
+</li>
+<li>
+<p><strong>Managed Objects</strong>: These are aliases of the resources in context, i.e. a managed object can be the service, process or OS being managed by WMI.</p>
+</li>
+<li>
+<p><strong>Namespaces</strong>: Put simply, namespaces are logical divisions of classes meant for easy discovery and usage. They are divided into 3 groups:</p>
+<ul>
+<li>system</li>
+<li>core</li>
+<li>extension</li>
+</ul>
+<p>and 3 types:</p>
+<ul>
+<li>abstract</li>
+<li>static</li>
+<li>dynamic</li>
+</ul>
+<p>Few prominent namespaces that come by default are: <code>root\cimv2</code>, <code>root\default</code>, <code>root\security</code>, <code>root\subscription</code>, etc.</p>
+</li>
+</ul>
+<p>That&rsquo;s it with the architecture. Now let&rsquo;s learn a bit about using WMI with Powershell.</p>
+<h2 id="using-wmi-with-powershell">Using WMI with Powershell</h2>
+<p>Now that we&rsquo;re done with the theory part, let&rsquo;s quickly spawn a PS terminal. It is important to remember that up to v2 of Powershell, there are only a few cmdlets to interact with WMI. We&rsquo;ll quickly check our Powershell version and change the version to 2:</p>
+
+    <img src="version.png"  alt="version"  class="center"  />
+
+
+<p>Now, lets run <code>Get-Command -CommandType Cmdlet *wmi*</code> in a Powershell prompt. This leads us to:</p>
+
+    <img src="wmicmds.png"  alt="WMI"  class="center"  />
+
+
+<blockquote>
+<p><strong>TIP</strong>: The names of the commands are pretty self-explanatory (and we&rsquo;ll dig into more later as well). At any point in time, you can use Powershell&rsquo;s standard syntax: <code>help &lt;command&gt;</code> to get more info on what the specific command does. e.g. you might want to try <code>help Invoke-WmiMethod</code> to view what the command does &ndash; very similar to Linux manpages.</p></blockquote>
+<p>From Powershell v3 onwards, MS introduced CIM cmdlets which make use of WS-MAN and CIM standards to manage objects. Having access to CIM cmdlets has advantages in 2 contexts:</p>
+<ul>
+<li>In machines where WMI/DCOM itself is blocked from running (maybe due to a host-based firewall rule?) but WinRM/WS-MAN (Windows Remote Management) is enabled, we can still use CIM to do exactly what we can do with WMI.</li>
+<li>CIM itself is an industry-standard and is implemented cross-platform, which means it can be used to work with non-Windows boxes as well.</li>
+</ul>
+<blockquote>
+<p>Phew! That&rsquo;s a mouthful of words. Let&rsquo;s understand what the new terms here mean:</p>
+<p><strong>DCOM</strong>: An alias for Distributed Component Object Model, DCOM is a proprietary Microsoft protocol for communication between software components on networked computers. WMI uses Distributed COM (DCOM) to connect to a remote machine. However, DCOM isn&rsquo;t that firewall-friendly.</p>
+<p><strong>WS-MAN</strong>: WS-MAN or WS-Management is a DMTF standard that provides a common way for systems to access management information across the IT infrastructure. WS-MAN on the other hand uses HTTP, so is definitely firewall-friendly.</p></blockquote>
+<p>We&rsquo;ll redo what we did above, but after changing the Powershell version back to default (in my case I&rsquo;ve Powershell v5):</p>
+
+    <img src="cimcmds.png"  alt="CIM"  class="center"  />
+
+
+<p>Repeating what we said above, CIM cmdlets can do <em>everything</em> that WMI cmdlets can. If we want to map the functionalities between both WMI cmdlets and CIM cmdlets, here&rsquo;s a tabular representation of the functionality comparison between both types:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Use \ Types</th>
+          <th>WMI Cmdlets</th>
+          <th>CIM Cmdlets</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Get information about classes</td>
+          <td><code>Get-WmiObject</code></td>
+          <td><code>Get-CimInstance</code></td>
+      </tr>
+      <tr>
+          <td>Invoking a method</td>
+          <td><code>Invoke-WmiMethod</code></td>
+          <td><code>Invoke-CimMethod</code></td>
+      </tr>
+      <tr>
+          <td>Subscribing to an event</td>
+          <td><code>Register-WmiEvent</code></td>
+          <td><code>Register-CimIndicationEvent</code></td>
+      </tr>
+      <tr>
+          <td>Creating/updating instances of a class</td>
+          <td><code>Set-WmiInstance</code></td>
+          <td><code>Set-CimInstance</code></td>
+      </tr>
+      <tr>
+          <td>Deleting instances of a class</td>
+          <td><code>Remove-WmiObject</code></td>
+          <td><code>Remove-CimInstance</code></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="running-wmi-queries-with-powershell">Running WMI queries with Powershell</h3>
+<p>Now that we know about the different cmdlets available for us to use, we can try running the sample WQL query above. We already know that <code>Get-WmiObject</code> can be used to get info about classes. So let&rsquo;s run the cmdlet with the <code>-Query</code> parameter:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Query <span style="color:#e6db74">&#39;select * from win32_bios&#39;</span>
+</span></span></code></pre></div>
+    <img src="wql.png"  alt="WQL"  class="center"  />
+
+
+<h2 id="conclusion">Conclusion</h2>
+<p>This blog post was meant for giving an overview of what we&rsquo;ll be dealing with in the next parts of the series. There are a lot of technical buzzwords here but understanding them is necessary. I hope you enjoyed reading through so far, and I&rsquo;m looking forward to our journey together into exploring WMI.</p>
+<p>Adios amigo!</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1153 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2021-08-29 00:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="https://0xinfection.xyz/posts/offensive-wmi-exploring-namespaces-classes-methods-part-2/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">Offensive WMI - Exploring Namespaces, Classes &amp; Methods (Part 2)</span>
+                </a>
+            </span>
+            
+
+            
+            <span class="button next">
+                <a href="https://0xinfection.xyz/posts/pwning-a-backend-with-a-backdoor/">
+                    <span class="button__text">Pwning a Backend with a Backdoor</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2025</span>
+            
+            <span>0xInfection</span>
+            
+            
+        </div>
+    </div>
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://0xinfection.xyz/bundle.min.ad54ad97364f77ede35def9096b162bb1f0b3973aa50b080f5e82fa147f6882e2a7200d7535adbf9b51bebf939f1c1ca9bbe6be87530092aca720eac4a226fda.js" integrity="sha512-rVStlzZPd&#43;3jXe&#43;QlrFiux8LOXOqULCA9egvoUf2iC4qcgDXU1rb&#43;bUb6/k58cHKm75r6HUwCSrKcg6sSiJv2g=="></script>
+
+
+
+
+    </body>
+</html>
