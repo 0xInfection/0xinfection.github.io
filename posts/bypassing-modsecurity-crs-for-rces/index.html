@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="Hola amigos! I&rsquo;m excited to finally share this blog post that I started back in 2022. After some time away, I&rsquo;ve finally gathered the energy to complete and publish this blog.
+<meta name="description" content="Hola amigos! I&rsquo;m excited to finally share this unfinished blog post from 2023. After some time away, I&rsquo;ve finally gathered the energy to complete and publish this blog.
 Today&rsquo;s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!
+Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. ModSecurity, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the OWASP CRS (Core Rule Set) Project.
 " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -42,26 +43,29 @@ Today&rsquo;s post explores the bypasses I discovered for the OWASP CRS (Core Ru
 
 
   <meta itemprop="name" content="Bypassing ModSecurity CRS for RCE(s)">
-  <meta itemprop="description" content="Hola amigos! I’m excited to finally share this blog post that I started back in 2022. After some time away, I’ve finally gathered the energy to complete and publish this blog.
-Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!">
+  <meta itemprop="description" content="Hola amigos! I’m excited to finally share this unfinished blog post from 2023. After some time away, I’ve finally gathered the energy to complete and publish this blog.
+Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!
+Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. ModSecurity, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the OWASP CRS (Core Rule Set) Project.">
   <meta itemprop="datePublished" content="2025-08-21T00:00:00+05:30">
   <meta itemprop="dateModified" content="2025-08-21T00:00:00+05:30">
-  <meta itemprop="wordCount" content="2098">
+  <meta itemprop="wordCount" content="2095">
   <meta itemprop="image" content="https://0xinfection.xyz/">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://0xinfection.xyz/">
   <meta name="twitter:title" content="Bypassing ModSecurity CRS for RCE(s)">
-  <meta name="twitter:description" content="Hola amigos! I’m excited to finally share this blog post that I started back in 2022. After some time away, I’ve finally gathered the energy to complete and publish this blog.
-Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!">
+  <meta name="twitter:description" content="Hola amigos! I’m excited to finally share this unfinished blog post from 2023. After some time away, I’ve finally gathered the energy to complete and publish this blog.
+Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!
+Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. ModSecurity, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the OWASP CRS (Core Rule Set) Project.">
 
 
 
     <meta property="og:url" content="https://0xinfection.xyz/posts/bypassing-modsecurity-crs-for-rces/">
   <meta property="og:site_name" content="0xInfection&#39;s Blog — Ramblings of an Infected Geek">
   <meta property="og:title" content="Bypassing ModSecurity CRS for RCE(s)">
-  <meta property="og:description" content="Hola amigos! I’m excited to finally share this blog post that I started back in 2022. After some time away, I’ve finally gathered the energy to complete and publish this blog.
-Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!">
+  <meta property="og:description" content="Hola amigos! I’m excited to finally share this unfinished blog post from 2023. After some time away, I’ve finally gathered the energy to complete and publish this blog.
+Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!
+Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. ModSecurity, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the OWASP CRS (Core Rule Set) Project.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -168,7 +172,7 @@ Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule S
       
 
       <div class="post-content">
-        <p>Hola amigos! I&rsquo;m excited to finally share this blog post that I started back in 2022. After some time away, I&rsquo;ve finally gathered the energy to complete and publish this blog.</p>
+        <p>Hola amigos! I&rsquo;m excited to finally share this unfinished blog post from 2023. After some time away, I&rsquo;ve finally gathered the energy to complete and publish this blog.</p>
 <p>Today&rsquo;s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!</p>
 <h2 id="quick-primer-to-wafs">Quick Primer to WAFs</h2>
 <p>Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. <a href="https://github.com/owasp-modsecurity/ModSecurity">ModSecurity</a>, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the <a href="https://github.com/coreruleset/coreruleset/tree/main/rules">OWASP CRS (Core Rule Set)</a> Project.</p>
@@ -400,7 +404,7 @@ My thanks also go to <a href="https://x.com/intigriti">Intigriti</a> and the <a 
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        2098 Words
+        2095 Words
       </p>
 
       <p>
