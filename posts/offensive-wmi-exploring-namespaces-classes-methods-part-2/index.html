@@ -26,7 +26,7 @@ A namespace organizes information similar to folders in a filesystem. However, i
 
 
 
-  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.28994c8613b75503acb64df6db99f39cfd1558d9ff2cf3265386b94d7fa3e1ce.css" integrity="sha256-KJlMhhO3VQOstk3225nznP0VWNn/LPMmU4a5TX&#43;j4c4=" crossorigin="anonymous">
 
 
 
@@ -173,7 +173,15 @@ A namespace organizes information similar to folders in a filesystem. However, i
 
       <div class="post-content">
         <p>This blog post is the second part of the &ldquo;Offensive WMI&rdquo; series (the first is <a href="https://0xinfection.github.io/posts/wmi-basics-part-1/">here</a>), and this article will be focusing on the 3 major components in WMI that we&rsquo;d be majorly dealing with. Throughout the article, we&rsquo;ll be using both WMI and CIM cmdlets interchangeably so that we&rsquo;re well-versed with both cmdlet types.</p>
-<h2 id="namespaces">Namespaces</h2>
+
+
+
+
+<h2 id="namespaces">
+  <a href="#namespaces" class="anchor" aria-label="Anchor link for: Namespaces">
+    Namespaces
+  </a>
+</h2>
 <p>Let&rsquo;s recall what namespaces are in simple terms:</p>
 <blockquote>
 <p>A <strong>namespace</strong> organizes information similar to folders in a filesystem. However, instead of physical locations (like on a disk), they are more logical in nature.</p></blockquote>
@@ -214,7 +222,15 @@ A namespace organizes information similar to folders in a filesystem. However, i
 
 <blockquote>
 <p><strong>NOTE:</strong> The classes and namespaces may vary from machine to machine depending upon the hardware available, applications installed, and many other factors.</p></blockquote>
-<h2 id="classes">Classes</h2>
+
+
+
+
+<h2 id="classes">
+  <a href="#classes" class="anchor" aria-label="Anchor link for: Classes">
+    Classes
+  </a>
+</h2>
 <p>Now that we have a list of namespaces available to make use of, let&rsquo;s take a look at classes. So what are classes?</p>
 <blockquote>
 <p>A <strong>WMI class</strong> represents a specific item in your system. It could be anything ranging from system processes to hardware (e.g. a network card), services, etc.</p></blockquote>
@@ -231,7 +247,15 @@ A namespace organizes information similar to folders in a filesystem. However, i
 <li><strong>Dynamic classes</strong>: These are retrieved from a provider and represents a WMI managed resource. We&rsquo;re mostly interested in classes of this type.</li>
 <li><strong>Association classes</strong>: Describes relationships between classes and managed resources.</li>
 </ul>
-<h3 id="listing-classes">Listing Classes</h3>
+
+
+
+
+<h3 id="listing-classes">
+  <a href="#listing-classes" class="anchor" aria-label="Anchor link for: Listing Classes">
+    Listing Classes
+  </a>
+</h3>
 <p>Enough theory. Let&rsquo;s try to find some classes. Once again, we can use the <code>Get-WmiObject</code> cmdlet to list the available classes:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> <span style="color:#f92672">*</span> <span style="color:#f92672">-</span>List
 </span></span></code></pre></div><p>This will list all the classes above, but for the sake of an example, let&rsquo;s say we are interested in the users on the system. We can narrow down to our specific use case using the following command, which lists all available classes for fetching/manipulating user information:</p>
@@ -255,7 +279,15 @@ A namespace organizes information similar to folders in a filesystem. However, i
 
 
 <p>So far so good. What&rsquo;s next? Querying the classes to get the juicy stuff out of them.</p>
-<h3 id="fetching-classes">Fetching Classes</h3>
+
+
+
+
+<h3 id="fetching-classes">
+  <a href="#fetching-classes" class="anchor" aria-label="Anchor link for: Fetching Classes">
+    Fetching Classes
+  </a>
+</h3>
 <p>We&rsquo;re interested in the <code>Win32_UserAccount</code> class this time. Fetching data is simple, we can simply:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_UserAccount
 </span></span></code></pre></div>
@@ -288,7 +320,15 @@ A namespace organizes information similar to folders in a filesystem. However, i
 <p>An idiomatic expression doing the same with WQL is as below:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Query <span style="color:#e6db74">&#39;select * from win32_process where name=&#34;lsass.exe&#34;&#39;</span>
 </span></span></code></pre></div><p>Okay, now we know about listing, fetching and filtering instances of classes in WMI. Let&rsquo;s look at how removing instances works in WMI.</p>
-<h3 id="removing-class-instances">Removing Class Instances</h3>
+
+
+
+
+<h3 id="removing-class-instances">
+  <a href="#removing-class-instances" class="anchor" aria-label="Anchor link for: Removing Class Instances">
+    Removing Class Instances
+  </a>
+</h3>
 <p>The <code>Remove-WmiObject</code> (for WMI cmdlets) and <code>Remove-CimInstance</code> (for CIM cmdlets) are two cmdlets that have the capabilities of removing instances. You can pipe the output of a relevant command to the cmdlets. For a quick demo, let&rsquo;s run our favourite calculator app and list the process.</p>
 
     <img src="calc.png"  alt="calc"  class="center"  />
@@ -301,9 +341,25 @@ A namespace organizes information similar to folders in a filesystem. However, i
 
 
 <p>This is extremely useful when messing around with Registry, or better, in a situation where we&rsquo;ve created our own classes for storing our payloads and stuff &ndash; we can simply use the cmdlet to list all items under the class and thereby cleaning them up all in one go.</p>
-<h2 id="methods">Methods</h2>
+
+
+
+
+<h2 id="methods">
+  <a href="#methods" class="anchor" aria-label="Anchor link for: Methods">
+    Methods
+  </a>
+</h2>
 <p>Methods are ways provided to manipulate WMI objects. If you scroll up to the place where we listed all the classes available, you&rsquo;ll notice a column called <code>Methods</code> which lists available methods.</p>
-<h3 id="listing-methods">Listing Methods</h3>
+
+
+
+
+<h3 id="listing-methods">
+  <a href="#listing-methods" class="anchor" aria-label="Anchor link for: Listing Methods">
+    Listing Methods
+  </a>
+</h3>
 <p>To repeat our chore and list all available methods, we can do something like:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>CimClass <span style="color:#f92672">-</span>MethodName <span style="color:#f92672">*</span>
 </span></span></code></pre></div><p>To filter out instances that allow us to perform a specific method, we can pass a method name, for example, <code>Create</code> (which is always interesting because it might allow us to create something):</p>
@@ -326,7 +382,15 @@ A namespace organizes information similar to folders in a filesystem. However, i
 <p>So, we have methods like <code>Create</code>, <code>Terminate</code>, <code>GetOwner</code>, <code>GetOwnerSid</code>, etc for the Win32_Process class. Great. Now let us see how we can use methods.</p>
 <blockquote>
 <p><strong>TIP</strong>: To use a method, we need to know what parameters do we need to supply when calling the method. To list all available parameters, we can use a combination of Powershell or better just read the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/invoke-wmimethod?view=powershell-5.1#parameters">documentation</a>.</p></blockquote>
-<h3 id="using-methods">Using Methods</h3>
+
+
+
+
+<h3 id="using-methods">
+  <a href="#using-methods" class="anchor" aria-label="Anchor link for: Using Methods">
+    Using Methods
+  </a>
+</h3>
 <p>The <code>Invoke-WmiMethod</code> (for WMI) and <code>Invoke-CimMethod</code> (for CIM cmdlets) allows us to use the methods for a specific class. Let&rsquo;s try to spawn a calculator:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> Win32_Process <span style="color:#f92672">-</span>Name <span style="color:#66d9ef">Create</span> <span style="color:#f92672">-</span>ArgumentList calc.exe
 </span></span></code></pre></div>
@@ -340,7 +404,15 @@ A namespace organizes information similar to folders in a filesystem. However, i
 
 
 <p>Well, now we know about spawning new processes!</p>
-<h2 id="setting-properties-of-objects">Setting Properties of Objects</h2>
+
+
+
+
+<h2 id="setting-properties-of-objects">
+  <a href="#setting-properties-of-objects" class="anchor" aria-label="Anchor link for: Setting Properties of Objects">
+    Setting Properties of Objects
+  </a>
+</h2>
 <p>Last but not the least, we should take a look at updating instances of a class. However, it is important to keep in mind that the instance should be writable. With a bit of scripting, we can cook up a recipe for getting all writable properties of an class. Here&rsquo;s the script (sourced from <a href="https://powershellmagazine.com/2012/09/06/pstip-get-all-writeable-properties-of-a-wmi-class/">PSMag</a>):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$class <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>wmiclass<span style="color:#f92672">]</span><span style="color:#e6db74">&#39;&lt;class_name&gt;&#39;</span>
 </span></span><span style="display:flex;"><span>$class.Properties | ForEach-Object <span style="color:#f92672">{</span>
@@ -361,7 +433,15 @@ A namespace organizes information similar to folders in a filesystem. However, i
 
 
 <p>The same could be achieved with <code>Set-CimInstance</code>, but that is left up to the reader to explore. :)</p>
-<h2 id="conclusion">Conclusion</h2>
+
+
+
+
+<h2 id="conclusion">
+  <a href="#conclusion" class="anchor" aria-label="Anchor link for: Conclusion">
+    Conclusion
+  </a>
+</h2>
 <p>Whew, that was a long read! By now, we have a solid foundation of both the WMI and CIM cmdlets and how they can be used to achieve significant control over a system. So far thanks for being here, and I&rsquo;ll see you in the blog. Cheers! 🥂</p>
 
       </div>

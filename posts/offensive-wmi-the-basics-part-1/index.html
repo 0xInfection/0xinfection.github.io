@@ -25,7 +25,7 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 
 
 
-  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.28994c8613b75503acb64df6db99f39cfd1558d9ff2cf3265386b94d7fa3e1ce.css" integrity="sha256-KJlMhhO3VQOstk3225nznP0VWNn/LPMmU4a5TX&#43;j4c4=" crossorigin="anonymous">
 
 
 
@@ -169,12 +169,44 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 
       <div class="post-content">
         <p>This blog post is the first of a many part series on WMI and is intended for fairly new audiences. A basic understanding of Powershell will definitely help the reader while going through the blog, however, it is not a requirement. That&rsquo;s it, let us jump into the real stuff.</p>
-<h2 id="introduction">Introduction</h2>
-<h3 id="why-wmi">Why WMI?</h3>
+
+
+
+
+<h2 id="introduction">
+  <a href="#introduction" class="anchor" aria-label="Anchor link for: Introduction">
+    Introduction
+  </a>
+</h2>
+
+
+
+
+<h3 id="why-wmi">
+  <a href="#why-wmi" class="anchor" aria-label="Anchor link for: Why WMI?">
+    Why WMI?
+  </a>
+</h3>
 <p>WMI is a set of specifications from Microsoft that was designed for fast and efficient administration when it comes to Windows systems. And as you might know, a rule of security says &ldquo;that anything useful for administration is also great at being abused by evil-doers&rdquo;. WMI can <em>really</em> do a lot of things &ndash; from gathering statuses of computers and configuring settings to running applications and executing code. Moreover, WMI is present on all available Windows OS versions, so targeted surface is quite broad here.</p>
-<h3 id="what-is-wmi">What is WMI?</h3>
+
+
+
+
+<h3 id="what-is-wmi">
+  <a href="#what-is-wmi" class="anchor" aria-label="Anchor link for: What is WMI?">
+    What is WMI?
+  </a>
+</h3>
 <p>Let&rsquo;s quickly go over a few important terms. WMI stands for <strong>Windows Management Instrumentation</strong>, which is Microsoft&rsquo;s implementation of the CIM (Common Information Model) &amp; WBEM (Web-Based Enterprise Management) &ndash; both of which are <em>DMTF (Distributed Management Task Force) standards</em> in general. WMI gives us a neat and uniform interface for applications/scripts to manage a computer (maybe remote and local) &ndash; incl. processes, services, etc.</p>
-<h3 id="the-wmi-architecture">The WMI Architecture</h3>
+
+
+
+
+<h3 id="the-wmi-architecture">
+  <a href="#the-wmi-architecture" class="anchor" aria-label="Anchor link for: The WMI Architecture">
+    The WMI Architecture
+  </a>
+</h3>
 <p>Understanding the architecture is very essential to understanding how the entire WMI ecosystem works. A broad overview of the architecture of WMI is depicted below (sourced from <a href="https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf">Graeber&rsquo;s talk from BHUSA 15</a>):</p>
 
     <img src="arch.png"  alt="Architecture"  class="center"  />
@@ -229,7 +261,15 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
 </li>
 </ul>
 <p>That&rsquo;s it with the architecture. Now let&rsquo;s learn a bit about using WMI with Powershell.</p>
-<h2 id="using-wmi-with-powershell">Using WMI with Powershell</h2>
+
+
+
+
+<h2 id="using-wmi-with-powershell">
+  <a href="#using-wmi-with-powershell" class="anchor" aria-label="Anchor link for: Using WMI with Powershell">
+    Using WMI with Powershell
+  </a>
+</h2>
 <p>Now that we&rsquo;re done with the theory part, let&rsquo;s quickly spawn a PS terminal. It is important to remember that up to v2 of Powershell, there are only a few cmdlets to interact with WMI. We&rsquo;ll quickly check our Powershell version and change the version to 2:</p>
 
     <img src="version.png"  alt="version"  class="center"  />
@@ -293,14 +333,30 @@ Introduction Why WMI? WMI is a set of specifications from Microsoft that was des
       </tr>
   </tbody>
 </table>
-<h3 id="running-wmi-queries-with-powershell">Running WMI queries with Powershell</h3>
+
+
+
+
+<h3 id="running-wmi-queries-with-powershell">
+  <a href="#running-wmi-queries-with-powershell" class="anchor" aria-label="Anchor link for: Running WMI queries with Powershell">
+    Running WMI queries with Powershell
+  </a>
+</h3>
 <p>Now that we know about the different cmdlets available for us to use, we can try running the sample WQL query above. We already know that <code>Get-WmiObject</code> can be used to get info about classes. So let&rsquo;s run the cmdlet with the <code>-Query</code> parameter:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Query <span style="color:#e6db74">&#39;select * from win32_bios&#39;</span>
 </span></span></code></pre></div>
     <img src="wql.png"  alt="WQL"  class="center"  />
 
 
-<h2 id="conclusion">Conclusion</h2>
+
+
+
+
+<h2 id="conclusion">
+  <a href="#conclusion" class="anchor" aria-label="Anchor link for: Conclusion">
+    Conclusion
+  </a>
+</h2>
 <p>This blog post was meant for giving an overview of what we&rsquo;ll be dealing with in the next parts of the series. There are a lot of technical buzzwords here but understanding them is necessary. I hope you enjoyed reading through so far, and I&rsquo;m looking forward to our journey together into exploring WMI.</p>
 <p>Adios amigo!</p>
 

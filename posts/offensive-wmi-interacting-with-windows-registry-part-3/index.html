@@ -26,7 +26,7 @@ What is Windows Registry? In simple terms, the registry is a database that store
 
 
 
-  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.28994c8613b75503acb64df6db99f39cfd1558d9ff2cf3265386b94d7fa3e1ce.css" integrity="sha256-KJlMhhO3VQOstk3225nznP0VWNn/LPMmU4a5TX&#43;j4c4=" crossorigin="anonymous">
 
 
 
@@ -174,10 +174,26 @@ What is Windows Registry? In simple terms, the registry is a database that store
       <div class="post-content">
         <p>This is the third instalment of the &ldquo;Offensive WMI&rdquo; series (the 2nd is <a href="https://0xinfection.github.io/posts/wmi-classes-methods-part-2/">here</a>), and this blog will focus on interacting with the Windows Registry. A useful thing to know before we start, MITRE ATT&amp;CK classifies querying of registry values under <a href="https://attack.mitre.org/techniques/T1012/">T1012</a> and its modification under <a href="https://attack.mitre.org/techniques/T1112/">T1112</a>.</p>
 <p>Let&rsquo;s dive in.</p>
-<h2 id="what-is-windows-registry">What is Windows Registry?</h2>
+
+
+
+
+<h2 id="what-is-windows-registry">
+  <a href="#what-is-windows-registry" class="anchor" aria-label="Anchor link for: What is Windows Registry?">
+    What is Windows Registry?
+  </a>
+</h2>
 <p>In simple terms, the registry is a database that stores configuration settings and options of the operating system: the kernel, device drivers, services, SAM, user interface and third party applications all make use of the registry. This makes the registry a very attractive resource for attackers.</p>
 <p>The registry consists of sections known as <em>hives</em>, e.g. <code>HKEY_LOCAL_MACHINE</code>, <code>HKEY_CURRENT_USER</code>, etc. Upon inspection of the registry in <code>regedit.exe</code>, they appear to be arranged in a similar fashion to a filesystem. Each hive has a number of keys. The keys can have multiple subkeys. A key or subkey acts as a store for values. A registry item consists of a name and value pair.</p>
-<h2 id="registry--wmi">Registry &amp; WMI</h2>
+
+
+
+
+<h2 id="registry-amp-wmi">
+  <a href="#registry-amp-wmi" class="anchor" aria-label="Anchor link for: Registry &amp; WMI">
+    Registry &amp; WMI
+  </a>
+</h2>
 <p>WMI provides a class called <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/regprov/stdregprov"><code>StdRegProv</code></a> for interacting with the Windows Registry. With this in hand, we can do a variety of things &ndash; including retrieval, creation, deletion and modification of keys and values. An important point to note here is that we need to use the <code>root\DEFAULT</code> namespace for working with the registry.</p>
 <p>Let&rsquo;s start by exploring what methods are available to us:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> StdRegProv <span style="color:#f92672">-</span>List <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">-</span>ExpandProperty methods
@@ -279,8 +295,24 @@ What is Windows Registry? In simple terms, the registry is a database that store
 </table>
 </li>
 </ol>
-<h3 id="querying-the-registry">Querying the registry</h3>
-<h4 id="enumerating-keys">Enumerating keys</h4>
+
+
+
+
+<h3 id="querying-the-registry">
+  <a href="#querying-the-registry" class="anchor" aria-label="Anchor link for: Querying the registry">
+    Querying the registry
+  </a>
+</h3>
+
+
+
+
+<h4 id="enumerating-keys">
+  <a href="#enumerating-keys" class="anchor" aria-label="Anchor link for: Enumerating keys">
+    Enumerating keys
+  </a>
+</h4>
 <p>Now that we know the constants, let&rsquo;s try to enumerate the available subkeys under a well-known registry path <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion</code>. Putting together what we know so far, we can use this command to get all keys under the registry item:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name EnumKey <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows nt\currentversion&#34;</span>) <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">-</span>ExpandProperty snames
 </span></span></code></pre></div>
@@ -290,7 +322,15 @@ What is Windows Registry? In simple terms, the registry is a database that store
 <blockquote>
 <p><strong>NOTE</strong>: The same can be done with upper hierarchical registry paths as well. If you don&rsquo;t know the absolute path, you can explore the registry by simply replacing the path in the command above.</p>
 <p>e.g. &ndash; If you replace the path <code>software\microsoft\windows nt\currentversion\schedule</code> in the above command with just <code>software</code>, then the output will list all subkeys under the <code>HKEY_LOCAL_MACHINE\Software</code>. This is helpful when exploring unknown nested items in a registry.</p></blockquote>
-<h4 id="enumerating-values">Enumerating values</h4>
+
+
+
+
+<h4 id="enumerating-values">
+  <a href="#enumerating-values" class="anchor" aria-label="Anchor link for: Enumerating values">
+    Enumerating values
+  </a>
+</h4>
 <p>Now that we know how to list the keys available under the registry item, lets enumerate the values under the <code>Drivers32</code> key:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name enumvalues <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows nt\currentversion\drivers32&#34;</span>)
 </span></span></code></pre></div>
@@ -298,7 +338,15 @@ What is Windows Registry? In simple terms, the registry is a database that store
 
 
 <p>As we can see, the output contains the subkey names under <code>sNames</code> and the associated data type under <code>Types</code> property. Of course, we can use Powershell&rsquo;s <code>select -ExpandProperty</code> switch to have an extended view of the values of the properties returned in the output.</p>
-<h4 id="reading-values">Reading values</h4>
+
+
+
+
+<h4 id="reading-values">
+  <a href="#reading-values" class="anchor" aria-label="Anchor link for: Reading values">
+    Reading values
+  </a>
+</h4>
 <p>Now let us try to read the values of the subkeys. For our example, we&rsquo;ll be reading the values of the <code>Drivers32</code> subkey (which defines the Windows NT DLLs for applications). Several malware variants have been observed making use of this key (see <a href="https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/troj_riern.sma">Riern Trojan Family</a>) in the past.</p>
 <p>The following command reads the value of the subkeys <code>aux</code> and <code>midi</code> under the <code>Drivers32</code> key. Please note that the method name passed to the cmdlet (via the <code>-Name</code> switch) will vary depending upon the registry data type (see the datatype table above).</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name GetStringValue <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows nt\currentversion\drivers32&#34;</span>, <span style="color:#e6db74">&#34;aux&#34;</span>)
@@ -309,7 +357,15 @@ What is Windows Registry? In simple terms, the registry is a database that store
 
 <blockquote>
 <p><strong>TIP</strong>: <a href="https://www.dfir.training/ultimate-registry-forensics-cheat-sheet">Here is a good cheatsheet</a> of juicy locations in registry that can be useful for an attacker. You might want to try exploring them. :)</p></blockquote>
-<h3 id="modifying-the-registry">Modifying the registry</h3>
+
+
+
+
+<h3 id="modifying-the-registry">
+  <a href="#modifying-the-registry" class="anchor" aria-label="Anchor link for: Modifying the registry">
+    Modifying the registry
+  </a>
+</h3>
 <p>We now know about reading key and value pairs from the registry using WMI. These didn&rsquo;t require administrative privileges so far, however &ndash; creation, deletion and updating the keys and values <em>may</em> require elevated privileges.</p>
 <p>Let&rsquo;s try to create new keys and subkeys. But before that, we need to check whether we have access to a specific registry item. Once again there are constants defining the access levels to the keys. The following table summarizes the permissions with associated constants:</p>
 <table>
@@ -373,7 +429,15 @@ What is Windows Registry? In simple terms, the registry is a database that store
       </tr>
   </tbody>
 </table>
-<h4 id="checking-permissions-of-a-key">Checking permissions of a key</h4>
+
+
+
+
+<h4 id="checking-permissions-of-a-key">
+  <a href="#checking-permissions-of-a-key" class="anchor" aria-label="Anchor link for: Checking permissions of a key">
+    Checking permissions of a key
+  </a>
+</h4>
 <p>For our example, we&rsquo;ll pick the <code>Run</code> key under the hive <code>HKEY_CURRENT_USER</code> first, then the <code>HKEY_LOCAL_MACHINE</code>. Here&rsquo;s  how to do it:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name CheckAccess <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483649</span>, <span style="color:#e6db74">&#34;software\microsoft\windows\currentversion\run&#34;</span>, <span style="color:#ae81ff">32</span>)
 </span></span><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name CheckAccess <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\microsoft\windows\currentversion\run&#34;</span>, <span style="color:#ae81ff">32</span>)
@@ -382,7 +446,15 @@ What is Windows Registry? In simple terms, the registry is a database that store
 
 
 <p>The <code>bGranted</code> property in the output tells us whether we have access to the specific item in the registry. From the above example, we can clearly see that our user currently has access to the <code>Run</code> key under <code>HKEY_CURRENT_USER</code> but not <code>HKEY_LOCAL_MACHINE</code>.</p>
-<h4 id="creating-registry-entries">Creating registry entries</h4>
+
+
+
+
+<h4 id="creating-registry-entries">
+  <a href="#creating-registry-entries" class="anchor" aria-label="Anchor link for: Creating registry entries">
+    Creating registry entries
+  </a>
+</h4>
 <p>Now that we know that we have write access to the registry key <code>Run</code> under <code>HKEY_CURRENT_USER</code>, we&rsquo;ll add our favourite calculator app to the registry item. This will cause a calculator to pop up every time the system boots up, a very common technique seen in malwares to gain persistence.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name SetStringValue <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483649</span>, <span style="color:#e6db74">&#34;software\microsoft\windows\currentversion\run&#34;</span>, <span style="color:#e6db74">&#34;C:\Windows\System32\calc.exe&#34;</span>, <span style="color:#e6db74">&#34;Calculator&#34;</span>)
 </span></span></code></pre></div>
@@ -392,35 +464,75 @@ What is Windows Registry? In simple terms, the registry is a database that store
 <p>Boom, our calculator app has achieved persistence. :D</p>
 <blockquote>
 <p><strong>NOTE</strong>: An existing subkey under a registry key can also be updated using the same above.</p></blockquote>
-<h4 id="deleting-registry-entries">Deleting registry entries</h4>
+
+
+
+
+<h4 id="deleting-registry-entries">
+  <a href="#deleting-registry-entries" class="anchor" aria-label="Anchor link for: Deleting registry entries">
+    Deleting registry entries
+  </a>
+</h4>
 <p>To delete a registry subkey we don&rsquo;t need the value:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name DeleteValue <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483649</span>, <span style="color:#e6db74">&#34;software\microsoft\windows\currentversion\run&#34;</span>, <span style="color:#e6db74">&#34;Calculator&#34;</span>)
 </span></span></code></pre></div>
     <img src="deletesubkey.png"  alt="subkey"  class="center"  />
 
 
-<h4 id="creating-new-keys">Creating new keys</h4>
+
+
+
+
+<h4 id="creating-new-keys">
+  <a href="#creating-new-keys" class="anchor" aria-label="Anchor link for: Creating new keys">
+    Creating new keys
+  </a>
+</h4>
 <p>In few cases, we <em>might</em> need to create keys under the main tree hierarchy. Let&rsquo;s say we want to create a new key called <code>CustomAgent</code> under the <code>HKEY_LOCAL_MACHINE\Software\OpenSSH</code> registry item. The process looks extremely simple:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name CreateKey <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\openssh\CustomAgent&#34;</span>)
 </span></span></code></pre></div>
     <img src="newkey.png"  alt="newkey"  class="center"  />
 
 
-<h4 id="deleting-keys">Deleting keys</h4>
+
+
+
+
+<h4 id="deleting-keys">
+  <a href="#deleting-keys" class="anchor" aria-label="Anchor link for: Deleting keys">
+    Deleting keys
+  </a>
+</h4>
 <p>Deleting the key is equally simple:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Invoke<span style="color:#f92672">-</span>WmiMethod <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">default</span> <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> stdregprov <span style="color:#f92672">-</span>Name DeleteKey <span style="color:#f92672">@</span>(<span style="color:#ae81ff">2147483650</span>, <span style="color:#e6db74">&#34;software\openssh\CustomAgent&#34;</span>)
 </span></span></code></pre></div>
     <img src="deletekey.png"  alt="newkey"  class="center"  />
 
 
-<h3 id="tools-of-the-trade">Tools of the Trade</h3>
+
+
+
+
+<h3 id="tools-of-the-trade">
+  <a href="#tools-of-the-trade" class="anchor" aria-label="Anchor link for: Tools of the Trade">
+    Tools of the Trade
+  </a>
+</h3>
 <ul>
 <li><a href="https://github.com/darkoperator/Posh-SecMod/blob/master/Registry/Registry.ps1"><code>Registry.ps1</code></a> &ndash; has easy to use Powershell functions for enumerating, creating, deleting, updating keys, etc. Super useful when dealing with things manually.</li>
 <li><a href="https://github.com/samratashok/nishang/blob/master/Gather/Get-Information.ps1"><code>Get-Information.ps1</code></a> &ndash; from Nishang gathers interesting information of a system via the registry.</li>
 <li><a href="https://github.com/PowerShellMafia/PowerSploit/blob/master/CodeExecution/Invoke-WmiCommand.ps1"><code>Invoke-WmiCommand.ps1</code></a> &ndash; from Powersploit is a very useful script that helps in code execution via storing payloads in the registry using WMI as a pure C2 channel.</li>
 <li><a href="https://github.com/EmpireProject/Empire/blob/master/data/module_source/credentials/Invoke-SessionGopher.ps1"><code>Invoke-SessionGopher.ps1</code></a> &ndash; from Powershell Empire hunts and decrypts RDP, WinSCP, FileZilla, PuTTY, etc, session informations from a system.</li>
 </ul>
-<h3 id="conclusion">Conclusion</h3>
+
+
+
+
+<h3 id="conclusion">
+  <a href="#conclusion" class="anchor" aria-label="Anchor link for: Conclusion">
+    Conclusion
+  </a>
+</h3>
 <p>The registry is a treasure trove for attackers when it comes to gathering useful data. In addition, the registry can also be used to store payloads, serving as an ideal fileless attack vector and persistence mechanism. In a later part of the series, we&rsquo;ll take a look at how to create our entire C2 infra using just WMI and the registry. Now that we are done with the basics, in our next blog we&rsquo;ll start with basic reconnaissance with WMI.</p>
 <p>That&rsquo;s it for now friend. Cheerio! \o/</p>
 

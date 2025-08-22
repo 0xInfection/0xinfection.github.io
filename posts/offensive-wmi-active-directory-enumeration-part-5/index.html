@@ -25,7 +25,7 @@ Active Directory (AD) is Microsoft&rsquo;s implementation of a directory and IAM
 
 
 
-  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://0xinfection.xyz/main.min.28994c8613b75503acb64df6db99f39cfd1558d9ff2cf3265386b94d7fa3e1ce.css" integrity="sha256-KJlMhhO3VQOstk3225nznP0VWNn/LPMmU4a5TX&#43;j4c4=" crossorigin="anonymous">
 
 
 
@@ -171,7 +171,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
         <p>This blog is the fifth installation of the &ldquo;Offensive WMI&rdquo; series that I&rsquo;ve been writing on, and this post will cover Active Directory enumeration.</p>
 <p>Active Directory (AD) is Microsoft&rsquo;s implementation of a directory and IAM service for Windows domain networks &ndash; which enables admins to manage permissions and access to resources. Anything used for managing multiple resources is handy for administrators, however, the same is also useful for evil-doers in gathering information and lateral movement.</p>
 <p>It is important to note that there are several ways to interact with any AD environment, but for this blog we&rsquo;ll stick with pure WMI.</p>
-<h2 id="ad-and-wmi">AD and WMI</h2>
+
+
+
+
+<h2 id="ad-and-wmi">
+  <a href="#ad-and-wmi" class="anchor" aria-label="Anchor link for: AD and WMI">
+    AD and WMI
+  </a>
+</h2>
 <p>WMI has a provider called <code>root\directory\ldap</code> which can be used for interaction with the active directory environment. If we try to list the classes under that provider, we can see that there are a lot of classes that come with either of these prefixes, viz. <code>ads_</code> or <code>ds_</code>. The classes starting with <code>ads_</code> are abstract, and the ones with <code>ds_</code> are dynamic (the only ones useful to us since they allow retrieval of instances).</p>
 <p>We&rsquo;ll quickly list out the available classes using the following:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span>directory<span style="color:#960050;background-color:#1e0010">\</span>ldap <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> ds_<span style="color:#f92672">*</span> <span style="color:#f92672">-</span>List
@@ -180,7 +188,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
 
 
 <p>Let&rsquo;s get started!</p>
-<h3 id="finding-the-domain-name">Finding the domain name</h3>
+
+
+
+
+<h3 id="finding-the-domain-name">
+  <a href="#finding-the-domain-name" class="anchor" aria-label="Anchor link for: Finding the domain name">
+    Finding the domain name
+  </a>
+</h3>
 <p>After gaining access to a box on a domain, one of the first steps in basic reconnaissance would be to try to figure out the domain name on which we are on:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span>directory<span style="color:#960050;background-color:#1e0010">\</span>ldap <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> ds_domain <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> ds_dc,
 </span></span><span style="display:flex;"><span>    ds_distinguishedname, pscomputername
@@ -189,7 +205,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
 
 
 <p>In the above command, we fetched the domain name, the FQDN, and the name of the computer we&rsquo;re currently on.</p>
-<h3 id="getting-the-domain-policy">Getting the domain policy</h3>
+
+
+
+
+<h3 id="getting-the-domain-policy">
+  <a href="#getting-the-domain-policy" class="anchor" aria-label="Anchor link for: Getting the domain policy">
+    Getting the domain policy
+  </a>
+</h3>
 <p>Now, let&rsquo;s try to look at the current domain policy. The same class <code>ds_domain</code> can help us out with additional information about the policy:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span>directory<span style="color:#960050;background-color:#1e0010">\</span>ldap <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> ds_domain <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> ds_lockoutduration,
 </span></span><span style="display:flex;"><span>    ds_lockoutobservationwindow, ds_lockoutthreshold, ds_maxpwdage,
@@ -201,7 +225,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
 <blockquote>
 <p><strong>NOTE:</strong> As you might have noticed, the output of the above command includes a lot of negative values. All the timestamps in the above output are stored as <strong>negative &ldquo;filetimes&rdquo;</strong>, i.e. represented as negative integers of 100 nanosecond timeslices. For example, a time period of 20 minutes would be represented as <code>-12000000000</code>.</p></blockquote>
 <p>We can fairly derive that both the lockout duration and lockout observation window is set at 30 mins, while the password expiry duration is infinite, i.e. never expires. The minimum password length is 7, while, the password history length is 24.</p>
-<h3 id="finding-the-domain-controller">Finding the domain controller</h3>
+
+
+
+
+<h3 id="finding-the-domain-controller">
+  <a href="#finding-the-domain-controller" class="anchor" aria-label="Anchor link for: Finding the domain controller">
+    Finding the domain controller
+  </a>
+</h3>
 <p>Cool, let us try to find out the domain controller. Before that, we should keep in mind that in WMI, different UAC (User Account Control) values are defined via constants. The table below presents a mapping of the UAC values to user types:</p>
 <table>
   <thead>
@@ -239,7 +271,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
 
 <p>The output gives us a lot of data about the domain controller (DC), including its name, DNS hostname, OS, last logon timestamp and even the DC&rsquo;s last password update timestamp. All time-based properties in the output are filetimes. You can use <a href="https://www.silisoftware.com/tools/date.php">this neat converter</a> to convert filetimes into human-readable datetime format.</p>
 <p>That&rsquo;s a lot of information that we can enumerate with just an ordinary domain user account without admin privileges!</p>
-<h3 id="searching-user-accounts">Searching user accounts</h3>
+
+
+
+
+<h3 id="searching-user-accounts">
+  <a href="#searching-user-accounts" class="anchor" aria-label="Anchor link for: Searching user accounts">
+    Searching user accounts
+  </a>
+</h3>
 <p>How about user accounts in the domain as well as other domains in trust relationship with the current domain? It is as simple as querying users using the <code>Win32_UserAccount</code> class:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_useraccount <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> name, <span style="color:#66d9ef">domain</span>, accounttype
 </span></span></code></pre></div>
@@ -289,7 +329,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
     <img src="filteruser.png"  alt="policy"  class="center"  />
 
 
-<h3 id="enumerating-currently-logged-on-users">Enumerating currently logged-on users</h3>
+
+
+
+
+<h3 id="enumerating-currently-logged-on-users">
+  <a href="#enumerating-currently-logged-on-users" class="anchor" aria-label="Anchor link for: Enumerating currently logged-on users">
+    Enumerating currently logged-on users
+  </a>
+</h3>
 <p>The <code>Win32_LoggedOnUser</code> classes provide information about the logged-on users in that system as well as the domain. To filter out logged-on local users, we can use the following command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_loggedonuser <span style="color:#f92672">|</span> <span style="color:#66d9ef">where</span> <span style="color:#960050;background-color:#1e0010">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">$</span>_ <span style="color:#f92672">-</span><span style="color:#66d9ef">match</span> <span style="color:#e6db74">&#39;infected&#39;</span>
@@ -298,7 +346,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
     <img src="log.png"  alt="policy"  class="center"  />
 
 
-<h3 id="fetching-groups">Fetching groups</h3>
+
+
+
+
+<h3 id="fetching-groups">
+  <a href="#fetching-groups" class="anchor" aria-label="Anchor link for: Fetching groups">
+    Fetching groups
+  </a>
+</h3>
 <p>Fetching the groups for a domain is simple as querying the <code>Win32_GroupInDomain</code> class. We&rsquo;ll use a bit of Powershell magic to give us a cleaner output.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_groupindomain <span style="color:#f92672">|</span> foreach <span style="color:#960050;background-color:#1e0010">{</span>[wmi]<span style="color:#960050;background-color:#1e0010">$</span>_.partcomponent<span style="color:#960050;background-color:#1e0010">}</span>
 </span></span></code></pre></div>
@@ -306,7 +362,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
 
 
 <p>The same could be done with the <code>Win32_Group</code> class, but the output would include the local groups as well.</p>
-<h3 id="figuring-out-group-memberships">Figuring out group memberships</h3>
+
+
+
+
+<h3 id="figuring-out-group-memberships">
+  <a href="#figuring-out-group-memberships" class="anchor" aria-label="Anchor link for: Figuring out group memberships">
+    Figuring out group memberships
+  </a>
+</h3>
 <p>Group membership data is provided by the <code>Win32_GroupUser</code> class. The output obtained includes all membership information for the current domain, the trusted domains as well as the trusted forest with bi-directional trust. For our example, let&rsquo;s say we want to fetch the accounts from the &ldquo;Domain Admins&rdquo; group:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> win32_groupuser <span style="color:#f92672">|</span> <span style="color:#66d9ef">where</span> <span style="color:#960050;background-color:#1e0010">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">$</span>_.groupcomponent <span style="color:#f92672">-</span><span style="color:#66d9ef">match</span> <span style="color:#e6db74">&#39;domain admins&#39;</span>
@@ -325,14 +389,30 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
 
 <blockquote>
 <p><strong>NOTE</strong>: Since we&rsquo;re using Powershell&rsquo;s <code>Where-Object</code> cmdlet, we can use the <code>-match</code> argument efficiently to find any substring within a property. This helps in exploring a lot of possibilities in creatively filtering out things on specific criteria.</p></blockquote>
-<h3 id="finding-machines-in-the-domain">Finding machines in the domain</h3>
+
+
+
+
+<h3 id="finding-machines-in-the-domain">
+  <a href="#finding-machines-in-the-domain" class="anchor" aria-label="Anchor link for: Finding machines in the domain">
+    Finding machines in the domain
+  </a>
+</h3>
 <p>To get a list of all unique machines in our active directory environment, we can do something like:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Get</span><span style="color:#f92672">-</span>WmiObject <span style="color:#f92672">-</span>Namespace root<span style="color:#960050;background-color:#1e0010">\</span>directory<span style="color:#960050;background-color:#1e0010">\</span>ldap <span style="color:#f92672">-</span><span style="color:#66d9ef">Class</span> ds_computer <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> ds_cn
 </span></span></code></pre></div>
     <img src="pcs.png"  alt="policy"  class="center"  />
 
 
-<h3 id="enumerating-admin-privileges-across-ad">Enumerating admin privileges across AD</h3>
+
+
+
+
+<h3 id="enumerating-admin-privileges-across-ad">
+  <a href="#enumerating-admin-privileges-across-ad" class="anchor" aria-label="Anchor link for: Enumerating admin privileges across AD">
+    Enumerating admin privileges across AD
+  </a>
+</h3>
 <p>An important thing to remember is, by default WMI provides remote access only to local administrators. Already noticed the catch there? If we can run WMI commands against a remote computer, it means we have <em>local administrator</em> access on that computer. We can use this information to write a very simple script that can enumerate local administrator privileges on remote computers.</p>
 <p>We can chain the output of the last command with a bit of Powershell to achieve the above:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$pcs <span style="color:#f92672">=</span> Get-WmiObject -Namespace root<span style="color:#ae81ff">\d</span>irectory<span style="color:#ae81ff">\l</span>dap -Class ds_computer | <span style="color:#66d9ef">select</span> -ExpandProperty ds_cn
@@ -344,7 +424,15 @@ Active Directory (AD) is Microsoft’s implementation of a directory and IAM ser
 
 
 <p>Now we have all the boxes on which our user has admin privileges. With this information, things now become super easy for us in lateral movement.</p>
-<h2 id="conclusion">Conclusion</h2>
+
+
+
+
+<h2 id="conclusion">
+  <a href="#conclusion" class="anchor" aria-label="Anchor link for: Conclusion">
+    Conclusion
+  </a>
+</h2>
 <p>We saw how easily we could enumerate a lot of stuff from an Active Directory environment using a few WMI classes and some Powershell magic. Once again, this blog is not comprehensive and there are a lot of possibilities when it comes to reconnaissance. In our next blog, we&rsquo;ll focus on lateral movement via WMI.</p>
 <p>That&rsquo;s it for now folks. I hope you enjoyed reading the blog. Cheers! 🥂</p>
 
