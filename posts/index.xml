@@ -619,7 +619,7 @@ I also extend my gratitude to <a href="https://x.com/intigriti">Intigriti</a> an
     Tool Release
   </a>
 </h2>
-<p>It is my personal opinion that it&rsquo;s the job of the researcher to release proof of concepts through which the vulnerability can be reproduced. Adhering to my principle, I&rsquo;m releasing a tool called <strong>PewSWITCH</strong> (I suck at names :D) to <em>pew pew pew</em> a vulnerableFreeSWITCH server. You can get the tool and detailed instructions on my <a href="https://github.com/0xInfection/PewSWITCH">GitHub</a>.</p>
+<p>It is my personal opinion that it&rsquo;s the job of the researcher to release proof of concepts through which the vulnerability can be reproduced. Adhering to my principle, I&rsquo;m releasing a tool called <strong>PewSWITCH</strong> (I suck at names :D) to <em>pew pew pew</em> a vulnerable FreeSWITCH server. You can get the tool and detailed instructions on my <a href="https://github.com/0xInfection/PewSWITCH">GitHub</a>.</p>
 <p>Let&rsquo;s quickly demo the tool against my setup. To run the tool, I&rsquo;ll quickly grab a binary from the <a href="https://github.com/0xInfection/PewSWITCH/releases">releases</a> section and fire it away:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$ ./pewswitch-linux64 -exts <span style="color:#ae81ff">1005</span> <span style="color:#ae81ff">192.168</span>.0.107
 </span></span><span style="display:flex;"><span>
